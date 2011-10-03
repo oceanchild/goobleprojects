@@ -36,12 +36,23 @@ class Board(object):
         else:
             return None
         
-        
+
+    def invalid_position(self, i, j):
+        return i >= self.DEFAULT_WIDTH or j >= self.DEFAULT_HEIGHT or j < 0 or i < 0
+
+
     def get_piece(self, i, j):
-        if i >= self.DEFAULT_WIDTH or j >= self.DEFAULT_HEIGHT or j < 0 or i < 0:
+        if self.invalid_position(i, j):
             return None
         
         return self.pieces[i][j]
+    
+    
+    def get_available_moves(self, i, j):
+        if self.invalid_position(i, j):
+            return []
+        
+        return []
     
     
     def print_board(self):
