@@ -3,15 +3,15 @@ Created on 2011-10-02
 
 @author: Gooble
 '''
-from main.colour import Colour
+from main.origin import Origin
 
 class Piece(object):
     
-    def __init__(self, colour):
-        self.colour = colour
+    def __init__(self, origin):
+        self.origin = origin
         
-    def get_colour(self):
-        return self.colour
+    def get_origin(self):
+        return self.origin
 
 
 class Board(object):
@@ -24,46 +24,45 @@ class Board(object):
         
     def init_board(self):
         self.pieces = []
-        for i in range (0, self.DEFAULT_WIDTH):
-            self.pieces.append([self.create_piece(i, j) for j in range(0, self.DEFAULT_HEIGHT)])
+        for row in range (0, self.DEFAULT_HEIGHT):
+            self.pieces.append([self.create_piece(row, col) for col in range(0, self.DEFAULT_WIDTH)])
             
             
-    def create_piece(self, i, j):
-        if i < (self.DEFAULT_HEIGHT / 2 - 1) and (i+j) % 2 == 0:
-            return Piece(Colour.RED)
-        elif i > (self.DEFAULT_HEIGHT / 2) and (i+j) % 2 == 0:
-            return Piece(Colour.BLACK)
+    def create_piece(self, row, col):
+        if row < (self.DEFAULT_HEIGHT / 2 - 1) and (row+col) % 2 == 0:
+            return Piece(Origin.TOP)
+        elif row > (self.DEFAULT_HEIGHT / 2) and (row+col) % 2 == 0:
+            return Piece(Origin.BOTTOM)
         else:
             return None
         
 
-    def invalid_position(self, i, j):
-        return i >= self.DEFAULT_WIDTH or j >= self.DEFAULT_HEIGHT or j < 0 or i < 0
-
-
-    def get_piece(self, i, j):
-        if self.invalid_position(i, j):
-            return None
-        
-        return self.pieces[i][j]
-    
-    
-    def get_available_moves(self, i, j):
-        if self.invalid_position(i, j):
-            return []
-        
-        return []
-    
-    
     def print_board(self):
         for row_of_pieces in self.pieces:
             for piece in row_of_pieces:
                 if piece is not None:
-                    print(piece.get_colour()[:1], end=' ')
+                    print(piece.get_origin()[:1], end=' ')
                 else:
                     print(' ', end=' ')
             print()
+            
+    def invalid_position(self, row, col):
+        return col >= self.DEFAULT_WIDTH or row >= self.DEFAULT_HEIGHT or row < 0 or col < 0
+    
+    def valid_position(self, row, col):
+        return not self.invalid_position(row, col)
+
+
+    def get_piece(self, row, col):
+        if self.invalid_position(row, col):
+            return None
+        
+        return self.pieces[row][col]
+    
+    def move_piece(self, from_loc, to_loc):
+        pass
                 
                 
 if __name__ == '__main__':
     Board().print_board()
+#    print ([i for c in range(1, 5, 2)])
