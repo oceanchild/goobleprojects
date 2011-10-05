@@ -20,16 +20,19 @@ class MoveCalculator(object):
             return []
         
         if piece.get_origin() == Origin.TOP:
-            left_col = col - 1
-            lower_row = row + 1
-            if self.board.get_piece(lower_row, left_col) is None and self.board.valid_position(lower_row, left_col):
-                moves.append((lower_row, left_col))
-                
-            right_col = col + 1
-            if self.board.get_piece(lower_row, right_col) is None and self.board.valid_position(lower_row, right_col):
-                moves.append((lower_row, right_col))
+            self._add_moves_about_col(row + 1, col, moves)
                 
         elif piece.get_origin() == Origin.BOTTOM:
-            pass
+            self._add_moves_about_col(row - 1, col, moves)
         
         return moves
+    
+    def _add_if_valid_move(self, row, col, moves):
+        if self.board.get_piece(row, col) is None and self.board.valid_position(row, col):
+            moves.append((row, col))
+            
+    def _add_moves_about_col(self, row, col, moves):
+        left_col = col - 1
+        right_col = col + 1
+        self._add_if_valid_move(row, left_col, moves)
+        self._add_if_valid_move(row, right_col, moves)
