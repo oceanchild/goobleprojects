@@ -4,10 +4,22 @@ Created on 2011-10-02
 @author: Gooble
 '''
 
-class Origin(object):
-    
-    TOP = 'TOP'
-    BOTTOM = 'BOTTOM'
+def get_top():
+    return Origin('TOP', 1)
 
-    def __init__(self):
-        pass
+def get_bottom():
+    return Origin('BOTTOM', -1)
+
+class Origin(object):
+ 
+    def __init__(self, desc, value):
+        self.desc = desc
+        self.value = value
+        
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return self.desc == other.desc and self.value == other.value
+    
+        
+    

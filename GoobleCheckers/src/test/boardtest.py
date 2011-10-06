@@ -5,7 +5,7 @@ Created on 2011-10-02
 '''
 import unittest
 from main.board import Board
-from main.origin import Origin
+from main import origin
 
 class BoardTest(unittest.TestCase):
 
@@ -18,10 +18,10 @@ class BoardTest(unittest.TestCase):
         piece = board.get_piece(row, col)
         if row < 3 and (row + col) % 2 == 0:
             self.assertIsNotNone(piece)
-            self.assertEqual(piece.get_origin(), Origin.TOP)
+            self.assertEqual(piece.get_origin(), origin.get_top())
         elif row > 4 and (row + col) % 2 == 0:
             self.assertIsNotNone(piece)
-            self.assertEqual(piece.get_origin(), Origin.BOTTOM)
+            self.assertEqual(piece.get_origin(), origin.get_bottom())
         else:
             self.assertIsNone(piece)
             

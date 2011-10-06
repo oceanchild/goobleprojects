@@ -3,7 +3,7 @@ Created on 2011-10-03
 
 @author: Gooble
 '''
-from main.origin import Origin
+from main import origin
 
 class MoveCalculator(object):
 
@@ -19,10 +19,10 @@ class MoveCalculator(object):
         if piece is None:
             return []
         
-        if piece.get_origin() == Origin.TOP:
+        if piece.get_origin() == origin.get_top():
             self._add_moves_about_col(row + 1, col, moves)
                 
-        elif piece.get_origin() == Origin.BOTTOM:
+        elif piece.get_origin() == origin.get_bottom():
             self._add_moves_about_col(row - 1, col, moves)
         
         return moves

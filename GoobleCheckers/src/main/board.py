@@ -3,7 +3,7 @@ Created on 2011-10-02
 
 @author: Gooble
 '''
-from main.origin import Origin
+from main import origin
 
 class Piece(object):
     
@@ -30,9 +30,9 @@ class Board(object):
             
     def create_piece(self, row, col):
         if row < (self.DEFAULT_HEIGHT / 2 - 1) and (row+col) % 2 == 0:
-            return Piece(Origin.TOP)
+            return Piece(origin.get_top())
         elif row > (self.DEFAULT_HEIGHT / 2) and (row+col) % 2 == 0:
-            return Piece(Origin.BOTTOM)
+            return Piece(origin.get_bottom())
         else:
             return None
         
