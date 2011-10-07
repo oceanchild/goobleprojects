@@ -17,9 +17,8 @@ class Origin(object):
         self.value = value
         
     def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        return self.desc == other.desc and self.value == other.value
+        return self.__dict__ == other.__dict__
     
-        
+    def __ne__(self, other):
+        return not self.__eq__(other)
     
