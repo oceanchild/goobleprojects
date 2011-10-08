@@ -6,8 +6,6 @@ Created on 2011-10-03
 import unittest
 from main.board import Board
 from main.move_calculator import MoveCalculator
-from test.testboard import TestBoard
-from main import origin
 
 
 class MovementCalculatorTest(unittest.TestCase):
@@ -41,17 +39,6 @@ class MovementCalculatorTest(unittest.TestCase):
         self.assertEqual(len(moves), 1)
         self.assertEqual([(3, 1)], moves[0])
         
-    def test_get_avail_moves_with_opponent_piece_returns_jumped_position(self):
-        tboard = TestBoard()
-        tboard.place_piece(1, 5, origin.get_top())
-        tboard.place_piece(2, 4, origin.get_bottom())
-        self.calc = MoveCalculator(tboard.board)
-        moves = self.calc.get_available_moves(1, 5)
-        self.assertEqual(2, len(moves))
-        self.assertEqual([(3, 3)], moves[0])
-        self.assertEqual([(2, 6)], moves[1])
-    
-    
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
