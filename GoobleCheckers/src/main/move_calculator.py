@@ -20,7 +20,6 @@ class MoveCalculator(object):
         
         self._add_moves_about_col(row + piece.get_origin().value, col, moves, piece.get_origin())
         
-        print(moves)
         return moves
     
     def _add_moves_about_col(self, row, col, moves, origin):
