@@ -31,18 +31,14 @@ class MoveCalculator(object):
             
         note: We already have the new row; just check each side
         '''
-        
-        # LEFT SIDE
-        if self.board.valid_position(row, col - 1) and self.board.get_piece(row, col - 1) is None:
-            moves.append([(row, col - 1)])
-        elif self.board.get_piece(row, col - 1) is not None:
-            moves.extend(self._start_recursion(row, col-1, -1, origin))
-        
-        # RIGHT SIDE
-        if self.board.valid_position(row, col + 1) and self.board.get_piece(row, col + 1) is None:
-            moves.append([(row, col + 1)])
-        elif self.board.get_piece(row, col + 1) is not None:
-            moves.extend(self._start_recursion(row, col+1, 1, origin)) 
+        self._add_moves_for_col(row, col, -1, origin, moves)
+        self._add_moves_for_col(row, col, +1, origin, moves)
+            
+    def _add_moves_for_col(self, row, col, direction, origin, moves):
+        if self.board.valid_position(row, col + direction) and self.board.get_piece(row, col + direction) is None:
+            moves.append([(row, col + direction)])
+        elif self.board.get_piece(row, col + direction) is not None:
+            moves.extend(self._start_recursion(row, col + direction, direction, origin))
         
     def _start_recursion(self, row, col, direction, origin):
         '''
@@ -61,27 +57,17 @@ class MoveCalculator(object):
         moves = [move]
         
         new_new_row = new_row + origin.value
-        new_left_col = new_col - 1
-        new_right_col = new_col + 1
-        
-        
-        # LEFT
-        if self.board.get_piece(new_new_row, new_left_col) is not None:
-            new_left_moves = self._start_recursion(new_new_row, new_left_col, -1, origin)
-            if len(new_left_moves) > 0 and move in moves:
-                moves.remove(move)
-            for m in new_left_moves:
-                moves.append(move + m)
-            
-        # RIGHT
-        if self.board.get_piece(new_new_row, new_right_col) is not None:
-            new_right_moves = self._start_recursion(new_new_row, new_right_col, 1, origin)
-            if len(new_right_moves) > 0 and move in moves:
-                moves.remove(move)
-            for m in new_right_moves:
-                moves.append(move + m)
+        self._recurse(new_new_row, new_col, -1, move, moves, origin)
+        self._recurse(new_new_row, new_col, +1, move, moves, origin)
         
         return moves
+    
+    def _recurse(self, row, col, direction, move, moves, origin):
+        if self.board.get_piece(row, col + direction) is not None:
+            new_moves = self._start_recursion(row, col + direction, direction, origin)
+            if len(new_moves) > 0 and move in moves:
+                moves.remove(move)
+            [moves.append(move + m) for m in new_moves]
         
         
         

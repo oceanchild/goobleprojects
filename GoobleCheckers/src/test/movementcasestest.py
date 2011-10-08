@@ -110,13 +110,35 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(1, 2, origin.get_bottom())
         self.tboard.place_piece(3, 2, origin.get_bottom())
         self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 7, origin.get_top())
         self.calc = MoveCalculator(self.tboard.board)
         moves = self.calc.get_available_moves(0, 3)
         self.assertEqual(2, len(moves))
         self.assertEqual([(2, 1), (4, 3), (6, 1)], moves[0])
         self.assertEqual([(1, 4)], moves[1])
         
+    def test_moves_case_5(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ T _ _ _ _#
+        #1 _ _ B _ x _ _ _#
+        #2 _ x _ _ _ _ _ _#
+        #3 _ _ B _ _ _ _ _#
+        #4 _ _ _ x _ _ _ _#
+        #5 _ _ B _ B _ _ _#
+        #6 _ x _ _ _ x _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(0, 3, origin.get_top())
+        self.tboard.place_piece(1, 2, origin.get_bottom())
+        self.tboard.place_piece(3, 2, origin.get_bottom())
+        self.tboard.place_piece(5, 2, origin.get_bottom())
+        self.tboard.place_piece(5, 4, origin.get_bottom())
+        self.calc = MoveCalculator(self.tboard.board)
+        moves = self.calc.get_available_moves(0, 3)
+        self.assertEqual(3, len(moves))
+        self.assertEqual([(2, 1), (4, 3), (6, 1)], moves[0])
+        self.assertEqual([(2, 1), (4, 3), (6, 5)], moves[1])
+        self.assertEqual([(1, 4)], moves[2])
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'MovementCasesTest.testName']
