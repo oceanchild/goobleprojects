@@ -13,16 +13,13 @@ class MoveCalculator(object):
         if self.board.invalid_position(row, col):
             return []
         
-        moves = []
         piece = self.board.get_piece(row, col)
         if piece is None:
             return []
         
-        self._add_moves_about_col(row + piece.get_origin().value, col, moves, piece.get_origin())
+        return self._add_moves_about_col(row + piece.get_origin().value, col, piece.get_origin())
         
-        return moves
-    
-    def _add_moves_about_col(self, row, col, moves, origin):
+    def _add_moves_about_col(self, row, col, origin):
         '''
         (1) The first time this is called -> if the adjacent piece is Empty then return it immediately; rather, append it to moves, and stop the recursion there
         (2) Otherwise the piece isn't empty: recursion must start -> check the "next" piece along the diagonal
@@ -31,14 +28,16 @@ class MoveCalculator(object):
             
         note: We already have the new row; just check each side
         '''
-        self._add_moves_for_col(row, col, -1, origin, moves)
-        self._add_moves_for_col(row, col, +1, origin, moves)
+        return self._add_moves_for_col(row, col, -1, origin) + self._add_moves_for_col(row, col, +1, origin)
             
-    def _add_moves_for_col(self, row, col, direction, origin, moves):
-        if self.board.valid_position(row, col + direction) and self.board.get_piece(row, col + direction) is None:
-            moves.append([(row, col + direction)])
-        elif self.board.get_piece(row, col + direction) is not None:
-            moves.extend(self._start_recursion(row, col + direction, direction, origin))
+    def _add_moves_for_col(self, row, col, direction, origin):
+        new_col = col + direction
+        if self.board.valid_position(row, new_col) and self.board.get_piece(row, new_col) is None:
+            return [[(row, new_col)]]
+        elif self.board.get_piece(row, new_col) is not None:
+            return self._start_recursion(row, new_col, direction, origin)
+            
+        return []
         
     def _start_recursion(self, row, col, direction, origin):
         '''
@@ -67,8 +66,6 @@ class MoveCalculator(object):
             new_moves = self._start_recursion(row, col + direction, direction, origin)
             if len(new_moves) > 0 and move in moves:
                 moves.remove(move)
-            [moves.append(move + m) for m in new_moves]
-        
-        
+            [moves.append(move + m) for m in new_moves]      
         
         
