@@ -4,15 +4,7 @@ Created on 2011-10-02
 @author: Gooble
 '''
 from main import origin
-
-class Piece(object):
-    
-    def __init__(self, origin):
-        self.origin = origin
-        
-    def get_origin(self):
-        return self.origin
-
+from main.piece import Piece
 
 class Board(object):
     
@@ -51,7 +43,6 @@ class Board(object):
     
     def valid_position(self, row, col):
         return not self.invalid_position(row, col)
-
 
     def get_piece(self, row, col):
         if self.invalid_position(row, col):

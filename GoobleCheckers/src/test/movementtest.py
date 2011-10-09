@@ -5,13 +5,13 @@ Created on 2011-10-03
 '''
 import unittest
 from main.board import Board
-from main.move_calculator import MoveCalculator
+from main.movement import Movement
 
 
 class MovementCalculatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.calc = MoveCalculator(Board())
+        self.calc = Movement(Board())
 
     def test_get_available_moves_from_location_with_no_piece(self):
         moves = self.calc.get_available_moves(0, 1)

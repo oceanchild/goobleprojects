@@ -4,7 +4,7 @@ Created on 2011-10-08
 @author: Gooble
 '''
 from main import origin
-from main.move_calculator import MoveCalculator
+from main.movement import Movement
 from test.util.testboard import TestBoard
 import unittest
 
@@ -17,7 +17,7 @@ class MovementCasesTest(unittest.TestCase):
     def test_get_avail_moves_with_opponent_piece_returns_jumped_position(self):
         self.tboard.place_piece(1, 5, origin.get_top())
         self.tboard.place_piece(2, 4, origin.get_bottom())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(1, 5)
         self.assertEqual(2, len(moves))
         self.assertEqual([(3, 3)], moves[0])
@@ -40,7 +40,7 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(3, 2, origin.get_bottom())
         self.tboard.place_piece(3, 4, origin.get_bottom())
         self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(2, 3)
         self.assertEqual(2, len(moves))
         self.assertEqual([(4, 1), (6, 3)], moves[0])
@@ -64,7 +64,7 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(4, 5, origin.get_bottom())
         self.tboard.place_piece(5, 2, origin.get_bottom())
         self.tboard.place_piece(7, 4, origin.get_bottom())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(2, 3)
         self.assertEqual(1, len(moves))
         self.assertEqual([(4, 1), (6, 3)], moves[0])
@@ -88,7 +88,7 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(5, 6, origin.get_bottom())
         self.tboard.place_piece(6, 3, origin.get_bottom())
         self.tboard.place_piece(6, 7, origin.get_top())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(2, 3)
         self.assertEqual(2, len(moves))
         self.assertEqual([(4, 1)], moves[0])
@@ -110,7 +110,7 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(1, 2, origin.get_bottom())
         self.tboard.place_piece(3, 2, origin.get_bottom())
         self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(0, 3)
         self.assertEqual(2, len(moves))
         self.assertEqual([(2, 1), (4, 3), (6, 1)], moves[0])
@@ -133,7 +133,7 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard.place_piece(3, 2, origin.get_bottom())
         self.tboard.place_piece(5, 2, origin.get_bottom())
         self.tboard.place_piece(5, 4, origin.get_bottom())
-        self.calc = MoveCalculator(self.tboard.board)
+        self.calc = Movement(self.tboard.board)
         moves = self.calc.get_available_moves(0, 3)
         self.assertEqual(3, len(moves))
         self.assertEqual([(2, 1), (4, 3), (6, 1)], moves[0])

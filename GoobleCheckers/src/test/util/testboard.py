@@ -18,6 +18,10 @@ class TestBoard(object):
     def place_piece(self, row, col, origin):
         self.board.pieces[row][col] = Piece(origin)
         
+    def place_king(self, row, col, origin):
+        self.place_piece(row, col, origin);
+        self.board.get_piece(row, col).set_king(True)
+        
         
 if __name__ == '__main__':
     board = TestBoard()

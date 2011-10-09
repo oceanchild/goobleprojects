@@ -11,7 +11,7 @@ def get_bottom():
     return Origin('BOTTOM', -1)
 
 class Origin(object):
- 
+
     def __init__(self, desc, value):
         self.desc = desc
         self.value = value

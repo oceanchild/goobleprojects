@@ -24,6 +24,10 @@ class TestCaseWriter(object):
                     print (indent + 'self.tboard.place_piece('+str(i)+', '+str(j)+', origin.get_top())')
                 elif piece == 'B':
                     print (indent + 'self.tboard.place_piece('+str(i)+', '+str(j)+', origin.get_bottom())')
+                elif piece == 't':
+                    print (indent + 'self.tboard.place_king('+str(i)+', '+str(j)+', origin.get_top())')
+                elif piece == 'b':
+                    print (indent + 'self.tboard.place_king('+str(i)+', '+str(j)+', origin.get_bottom())')
         
         print (indent + 'self.calc = MoveCalculator(self.tboard.board)')
         
@@ -33,13 +37,13 @@ if __name__ == '__main__':
     writer.print_test_case('\
         # # # # # # # # # #\n\
         #  0 1 2 3 4 5 6 7#\n\
-        #0 _ _ _ T _ _ _ _#\n\
-        #1 _ _ B _ x _ _ _#\n\
-        #2 _ x _ _ _ _ _ _#\n\
-        #3 _ _ B _ _ _ _ _#\n\
-        #4 _ _ _ x _ _ _ _#\n\
-        #5 _ _ B _ B _ _ _#\n\
-        #6 _ x _ _ _ x _ _#\n\
+        #0 _ _ _ _ _ _ _ _#\n\
+        #1 _ _ _ _ _ _ _ _#\n\
+        #2 _ x _ x _ _ _ _#\n\
+        #3 _ _ b _ _ _ _ _#\n\
+        #4 _ x _ T _ _ _ _#\n\
+        #5 _ _ _ _ x _ _ _#\n\
+        #6 _ _ _ _ _ _ _ _#\n\
         #7 _ _ _ _ _ _ _ _#\n\
         # # # # # # # # # #')
     
