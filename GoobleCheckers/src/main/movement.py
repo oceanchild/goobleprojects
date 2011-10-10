@@ -33,17 +33,14 @@ class Movement(object):
         if self.board.valid_position(new_row, new_col) and self.board.get_piece(new_row, new_col) is None:
             return [[(new_row, new_col)]]
         elif self.board.get_piece(new_row, new_col) is not None and self.board.get_piece(new_row, new_col).get_origin() != self.origin:
-            return self._start_recursion(new_row, new_col, row_dir, col_dir)
+            return self._calculate_jumped_moves(new_row, new_col, row_dir, col_dir)
             
         return []
         
-    def _start_recursion(self, row, col, row_dir, col_dir):
-        '''
-        We have the row & column on which there is a piece. we have to keep going
-        along the diagonal -> if the next piece is occupied, return empty list - this isn't a valid move
-        
-        if it's not occupied... that's the tricky part
-        '''
+    def _calculate_jumped_moves(self, row, col, row_dir, col_dir):
+        #We have the row & column on which there is a piece. we have to keep going
+        #along the diagonal -> if the next piece is occupied, return empty list - this isn't a valid move
+        #if it's not occupied... that's the tricky part
         new_row = row + row_dir
         new_col = col + col_dir
         
@@ -53,23 +50,22 @@ class Movement(object):
         move = [(new_row, new_col)]
         moves = [move]
         
-        
-        '''Keep going along the same direction'''
+        #Keep going along the same direction
         new_new_row = new_row + row_dir
-        self._recurse(new_new_row, new_col, row_dir, -1, move, moves)
-        self._recurse(new_new_row, new_col, row_dir, +1, move, moves)
+        self._add_jumped_moves(new_new_row, new_col, row_dir, -1, move, moves)
+        self._add_jumped_moves(new_new_row, new_col, row_dir, +1, move, moves)
         
-        
-        '''but if it's a king, it can change direction along the vertical...'''
+        #but if it's a king, it can change direction along the vertical...
+        #making sure not to go back the way it came, it only continues in the given col_dir...
         if self.piece.is_king():
             new_new_row = new_row - row_dir
-            self._recurse(new_new_row, new_col, -row_dir, col_dir, move, moves)
+            self._add_jumped_moves(new_new_row, new_col, -row_dir, col_dir, move, moves)
         
         return moves
     
-    def _recurse(self, row, col, row_dir, col_dir, move, moves):
+    def _add_jumped_moves(self, row, col, row_dir, col_dir, move, moves):
         if self.board.get_piece(row, col + col_dir) is not None and self.board.get_piece(row, col + col_dir).get_origin() != self.origin:
-            new_moves = self._start_recursion(row, col + col_dir, row_dir, col_dir)
+            new_moves = self._calculate_jumped_moves(row, col + col_dir, row_dir, col_dir)
             if len(new_moves) > 0 and move in moves:
                 moves.remove(move)
             [moves.append(move + m) for m in new_moves]

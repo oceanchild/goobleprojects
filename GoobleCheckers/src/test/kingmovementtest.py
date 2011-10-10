@@ -61,6 +61,47 @@ class KingMovementTest(unittest.TestCase):
         self.assertEqual([(2, 1)], moves[2])
         self.assertEqual([(1, 4), (3, 6), (5, 4), (7, 6)], moves[3])
         
+    def test_king_moves_doesnt_jump_over_own_dudes(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ x _ _ _#
+        #2 _ x _ b _ t _ _#
+        #3 _ _ t _ _ _ _ _#
+        #4 _ T _ t _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ _ _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_king(2, 3, origin.get_bottom())
+        self.tboard.place_king(2, 5, origin.get_top())
+        self.tboard.place_king(3, 2, origin.get_top())
+        self.tboard.place_piece(4, 1, origin.get_top())
+        self.tboard.place_king(4, 3, origin.get_top())
+        calc = Movement(self.tboard.board, 3, 2)
+        moves = calc.get_available_moves()
+        self.assertEqual(2, len(moves))
+        self.assertEqual([(2, 1)], moves[0])
+        self.assertEqual([(1, 4)], moves[1])
+        
+    def test_king_moves_case_2(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ _ _ _ _ _ _ _#
+        #3 _ _ _ _ _ _ _ _#
+        #4 _ _ _ _ _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ x _ x _ _ _#
+        #7 _ _ _ t _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_king(7, 3, origin.get_top())
+        calc = Movement(self.tboard.board, 7, 3)
+        moves = calc.get_available_moves()
+        self.assertEqual(2, len(moves))
+        self.assertEqual([(6, 2)], moves[0])
+        self.assertEqual([(6, 4)], moves[1])
 
 
 if __name__ == "__main__":
