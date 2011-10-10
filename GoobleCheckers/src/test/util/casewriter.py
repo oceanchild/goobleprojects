@@ -29,7 +29,7 @@ class TestCaseWriter(object):
                 elif piece == 'b':
                     print (indent + 'self.tboard.place_king('+str(i)+', '+str(j)+', origin.get_bottom())')
         
-        print (indent + 'self.calc = MoveCalculator(self.tboard.board)')
+        print (indent + 'self.calc = Movement(self.tboard.board)')
         
         
 if __name__ == '__main__':
@@ -39,11 +39,11 @@ if __name__ == '__main__':
         #  0 1 2 3 4 5 6 7#\n\
         #0 _ _ _ _ _ _ _ _#\n\
         #1 _ _ _ _ _ _ _ _#\n\
-        #2 _ x _ x _ _ _ _#\n\
-        #3 _ _ b _ _ _ _ _#\n\
-        #4 _ x _ T _ _ _ _#\n\
+        #2 _ _ _ _ _ _ _ _#\n\
+        #3 _ _ T _ _ _ _ _#\n\
+        #4 _ T _ B _ _ _ _#\n\
         #5 _ _ _ _ x _ _ _#\n\
-        #6 _ _ _ _ _ _ _ _#\n\
+        #6 _ _ _ _ _ T _ _#\n\
         #7 _ _ _ _ _ _ _ _#\n\
         # # # # # # # # # #')
     
