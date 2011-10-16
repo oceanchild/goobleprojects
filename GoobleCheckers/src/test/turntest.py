@@ -39,6 +39,50 @@ class TurnTest(unittest.TestCase):
         self.tboard.board.move_piece((2, 3), (4, 1))
         self.assertIsNone(self.tboard.board.get_piece(2, 3))
         self.assertIsNotNone(self.tboard.board.get_piece(4, 1))
+        
+        self.tboard.board.move_piece((3, 2), (2, 1))
+        self.assertIsNotNone(self.tboard.board.get_piece(3, 2))
+        self.assertIsNone(self.tboard.board.get_piece(2, 1))
+        
+    def test_cannot_move_a_new_piece_while_move_in_progress_even_if_on_same_side(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ x _#
+        #1 _ _ _ _ _ T _ _#
+        #2 _ _ _ _ x _ _ _#
+        #3 _ x _ T _ _ _ _#
+        #4 _ _ B _ _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ B _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(1, 5, origin.get_top())
+        self.tboard.place_piece(3, 3, origin.get_top())
+        self.tboard.place_piece(4, 2, origin.get_bottom())
+        self.tboard.place_piece(6, 4, origin.get_bottom())
+        calc = Movement(self.tboard.board, 4, 2)
+        moves = calc.get_available_moves()
+        self.assertEqual(2, len(moves))
+        self.assertEqual([(3, 1)], moves[0])
+        self.assertEqual([(2, 4), (0, 6)], moves[1])
+        
+        # start move
+        self.tboard.board.move_piece((4, 2), (2, 4))
+        self.assertIsNone(self.tboard.board.get_piece(4, 2))
+        self.assertIsNotNone(self.tboard.board.get_piece(2, 4))
+        
+        # make sure can't move another piece of same type
+        calc = Movement(self.tboard.board, 6, 4)
+        moves = calc.get_available_moves()
+        self.assertEqual(2, len(moves)) 
+        self.assertEqual([(5, 3)], moves[0])
+        self.assertEqual([(5, 5)], moves[1])
+        self.tboard.board.move_piece((6, 4), (5, 5))
+        self.assertIsNone(self.tboard.board.get_piece(5, 5))
+        self.assertIsNotNone(self.tboard.board.get_piece(6, 4))
+        
+    def test_once_move_completed_jumped_pieces_eaten(self):
+        pass
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

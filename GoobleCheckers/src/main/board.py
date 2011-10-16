@@ -14,6 +14,7 @@ class Board(object):
 
     def __init__(self):
         self.init_board()
+        self.current_turn = None
         
     def init_board(self):
         self.pieces = []
@@ -49,9 +50,17 @@ class Board(object):
         
     
     def illegal_move(self, from_loc, to_loc):
+        piece = self.get_piece(from_loc[0], from_loc[1])
+        if piece is not None and self.current_turn is not None and piece.get_origin() != self.current_turn.get_origin():
+            return True
+        
+        if self.current_turn is not None and self.current_turn is not piece:
+            return True
+        
         moves = Movement(self, from_loc[0], from_loc[1]).get_available_moves()
         for move_list in moves:
             if to_loc in move_list:
+                self.current_turn = piece
                 return False
         return True
     
