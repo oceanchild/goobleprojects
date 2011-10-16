@@ -44,7 +44,7 @@ class Movement(object):
         new_row = row + row_dir
         new_col = col + col_dir
         
-        if self.board.get_piece(new_row, new_col) is not None or not self.board.valid_position(new_row, new_col):
+        if self.board.get_piece(new_row, new_col) is not None or self.board.invalid_position(new_row, new_col):
             return []
         
         move = [(new_row, new_col)]
