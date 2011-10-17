@@ -82,7 +82,38 @@ class TurnTest(unittest.TestCase):
         self.assertIsNotNone(self.tboard.board.get_piece(6, 4))
         
     def test_once_move_completed_jumped_pieces_eaten(self):
-        pass
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ x _#
+        #1 _ _ _ _ _ T _ _#
+        #2 x _ _ _ x _ _ _#
+        #3 _ T _ T _ _ _ _#
+        #4 _ _ B _ _ _ _ _#
+        #5 _ _ _ x _ _ _ _#
+        #6 _ _ _ _ B _ _ _#
+        #7 _ _ _ _ _ x _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(1, 5, origin.get_top())
+        self.tboard.place_piece(3, 1, origin.get_top())
+        self.tboard.place_piece(3, 3, origin.get_top())
+        self.tboard.place_piece(4, 2, origin.get_bottom())
+        self.tboard.place_piece(6, 4, origin.get_bottom())
+        calc = Movement(self.tboard.board, 4, 2)
+        moves = calc.get_available_moves()
+        self.assertEqual(2, len(moves))
+        self.assertEqual([(2, 0)], moves[0])
+        self.assertEqual([(2, 4), (0, 6)], moves[1])
+        
+        self.tboard.board.move_piece((4, 2), (2, 4))
+        self.tboard.board.move_piece((2, 4), (0, 6))
+        
+        self.assertIsNone(self.tboard.board.get_piece(4, 2))
+        self.assertIsNone(self.tboard.board.get_piece(3, 3))
+        self.assertIsNone(self.tboard.board.get_piece(2, 4))
+        self.assertIsNone(self.tboard.board.get_piece(1, 5))
+        self.assertIsNotNone(self.tboard.board.get_piece(0, 6))
+        
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -6,6 +6,7 @@ Created on 2011-10-02
 from main import origin
 from main.piece import Piece
 from main.movement import Movement
+from math import fabs
 
 class Board(object):
     
@@ -15,6 +16,7 @@ class Board(object):
     def __init__(self):
         self.init_board()
         self.current_turn = None
+        self.jumped_pieces = []
         
     def init_board(self):
         self.pieces = []
@@ -49,7 +51,7 @@ class Board(object):
         self.pieces[row][col] = piece
         
     
-    def illegal_move(self, from_loc, to_loc):
+    def illegal_move(self, from_loc, to_loc, moves):
         piece = self.get_piece(from_loc[0], from_loc[1])
         if piece is not None and self.current_turn is not None and piece.get_origin() != self.current_turn.get_origin():
             return True
@@ -57,7 +59,6 @@ class Board(object):
         if self.current_turn is not None and self.current_turn is not piece:
             return True
         
-        moves = Movement(self, from_loc[0], from_loc[1]).get_available_moves()
         for move_list in moves:
             if to_loc in move_list:
                 self.current_turn = piece
@@ -65,10 +66,28 @@ class Board(object):
         return True
     
     def move_piece(self, from_loc, to_loc):
-        if self.illegal_move(from_loc, to_loc):
+        moves = Movement(self, from_loc[0], from_loc[1]).get_available_moves()
+        if self.illegal_move(from_loc, to_loc, moves):
             return
         
         self.set_piece(to_loc[0], to_loc[1], self.get_piece(from_loc[0], from_loc[1]))
         self.set_piece(from_loc[0], from_loc[1], None)
         
-                
+        self.add_jumped_pieces(from_loc, to_loc)
+        self.handle_jumped_pieces(from_loc, to_loc, moves)
+        
+    def add_jumped_pieces(self, from_loc, to_loc):
+        if fabs(from_loc[0] - to_loc[0]) == 1:
+            return
+        
+        row_between = int((from_loc[0] + to_loc[0]) / 2)
+        col_between = int((from_loc[1] + to_loc[1]) / 2)
+        self.jumped_pieces.append((row_between, col_between))
+    
+    def handle_jumped_pieces(self, from_loc, to_loc, moves):
+        for move_list in moves:
+            if to_loc == move_list[-1]:
+                while len(self.jumped_pieces) > 0:
+                    jumped = self.jumped_pieces.pop()
+                    self.set_piece(jumped[0], jumped[1], None);
+                assert len(self.jumped_pieces) == 0
