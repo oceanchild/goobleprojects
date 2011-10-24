@@ -7,6 +7,7 @@ import unittest
 from test.util.testboard import TestBoard
 from main import origin
 from main.movement import Movement
+from main.turn import Turn
 
 
 class TurnTest(unittest.TestCase):
@@ -65,7 +66,7 @@ class TurnTest(unittest.TestCase):
         self.assertEqual(2, len(moves))
         self.assertEqual([(3, 1)], moves[0])
         self.assertEqual([(2, 4), (0, 6)], moves[1])
-        
+        self.tboard.board.current_turn = Turn(origin.get_top())
         # start move
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.assertIsNone(self.tboard.board.get_piece(4, 2))
@@ -103,7 +104,7 @@ class TurnTest(unittest.TestCase):
         self.assertEqual(2, len(moves))
         self.assertEqual([(2, 0)], moves[0])
         self.assertEqual([(2, 4), (0, 6)], moves[1])
-        
+        self.tboard.board.current_turn = Turn(origin.get_top())
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.tboard.board.move_piece((2, 4), (0, 6))
         
@@ -113,6 +114,35 @@ class TurnTest(unittest.TestCase):
         self.assertIsNone(self.tboard.board.get_piece(1, 5))
         self.assertIsNotNone(self.tboard.board.get_piece(0, 6))
         
+    def test_can_move_opponent_piece_only_once_move_complete(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ x _#
+        #1 _ _ _ _ _ T _ _#
+        #2 _ _ x _ x _ _ _#
+        #3 _ T _ T _ x _ _#
+        #4 _ _ B _ B _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ _ _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(1, 5, origin.get_top())
+        self.tboard.place_piece(3, 1, origin.get_top())
+        self.tboard.place_piece(3, 3, origin.get_top())
+        self.tboard.place_piece(4, 2, origin.get_bottom())
+        self.tboard.place_piece(4, 4, origin.get_bottom())
+        self.tboard.board.current_turn = Turn(origin.get_top())
+        self.tboard.board.move_piece((4, 2), (2, 4))
+        self.assertIsNone(self.tboard.board.get_piece(4, 2))
+        self.tboard.board.move_piece((2, 4), (0, 6))
+        
+        self.tboard.board.move_piece((4, 4), (3, 5))
+        self.assertIsNotNone(self.tboard.board.get_piece(4, 4))
+        self.assertIsNone(self.tboard.board.get_piece(3, 5))
+        
+        self.tboard.board.move_piece((3, 1), (4, 2))
+        self.assertIsNone(self.tboard.board.get_piece(3, 1))
+        self.assertIsNotNone(self.tboard.board.get_piece(4, 2))
         
 
 if __name__ == "__main__":

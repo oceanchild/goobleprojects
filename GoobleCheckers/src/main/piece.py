@@ -6,8 +6,8 @@ Created on 2011-10-09
 
 class Piece(object):
     
-    def __init__(self, origin):
-        self.origin = origin
+    def __init__(self, prev_origin):
+        self.origin = prev_origin
         self.king = False
         
     def get_origin(self):
