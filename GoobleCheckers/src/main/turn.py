@@ -17,6 +17,7 @@ class Turn(object):
         self.piece = None
         self.jumped_pieces = []
         self.origin = other_origin(prev_origin)
+        self.old_locations = []
     
     def add_jumped_pieces(self, from_loc, to_loc):
         if abs(from_loc[0] - to_loc[0]) == 1:
@@ -25,3 +26,5 @@ class Turn(object):
         row_between = int((from_loc[0] + to_loc[0]) / 2)
         col_between = int((from_loc[1] + to_loc[1]) / 2)
         self.jumped_pieces.append((row_between, col_between))
+        self.old_locations.append(from_loc)
+        

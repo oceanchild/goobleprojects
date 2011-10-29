@@ -24,10 +24,13 @@ class Movement(object):
                        + self._add_moves_for_col(-self.origin.value, +1)
         total_moves = king_moves + self._add_moves_for_col(self.origin.value, -1) + self._add_moves_for_col(self.origin.value, +1)
         final_moves = total_moves
+        
         ### we have to account for whether the piece is mid-jump or not..
         turn = self.board.current_turn
-        if self.piece is turn.piece and len(turn.jumped_pieces) > 0:
-            [final_moves.remove(move) for move in total_moves if not self.is_jump(move)]
+        if self.piece is turn.piece:
+            final_moves.append(turn.old_locations) 
+            if len(turn.jumped_pieces) > 0:
+                [final_moves.remove(move) for move in total_moves if not self.is_jump(move)]
         
         return final_moves
     
