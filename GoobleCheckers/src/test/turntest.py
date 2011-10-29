@@ -144,6 +144,49 @@ class TurnTest(unittest.TestCase):
         self.assertIsNone(self.tboard.board.get_piece(3, 1))
         self.assertIsNotNone(self.tboard.board.get_piece(4, 2))
         
+    def test_can_move_backwards_in_current_move_and_available_move_list_appropriately_updated(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ _ _ _ _ _ _ _#
+        #3 _ T _ T _ _ _ _#
+        #4 _ _ B _ _ _ _ _#
+        #5 _ x _ _ _ _ _ _#
+        #6 _ _ B _ _ _ _ _#
+        #7 _ _ _ x _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(3, 1, origin.get_top())
+        self.tboard.place_piece(3, 3, origin.get_top())
+        self.tboard.place_piece(4, 2, origin.get_bottom())
+        self.tboard.place_piece(6, 2, origin.get_bottom())
+        
+        self.tboard.board.move_piece((3, 3), (5, 1))
+        moves = Movement(self.tboard.board, 5, 1).get_available_moves()
+        self.assertEqual(1, len(moves))
+        
+    def test_move_list_mid_jump_contains_only_further_jumps(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ _ _ _ _ _ _ _#
+        #3 _ T _ T _ _ _ _#
+        #4 _ _ B _ _ _ _ _#
+        #5 _ x _ _ _ _ _ _#
+        #6 _ _ B _ _ _ _ _#
+        #7 _ _ _ x _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(3, 1, origin.get_top())
+        self.tboard.place_piece(3, 3, origin.get_top())
+        self.tboard.place_piece(4, 2, origin.get_bottom())
+        self.tboard.place_piece(6, 2, origin.get_bottom())
+        
+        self.tboard.board.move_piece((3, 3), (5, 1))
+        moves = Movement(self.tboard.board, 5, 1).get_available_moves()
+        self.assertEqual(1, len(moves))
+        self.assertEqual([(7, 3)], moves[0])
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
