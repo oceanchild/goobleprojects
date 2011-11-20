@@ -179,6 +179,7 @@ class MovementCasesTest(unittest.TestCase):
         moves = calc.get_available_moves()
         self.assertEqual(1, len(moves))
         self.assertEqual(as_move_list([(3, 2), (5, 4)]), moves[0])
+
         
     def test_move_top_piece_along_and_do_some_backward_movement_to_trip_stuff_up(self):
         # # # # # # # # # #
@@ -230,7 +231,10 @@ class MovementCasesTest(unittest.TestCase):
         ### well, we don't want to take out all instances of tuples. maybe the inner functioning will change.
         ### ie the implementation details. 
         ### each time you make a move, the list of moves will have a new MOVE object.
-        self.assertEqual(as_move_list([(2, 4)]), moves[1])
+        
+        ### post-refactoring: The move is now off the list because there are moves in the moves object for the turn.
+        ### this a bug that has been fixed using this test.-->actually, was the bug even there?
+        self.assertEqual(as_move_list([(1, 3), (2, 4)]), moves[1])
         
 
 if __name__ == "__main__":

@@ -64,13 +64,23 @@ class Turn(object):
         if self.piece is not None and self.piece is not piece:
             return True
         
+        return not self._is_valid_forward_movement(to_loc, piece, moves) and \
+               not self._is_valid_backward_movement(from_loc, to_loc)
+    
+    def _is_valid_forward_movement(self, to_loc, piece, moves):
         for move_list in moves:
             if (len(self.moves) > 0 and move_list.contains_jump_ending_in(to_loc)) \
             or (len(self.moves) == 0 and move_list.contains_move_ending_in(to_loc)):
                 self.piece = piece
-                return False
-        return True    
+                return True
+        return False
+    
+    def _is_valid_backward_movement(self, from_loc, to_loc):
+        for move in self.moves:
+            if move.is_backwards_version_of(from_loc, to_loc):
+                return True
         
+        return False
     
     def handle_jumps(self):
         for move in self.moves:

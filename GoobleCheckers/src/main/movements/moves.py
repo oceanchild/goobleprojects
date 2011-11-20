@@ -9,16 +9,16 @@ class Moves(list):
     
     def add(self, from_loc, to_loc):
         move = Move(from_loc, to_loc)
-        if self._is_backwards_move(move):
-            return # pretend like it never happened...
-        
+        if self._get_backwards_move(move):
+            self.remove(self._get_backwards_move(move))
+            return
         self.append(move)
         
-    def _is_backwards_move(self, move):
+    def _get_backwards_move(self, move):
         for taken_move in self:
-            if taken_move.to_loc == move.from_loc and taken_move.from_loc == move.to_loc:
-                return True
-        return False
+            if taken_move.get_backwards_move() == move:
+                return taken_move
+        return None
     
     def contains_jump(self):
         for move in self:

@@ -19,6 +19,12 @@ class Move(object):
         col_between = int((self.from_loc[1] + self.to_loc[1]) / 2)
         return row_between, col_between
     
+    def is_backwards_version_of(self, from_loc, to_loc):
+        return self.get_backwards_move() == Move(from_loc, to_loc)
+    
+    def get_backwards_move(self):
+        return Move(self.to_loc, self.from_loc)
+    
     def __str__(self):
         return "Move from " + self.from_loc[0] + ", " + self.from_loc[1] + " to " \
             + str(self.to_loc[0]) + ", " + str(self.to_loc[1])
