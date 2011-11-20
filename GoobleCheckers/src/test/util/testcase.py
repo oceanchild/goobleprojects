@@ -3,6 +3,16 @@ Created on 2011-10-08
 
 @author: Gooble
 '''
+from main.movements.moves import Moves
+
+def as_move_list(move_list):
+    moves = Moves()
+    prev_move = None
+    for move in move_list:
+        if prev_move is not None:
+            moves.add(prev_move, move)
+        prev_move = move
+    return moves
 
 class TestCase(object):
 
@@ -50,12 +60,12 @@ if __name__ == '__main__':
         # # # # # # # # # #\n\
         #  0 1 2 3 4 5 6 7#\n\
         #0 _ _ _ _ _ _ _ _#\n\
-        #1 _ _ _ _ _ _ _ _#\n\
-        #2 _ _ _ _ _ _ _ _#\n\
-        #3 _ T _ T _ _ _ _#\n\
+        #1 _ _ _ T _ _ _ _#\n\
+        #2 _ _ B _ _ _ _ _#\n\
+        #3 _ x _ _ _ _ _ _#\n\
         #4 _ _ B _ _ _ _ _#\n\
-        #5 _ x _ _ _ _ _ _#\n\
-        #6 _ _ B _ _ _ _ _#\n\
-        #7 _ _ _ x _ _ _ _#\n\
+        #5 _ _ _ x _ _ _ _#\n\
+        #6 _ _ _ _ B _ _ _#\n\
+        #7 _ _ _ _ _ x _ _#\n\
         # # # # # # # # # #')
     

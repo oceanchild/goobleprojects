@@ -6,8 +6,9 @@ Created on 2011-10-16
 import unittest
 from test.util.testboard import TestBoard
 from main import origin
-from main.movement import Movement
 from main.turn import Turn
+from test.util.testcase import as_move_list
+from main.movements.movement import Movement
 
 
 class TurnTest(unittest.TestCase):
@@ -34,8 +35,8 @@ class TurnTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(4, 1), (6, 3)], moves[0])
-        self.assertEqual([(4, 5),], moves[1])
+        self.assertEqual(as_move_list([(2, 3), (4, 1), (6, 3)]), moves[0])
+        self.assertEqual(as_move_list([(2, 3), (4, 5)]), moves[1])
         
         self.tboard.board.move_piece((2, 3), (4, 1))
         self.assertIsNone(self.tboard.board.get_piece(2, 3))
@@ -64,9 +65,9 @@ class TurnTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(3, 1)], moves[0])
-        self.assertEqual([(2, 4), (0, 6)], moves[1])
-        self.tboard.board.current_turn = Turn(origin.get_top())
+        self.assertEqual(as_move_list([(4, 2), (3, 1)]), moves[0])
+        self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
         # start move
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.assertIsNone(self.tboard.board.get_piece(4, 2))
@@ -76,8 +77,8 @@ class TurnTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 6, 4)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves)) 
-        self.assertEqual([(5, 3)], moves[0])
-        self.assertEqual([(5, 5)], moves[1])
+        self.assertEqual(as_move_list([(6, 4), (5, 3)]), moves[0])
+        self.assertEqual(as_move_list([(6, 4), (5, 5)]), moves[1])
         self.tboard.board.move_piece((6, 4), (5, 5))
         self.assertIsNone(self.tboard.board.get_piece(5, 5))
         self.assertIsNotNone(self.tboard.board.get_piece(6, 4))
@@ -102,9 +103,9 @@ class TurnTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(2, 0)], moves[0])
-        self.assertEqual([(2, 4), (0, 6)], moves[1])
-        self.tboard.board.current_turn = Turn(origin.get_top())
+        self.assertEqual(as_move_list([(4, 2), (2, 0)]), moves[0])
+        self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.tboard.board.move_piece((2, 4), (0, 6))
         
@@ -131,7 +132,7 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(3, 3, origin.get_top())
         self.tboard.place_piece(4, 2, origin.get_bottom())
         self.tboard.place_piece(4, 4, origin.get_bottom())
-        self.tboard.board.current_turn = Turn(origin.get_top())
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.assertIsNone(self.tboard.board.get_piece(4, 2))
         self.tboard.board.move_piece((2, 4), (0, 6))
@@ -161,11 +162,26 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(4, 2, origin.get_bottom())
         self.tboard.place_piece(6, 2, origin.get_bottom())
         
+        
+        #Problem : since refactoring, Backwards movement isn't in Available moves anymore.
+        #Also, Moving only ONE SPOT when previously you did a jump is VALID when you just
+        #Check Get Available Moves -> the Further Filtering happens within the TURN.
+        #This should really be checking that you CAN'T MOVE to 6,0, not that it's not in
+        #The list of moves.
+        
+        #Similarly with backward movement. It won't show up, but you CAN do it because
+        #The filtering will occur IN THE TURN.
+        
         self.tboard.board.move_piece((3, 3), (5, 1))
         moves = Movement(self.tboard.board, 5, 1).get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(7, 3)], moves[0])
-        self.assertEqual([(3, 3)], moves[1])
+        self.assertEqual(as_move_list([(5, 1), (6, 0)]), moves[0])
+        self.assertEqual(as_move_list([(5, 1), (7, 3)]), moves[1])
+        
+        #Now try moving to 6, 0 - it won't work.
+        self.tboard.board.move_piece((5, 1), (6, 0))
+        self.assertIsNone(self.tboard.board.get_piece(6, 0))
+        self.assertIsNotNone(self.tboard.board.get_piece(5, 1))
         
 
 if __name__ == "__main__":

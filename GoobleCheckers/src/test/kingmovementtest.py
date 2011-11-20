@@ -6,7 +6,8 @@ Created on 2011-10-08
 import unittest
 from test.util.testboard import TestBoard
 from main import origin
-from main.movement import Movement
+from test.util.testcase import as_move_list
+from main.movements.movement import Movement
 
 
 class KingMovementTest(unittest.TestCase):
@@ -31,10 +32,10 @@ class KingMovementTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
-        self.assertEqual([(4, 1)], moves[0])
-        self.assertEqual([(5, 4)], moves[1])
-        self.assertEqual([(2, 1)], moves[2])
-        self.assertEqual([(2, 3)], moves[3])
+        self.assertEqual(as_move_list([(3, 2), (4, 1)]), moves[0])
+        self.assertEqual(as_move_list([(3, 2), (5, 4)]), moves[1])
+        self.assertEqual(as_move_list([(3, 2), (2, 1)]), moves[2])
+        self.assertEqual(as_move_list([(3, 2), (2, 3)]), moves[3])
         
     def test_king_moves_case_1(self):
         # # # # # # # # # #
@@ -56,10 +57,10 @@ class KingMovementTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
-        self.assertEqual([(4, 1)], moves[0])
-        self.assertEqual([(4, 3)], moves[1])
-        self.assertEqual([(2, 1)], moves[2])
-        self.assertEqual([(1, 4), (3, 6), (5, 4), (7, 6)], moves[3])
+        self.assertEqual(as_move_list([(3, 2), (4, 1)]), moves[0])
+        self.assertEqual(as_move_list([(3, 2), (4, 3)]), moves[1])
+        self.assertEqual(as_move_list([(3, 2), (2, 1)]), moves[2])
+        self.assertEqual(as_move_list([(3, 2), (1, 4), (3, 6), (5, 4), (7, 6)]), moves[3])
         
     def test_king_moves_doesnt_jump_over_own_dudes(self):
         # # # # # # # # # #
@@ -81,8 +82,8 @@ class KingMovementTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(2, 1)], moves[0])
-        self.assertEqual([(1, 4)], moves[1])
+        self.assertEqual(as_move_list([(3, 2), (2, 1)]), moves[0])
+        self.assertEqual(as_move_list([(3, 2), (1, 4)]), moves[1])
         
     def test_king_moves_case_2(self):
         # # # # # # # # # #
@@ -100,8 +101,8 @@ class KingMovementTest(unittest.TestCase):
         calc = Movement(self.tboard.board, 7, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
-        self.assertEqual([(6, 2)], moves[0])
-        self.assertEqual([(6, 4)], moves[1])
+        self.assertEqual(as_move_list([(7, 3), (6, 2)]), moves[0])
+        self.assertEqual(as_move_list([(7, 3), (6, 4)]), moves[1])
 
 
 if __name__ == "__main__":

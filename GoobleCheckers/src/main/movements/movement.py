@@ -3,6 +3,7 @@ Created on 2011-10-03
 
 @author: Gooble
 '''
+from main.movements.moves import Moves
 
 class Movement(object):
 
@@ -22,28 +23,15 @@ class Movement(object):
         if self.piece.is_king():
             king_moves = self._add_moves_for_col(-self.origin.value, -1)\
                        + self._add_moves_for_col(-self.origin.value, +1)
-        total_moves = king_moves + self._add_moves_for_col(self.origin.value, -1) + self._add_moves_for_col(self.origin.value, +1)
-        final_moves = total_moves
-        
-        ### we have to account for whether the piece is mid-jump or not..
-        turn = self.board.current_turn
-        if self.piece is turn.piece:
-            final_moves.append(turn.old_locations) 
-            if len(turn.jumped_pieces) > 0:
-                [final_moves.remove(move) for move in total_moves if not self.is_jump(move)]
-        
-        return final_moves
+        return king_moves + self._add_moves_for_col(self.origin.value, -1) + self._add_moves_for_col(self.origin.value, +1)
     
-    def is_jump(self, move):
-        first_move = move[0]
-        
-        return len(move) > 1 or (abs(first_move[0] - self.row) > 1 and abs(first_move[1] - self.col) > 1)
-        
     def _add_moves_for_col(self, row_dir, col_dir):
         new_row = self.row + row_dir
         new_col = self.col + col_dir
         if self.board.valid_position(new_row, new_col) and self.board.get_piece(new_row, new_col) is None:
-            return [[(new_row, new_col)]]
+            move_list = Moves()
+            move_list.add((self.row, self.col), (new_row, new_col))
+            return [move_list]
         elif self.board.get_piece(new_row, new_col) is not None and self.board.get_piece(new_row, new_col).get_origin() != self.origin:
             return self._calculate_jumped_moves(new_row, new_col, row_dir, col_dir)
             
@@ -59,7 +47,8 @@ class Movement(object):
         if self.board.get_piece(new_row, new_col) is not None or self.board.invalid_position(new_row, new_col):
             return []
         
-        move = [(new_row, new_col)]
+        move = Moves()
+        move.add((row-row_dir, col-col_dir), (new_row, new_col))
         moves = [move]
         
         #Keep going along the same direction
