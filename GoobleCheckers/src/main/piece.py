@@ -18,3 +18,4 @@ class Piece(object):
     
     def set_king(self, king):
         self.king = king
+        

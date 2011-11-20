@@ -53,4 +53,18 @@ class Board(object):
         
         if self.current_turn.is_over():
             self.current_turn.handle_jumps()
+            self.king_piece_if_necessary(to_loc)
             self.current_turn = Turn(self, self.current_turn.origin)
+            
+    def king_piece_if_necessary(self, king_loc):
+        piece = self.get_piece(king_loc[0], king_loc[1])
+        piece.set_king(self._should_piece_be_king(piece, king_loc[0]))
+            
+    def _should_piece_be_king(self, piece, row):
+        if piece.is_king():
+            return True
+        if piece.get_origin().value > 0 and row == self.DEFAULT_HEIGHT - 1:
+            return True
+        if piece.get_origin().value < 0 and row == 0:
+            return True
+        return False
