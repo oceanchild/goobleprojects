@@ -103,6 +103,41 @@ class KingMovementTest(unittest.TestCase):
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(7, 3), (6, 2)]), moves[0])
         self.assertEqual(as_move_list([(7, 3), (6, 4)]), moves[1])
+        
+    def test_king_can_move_around_and_stuff_stays_consistent(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 x _ x _ _ _ _ _#
+        #2 _ t _ _ _ x _ _#
+        #3 x _ B _ B _ _ _#
+        #4 _ _ _ x _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ _ _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_king(2, 1, origin.get_top())
+        self.tboard.place_piece(3, 2, origin.get_bottom())
+        self.tboard.place_piece(3, 4, origin.get_bottom())
+        calc = Movement(self.tboard.board, 2, 1)
+        moves = calc.get_available_moves()
+        self.assertEqual(4, len(moves))
+        self.assertEqual(as_move_list([(2, 1), (1, 0)]), moves[0])
+        self.assertEqual(as_move_list([(2, 1), (1, 2)]), moves[1])
+        self.assertEqual(as_move_list([(2, 1), (3, 0)]), moves[2])
+        self.assertEqual(as_move_list([(2, 1), (4, 3), (2, 5)]), moves[3])
+        
+        self.tboard.board.move_piece((2, 1), (4, 3))
+        self.assertIsNone(self.tboard.board.get_piece(2, 1))
+        self.assertIsNotNone(self.tboard.board.get_piece(3, 2))
+        self.assertIsNotNone(self.tboard.board.get_piece(4, 3))
+        
+        self.assertTrue(self.tboard.board.get_piece(4, 3).is_king())
+        
+        self.tboard.board.move_piece((4, 3), (2, 5))
+        self.assertIsNone(self.tboard.board.get_piece(3, 2))
+        self.assertIsNone(self.tboard.board.get_piece(3, 4))
+        self.assertIsNotNone(self.tboard.board.get_piece(2, 5))
 
 
 if __name__ == "__main__":

@@ -26,6 +26,12 @@ class Moves(list):
                 return True
         return False
     
+    def jumps_are_not_backward_from(self, other_moves):
+        for move in self:
+            if move.is_jump() and other_moves._get_backwards_move(move) is not None:
+                return False
+        return True
+    
     def contains_jump_ending_in(self, to_loc):
         for move in self:
             if move.is_jump() and move.to_loc == to_loc:
