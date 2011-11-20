@@ -3,10 +3,9 @@ Created on 2011-10-23
 
 @author: Gooble
 '''
-from main import origin
-from main.movements.moves import Moves
-from main.movements.movement import Movement
-
+from main.game import origin
+from main.game.movements.movement import Movement
+from main.game.movements.moves import Moves
 
 '''
 a turn will become the list of currently taken moves.

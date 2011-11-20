@@ -3,8 +3,9 @@ Created on 2011-10-05
 
 @author: Gooble
 '''
-from main.board import Board, Piece
-from main import origin
+from main.game import origin
+from main.game.board import Board
+from main.game.piece import Piece
 
 class TestBoard(object):
 

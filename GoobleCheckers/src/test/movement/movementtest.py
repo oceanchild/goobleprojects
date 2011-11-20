@@ -3,10 +3,10 @@ Created on 2011-10-03
 
 @author: Gooble
 '''
-import unittest
-from main.board import Board
+from main.game.board import Board
+from main.game.movements.movement import Movement
 from test.util.testcase import as_move_list
-from main.movements.movement import Movement
+import unittest
 
 class MovementCalculatorTest(unittest.TestCase):
 

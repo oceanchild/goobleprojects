@@ -3,9 +3,9 @@ Created on 2011-10-02
 
 @author: Gooble
 '''
+from main.game import origin
+from main.game.board import Board
 import unittest
-from main.board import Board
-from main import origin
 
 class BoardTest(unittest.TestCase):
     

@@ -3,12 +3,11 @@ Created on 2011-10-08
 
 @author: Gooble
 '''
-import unittest
+from main.game import origin
+from main.game.movements.movement import Movement
 from test.util.testboard import TestBoard
-from main import origin
 from test.util.testcase import as_move_list
-from main.movements.movement import Movement
-
+import unittest
 
 class KingMovementTest(unittest.TestCase):
 

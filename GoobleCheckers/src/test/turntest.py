@@ -3,13 +3,12 @@ Created on 2011-10-16
 
 @author: Gooble
 '''
-import unittest
+from main.game import origin
+from main.game.movements.movement import Movement
+from main.game.turn import Turn
 from test.util.testboard import TestBoard
-from main import origin
-from main.turn import Turn
 from test.util.testcase import as_move_list
-from main.movements.movement import Movement
-
+import unittest
 
 class TurnTest(unittest.TestCase):
     

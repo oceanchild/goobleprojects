@@ -3,10 +3,9 @@ Created on 2011-11-20
 
 @author: Gooble
 '''
-import unittest
+from main.game import origin
 from test.util.testboard import TestBoard
-from main import origin
-
+import unittest
 
 class Test(unittest.TestCase):
 

@@ -3,7 +3,7 @@ Created on 2011-11-19
 
 @author: Gooble
 '''
-from main.movements.move import Move
+from main.game.movements.move import Move
 
 class Moves(list):
     

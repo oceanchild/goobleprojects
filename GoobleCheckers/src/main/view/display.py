@@ -3,7 +3,7 @@ Created on 2011-10-10
 
 @author: Gooble
 '''
-from main.board import Board
+from main.game.board import Board
 
 class BoardDisplay(object):
 

@@ -3,9 +3,9 @@ Created on 2011-10-02
 
 @author: Gooble
 '''
-from main import origin
-from main.piece import Piece
-from main.turn import Turn
+from main.game import origin
+from main.game.piece import Piece
+from main.game.turn import Turn
 
 class Board(object):
     
