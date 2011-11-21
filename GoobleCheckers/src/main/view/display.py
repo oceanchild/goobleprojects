@@ -11,8 +11,10 @@ class BoardDisplay(object):
         self.board = board
         
     def print_piece_code(self, piece):
-        if piece is not None:
-            print(piece.get_origin().desc[:1], end=' ')
+        if piece is not None and piece.is_king():
+            print(piece.get_origin().desc[:1].lower(), end=' ')
+        elif piece is not None and not piece.is_king():
+            print(piece.get_origin().desc[:1].upper(), end=' ')
         else:
             print(' ', end=' ')
             
