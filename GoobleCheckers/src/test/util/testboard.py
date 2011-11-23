@@ -14,10 +14,12 @@ class TestBoard(object):
         self.clear_board()
         
     def clear_board(self):
+        self.board.state.num_bottom_pieces = 0
+        self.board.state.num_top_pieces = 0
         self.board.pieces = [[None] * Board.DEFAULT_WIDTH for row in self.board.pieces]
         
     def place_piece(self, row, col, origin):
-        self.board.pieces[row][col] = Piece(origin)
+        self.board.set_piece(row, col, Piece(origin))
         
     def place_king(self, row, col, origin):
         self.place_piece(row, col, origin);
@@ -26,4 +28,4 @@ class TestBoard(object):
         
 if __name__ == '__main__':
     board = TestBoard()
-    board.place_piece(3, 5, origin.get_top())
+    board.place_piece(3, 5, origin.TOP)

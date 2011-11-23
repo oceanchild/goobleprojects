@@ -7,12 +7,10 @@ from main.game import origin
 from test.util.testboard import TestBoard
 import unittest
 
-class Test(unittest.TestCase):
-
+class KingTest(unittest.TestCase):
 
     def setUp(self):
         self.tboard = TestBoard()
-
 
     def test_piece_becomes_king_when_reaching_other_side(self):
         # # # # # # # # # #
@@ -26,8 +24,8 @@ class Test(unittest.TestCase):
         #6 _ _ B _ x _ _ _#
         #7 _ x _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(5, 3, origin.get_top())
-        self.tboard.place_piece(6, 2, origin.get_bottom())
+        self.tboard.place_piece(5, 3, origin.TOP)
+        self.tboard.place_piece(6, 2, origin.BOTTOM)
 
         self.tboard.board.move_piece((5, 3), (7, 1))
         self.assertIsNone(self.tboard.board.get_piece(5, 3))

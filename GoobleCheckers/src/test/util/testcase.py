@@ -25,13 +25,13 @@ class TestCase(object):
         move_col=0
         piece = pieces[j]
         if piece.strip('*') == 'T':
-            print(indent + 'self.tboard.place_piece(' + str(i) + ', ' + str(j) + ', origin.get_top())')
+            print(indent + 'self.tboard.place_piece(' + str(i) + ', ' + str(j) + ', origin.TOP)')
         elif piece.strip('*') == 'B':
-            print(indent + 'self.tboard.place_piece(' + str(i) + ', ' + str(j) + ', origin.get_bottom())')
+            print(indent + 'self.tboard.place_piece(' + str(i) + ', ' + str(j) + ', origin.BOTTOM)')
         elif piece.strip('*') == 't':
-            print(indent + 'self.tboard.place_king(' + str(i) + ', ' + str(j) + ', origin.get_top())')
+            print(indent + 'self.tboard.place_king(' + str(i) + ', ' + str(j) + ', origin.TOP)')
         elif piece.strip('*') == 'b':
-            print(indent + 'self.tboard.place_king(' + str(i) + ', ' + str(j) + ', origin.get_bottom())')
+            print(indent + 'self.tboard.place_king(' + str(i) + ', ' + str(j) + ', origin.BOTTOM)')
         if len(piece) == 3:
             return i, j
         return move_row, move_col
@@ -61,9 +61,9 @@ if __name__ == '__main__':
         #  0 1 2 3 4 5 6 7#\n\
         #0 _ _ _ _ _ _ _ _#\n\
         #1 x _ x _ _ _ _ _#\n\
-        #2 _ t _ _ _ x _ _#\n\
-        #3 x _ B _ B _ _ _#\n\
-        #4 _ _ _ x _ _ _ _#\n\
+        #2 _ t _ _ _ _ _ _#\n\
+        #3 x _ B _ _ _ _ _#\n\
+        #4 _ _ _ x _ B _ _#\n\
         #5 _ _ _ _ _ _ _ _#\n\
         #6 _ _ _ _ _ _ _ _#\n\
         #7 _ _ _ _ _ _ _ _#\n\

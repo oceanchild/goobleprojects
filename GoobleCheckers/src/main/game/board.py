@@ -6,6 +6,8 @@ Created on 2011-10-02
 from main.game import origin
 from main.game.piece import Piece
 from main.game.turn import Turn
+from main.game.state import State
+
 
 class Board(object):
     
@@ -15,6 +17,7 @@ class Board(object):
     def __init__(self):
         self.init_board()
         self.current_turn = Turn(self)
+        self.state = State(self)
         
     def init_board(self):
         self.pieces = []
@@ -24,9 +27,9 @@ class Board(object):
             
     def create_piece(self, row, col):
         if row < (self.DEFAULT_HEIGHT / 2 - 1) and (row+col) % 2 == 0:
-            return Piece(origin.get_top())
+            return Piece(origin.TOP)
         elif row > (self.DEFAULT_HEIGHT / 2) and (row+col) % 2 == 0:
-            return Piece(origin.get_bottom())
+            return Piece(origin.BOTTOM)
         else:
             return None
             
@@ -45,9 +48,9 @@ class Board(object):
     def set_piece(self, row, col, piece):
         if self.invalid_position(row, col):
             return
-        
+        self.state.update_state_for_insertion(row, col, piece)
         self.pieces[row][col] = piece
-    
+        
     def move_piece(self, from_loc, to_loc):
         self.current_turn.handle_movement(from_loc, to_loc)
         
@@ -63,8 +66,11 @@ class Board(object):
     def _should_piece_be_king(self, piece, row):
         if piece.is_king():
             return True
-        if piece.get_origin().value > 0 and row == self.DEFAULT_HEIGHT - 1:
+        if piece.is_from_top() and row == self.DEFAULT_HEIGHT - 1:
             return True
-        if piece.get_origin().value < 0 and row == 0:
+        if piece.is_from_bottom() and row == 0:
             return True
         return False
+    
+    def is_game_over(self):
+        return self.state.is_game_over()

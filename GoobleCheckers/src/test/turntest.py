@@ -27,10 +27,10 @@ class TurnTest(unittest.TestCase):
         #6 _ _ _ x _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(2, 3, origin.get_top())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 4, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
+        self.tboard.place_piece(2, 3, origin.TOP)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 4, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
         calc = Movement(self.tboard.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -57,16 +57,16 @@ class TurnTest(unittest.TestCase):
         #6 _ _ _ _ B _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(1, 5, origin.get_top())
-        self.tboard.place_piece(3, 3, origin.get_top())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 4, origin.get_bottom())
+        self.tboard.place_piece(1, 5, origin.TOP)
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(4, 2), (3, 1)]), moves[0])
         self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
         # start move
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.assertIsNone(self.tboard.board.get_piece(4, 2))
@@ -94,17 +94,17 @@ class TurnTest(unittest.TestCase):
         #6 _ _ _ _ B _ _ _#
         #7 _ _ _ _ _ x _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(1, 5, origin.get_top())
-        self.tboard.place_piece(3, 1, origin.get_top())
-        self.tboard.place_piece(3, 3, origin.get_top())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 4, origin.get_bottom())
+        self.tboard.place_piece(1, 5, origin.TOP)
+        self.tboard.place_piece(3, 1, origin.TOP)
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(4, 2), (2, 0)]), moves[0])
         self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.tboard.board.move_piece((2, 4), (0, 6))
         
@@ -126,12 +126,12 @@ class TurnTest(unittest.TestCase):
         #6 _ _ _ _ _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(1, 5, origin.get_top())
-        self.tboard.place_piece(3, 1, origin.get_top())
-        self.tboard.place_piece(3, 3, origin.get_top())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(4, 4, origin.get_bottom())
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.get_top())
+        self.tboard.place_piece(1, 5, origin.TOP)
+        self.tboard.place_piece(3, 1, origin.TOP)
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(4, 4, origin.BOTTOM)
+        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
         self.tboard.board.move_piece((4, 2), (2, 4))
         self.assertIsNone(self.tboard.board.get_piece(4, 2))
         self.tboard.board.move_piece((2, 4), (0, 6))
@@ -156,10 +156,10 @@ class TurnTest(unittest.TestCase):
         #6 _ _ B _ _ _ _ _#
         #7 _ _ _ x _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(3, 1, origin.get_top())
-        self.tboard.place_piece(3, 3, origin.get_top())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 2, origin.get_bottom())
+        self.tboard.place_piece(3, 1, origin.TOP)
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 2, origin.BOTTOM)
         
         
         #Problem : since refactoring, Backwards movement isn't in Available moves anymore.
@@ -194,10 +194,10 @@ class TurnTest(unittest.TestCase):
         #6 _ _ B _ _ _ _ _#
         #7 _ _ _ x _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(3, 1, origin.get_top())
-        self.tboard.place_piece(3, 3, origin.get_top())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 2, origin.get_bottom())
+        self.tboard.place_piece(3, 1, origin.TOP)
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 2, origin.BOTTOM)
         
         self.tboard.board.move_piece((3, 3), (5, 1))
         moves = Movement(self.tboard.board, 5, 1).get_available_moves()

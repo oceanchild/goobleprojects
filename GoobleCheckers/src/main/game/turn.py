@@ -20,18 +20,18 @@ for example, a move from 1,2 to 2,3 would have a negating move of 2,3 to 1,2.
 each move can quickly calculate whether it is a jump or not, 
 '''
 def other_origin(prev_origin):
-    if prev_origin == origin.get_top():
-        return origin.get_bottom()
+    if prev_origin == origin.TOP:
+        return origin.BOTTOM
     else:
-        return origin.get_top()
+        return origin.TOP
 
 
 class Turn(object):
 
-    def __init__(self, board, prev_origin=origin.get_bottom()):
+    def __init__(self, board, origin=origin.BOTTOM):
         self.board = board
         self.piece = None
-        self.origin = other_origin(prev_origin)
+        self.origin = other_origin(origin)
         self.moves = Moves()
         self.over = False
     

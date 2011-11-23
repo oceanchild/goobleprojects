@@ -4,12 +4,6 @@ Created on 2011-10-02
 @author: Gooble
 '''
 
-def get_top():
-    return Origin('TOP', 1)
-
-def get_bottom():
-    return Origin('BOTTOM', -1)
-
 class Origin(object):
 
     def __init__(self, desc, value):
@@ -22,3 +16,6 @@ class Origin(object):
     
     def __ne__(self, other):
         return not self.__eq__(other)
+
+TOP = Origin('TOP', 1)
+BOTTOM = Origin('BOTTOM', -1)

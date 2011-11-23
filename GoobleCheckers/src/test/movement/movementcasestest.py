@@ -15,8 +15,8 @@ class MovementCasesTest(unittest.TestCase):
         self.tboard = TestBoard()
 
     def test_get_avail_moves_with_opponent_piece_returns_jumped_position(self):
-        self.tboard.place_piece(1, 5, origin.get_top())
-        self.tboard.place_piece(2, 4, origin.get_bottom())
+        self.tboard.place_piece(1, 5, origin.TOP)
+        self.tboard.place_piece(2, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 1, 5)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -36,10 +36,10 @@ class MovementCasesTest(unittest.TestCase):
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
         
-        self.tboard.place_piece(2, 3, origin.get_top())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 4, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
+        self.tboard.place_piece(2, 3, origin.TOP)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 4, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
         calc = Movement(self.tboard.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -58,12 +58,12 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ _ _ x _ _ _ _#
         #7 _ _ _ _ B _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(2, 3, origin.get_top())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 4, origin.get_bottom())
-        self.tboard.place_piece(4, 5, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.tboard.place_piece(7, 4, origin.get_bottom())
+        self.tboard.place_piece(2, 3, origin.TOP)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 4, origin.BOTTOM)
+        self.tboard.place_piece(4, 5, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
+        self.tboard.place_piece(7, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(1, len(moves))
@@ -81,13 +81,13 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ _ _ B _ _ _ T#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(2, 3, origin.get_top())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 4, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.tboard.place_piece(5, 6, origin.get_bottom())
-        self.tboard.place_piece(6, 3, origin.get_bottom())
-        self.tboard.place_piece(6, 7, origin.get_top())
+        self.tboard.place_piece(2, 3, origin.TOP)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 4, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
+        self.tboard.place_piece(5, 6, origin.BOTTOM)
+        self.tboard.place_piece(6, 3, origin.BOTTOM)
+        self.tboard.place_piece(6, 7, origin.TOP)
         calc = Movement(self.tboard.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -106,10 +106,10 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ x _ _ _ _ _ T#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(0, 3, origin.get_top())
-        self.tboard.place_piece(1, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
+        self.tboard.place_piece(0, 3, origin.TOP)
+        self.tboard.place_piece(1, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
         calc = Movement(self.tboard.board, 0, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -128,11 +128,11 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ x _ _ _ x _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(0, 3, origin.get_top())
-        self.tboard.place_piece(1, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(5, 2, origin.get_bottom())
-        self.tboard.place_piece(5, 4, origin.get_bottom())
+        self.tboard.place_piece(0, 3, origin.TOP)
+        self.tboard.place_piece(1, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(5, 2, origin.BOTTOM)
+        self.tboard.place_piece(5, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 0, 3)
         moves = calc.get_available_moves()
         self.assertEqual(3, len(moves))
@@ -152,9 +152,9 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ _ _ _ _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(3, 2, origin.get_top())
-        self.tboard.place_piece(4, 1, origin.get_top())
-        self.tboard.place_piece(4, 3, origin.get_top())
+        self.tboard.place_piece(3, 2, origin.TOP)
+        self.tboard.place_piece(4, 1, origin.TOP)
+        self.tboard.place_piece(4, 3, origin.TOP)
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(0, len(moves))
@@ -171,10 +171,10 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ _ _ _ _ T _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(3, 2, origin.get_top())
-        self.tboard.place_piece(4, 1, origin.get_top())
-        self.tboard.place_piece(4, 3, origin.get_bottom())
-        self.tboard.place_piece(6, 5, origin.get_top())
+        self.tboard.place_piece(3, 2, origin.TOP)
+        self.tboard.place_piece(4, 1, origin.TOP)
+        self.tboard.place_piece(4, 3, origin.BOTTOM)
+        self.tboard.place_piece(6, 5, origin.TOP)
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(1, len(moves))
@@ -193,10 +193,10 @@ class MovementCasesTest(unittest.TestCase):
         #6 _ _ _ _ B _ _ _#
         #7 _ _ _ _ _ x _ _#
         # # # # # # # # # #
-        self.tboard.place_piece(1, 3, origin.get_top())
-        self.tboard.place_piece(2, 2, origin.get_bottom())
-        self.tboard.place_piece(4, 2, origin.get_bottom())
-        self.tboard.place_piece(6, 4, origin.get_bottom())
+        self.tboard.place_piece(1, 3, origin.TOP)
+        self.tboard.place_piece(2, 2, origin.BOTTOM)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 4, origin.BOTTOM)
         moves = Movement(self.tboard.board, 1, 3).get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(1, 3), (3, 1), (5, 3), (7, 5)]), moves[0])

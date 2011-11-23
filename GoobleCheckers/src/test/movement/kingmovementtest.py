@@ -26,8 +26,8 @@ class KingMovementTest(unittest.TestCase):
         #6 _ _ _ _ _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_king(3, 2, origin.get_bottom())
-        self.tboard.place_piece(4, 3, origin.get_top())
+        self.tboard.place_king(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(4, 3, origin.TOP)
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
@@ -48,11 +48,11 @@ class KingMovementTest(unittest.TestCase):
         #6 _ _ _ _ _ t _ _#
         #7 _ _ _ _ _ _ x _#
         # # # # # # # # # #
-        self.tboard.place_king(2, 3, origin.get_top())
-        self.tboard.place_king(2, 5, origin.get_top())
-        self.tboard.place_king(3, 2, origin.get_bottom())
-        self.tboard.place_piece(4, 5, origin.get_top())
-        self.tboard.place_king(6, 5, origin.get_top())
+        self.tboard.place_king(2, 3, origin.TOP)
+        self.tboard.place_king(2, 5, origin.TOP)
+        self.tboard.place_king(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(4, 5, origin.TOP)
+        self.tboard.place_king(6, 5, origin.TOP)
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
@@ -73,11 +73,11 @@ class KingMovementTest(unittest.TestCase):
         #6 _ _ _ _ _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_king(2, 3, origin.get_bottom())
-        self.tboard.place_king(2, 5, origin.get_top())
-        self.tboard.place_king(3, 2, origin.get_top())
-        self.tboard.place_piece(4, 1, origin.get_top())
-        self.tboard.place_king(4, 3, origin.get_top())
+        self.tboard.place_king(2, 3, origin.BOTTOM)
+        self.tboard.place_king(2, 5, origin.TOP)
+        self.tboard.place_king(3, 2, origin.TOP)
+        self.tboard.place_piece(4, 1, origin.TOP)
+        self.tboard.place_king(4, 3, origin.TOP)
         calc = Movement(self.tboard.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -96,7 +96,7 @@ class KingMovementTest(unittest.TestCase):
         #6 _ _ x _ x _ _ _#
         #7 _ _ _ t _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_king(7, 3, origin.get_top())
+        self.tboard.place_king(7, 3, origin.TOP)
         calc = Movement(self.tboard.board, 7, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
@@ -115,9 +115,9 @@ class KingMovementTest(unittest.TestCase):
         #6 _ _ _ _ _ _ _ _#
         #7 _ _ _ _ _ _ _ _#
         # # # # # # # # # #
-        self.tboard.place_king(2, 1, origin.get_top())
-        self.tboard.place_piece(3, 2, origin.get_bottom())
-        self.tboard.place_piece(3, 4, origin.get_bottom())
+        self.tboard.place_king(2, 1, origin.TOP)
+        self.tboard.place_piece(3, 2, origin.BOTTOM)
+        self.tboard.place_piece(3, 4, origin.BOTTOM)
         calc = Movement(self.tboard.board, 2, 1)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
