@@ -106,16 +106,16 @@ class BoardTest(unittest.TestCase):
         ## And when you put it back somewhere else, you're incrementing once more.
         
         self.tboard.board.move_piece((2, 1), (4, 3))
-        self._check_board_configuration(num_top=1, num_bottom=1, non_empty=[(4, 3), (4, 5)])
+        self._check_board_configuration(num_top=1, num_bottom=1, non_empty_cells=[(4, 3), (4, 5)])
         
         self.tboard.board.move_piece((4, 5), (3, 4))
-        self._check_board_configuration(num_top=1, num_bottom=1, non_empty=[(4, 3), (3, 4)])
+        self._check_board_configuration(num_top=1, num_bottom=1, non_empty_cells=[(4, 3), (3, 4)])
         
         self.tboard.board.move_piece((4, 3), (2, 5))
-        self._check_board_configuration(num_top=1, num_bottom=0, non_empty=[(2, 5)])
+        self._check_board_configuration(num_top=1, num_bottom=0, non_empty_cells=[(2, 5)])
         
-    def _check_board_configuration(self, num_top, num_bottom, non_empty):
-        self._check_board_empty_except(non_empty)
+    def _check_board_configuration(self, num_top, num_bottom, non_empty_cells):
+        self._check_board_empty_except(non_empty_cells)
         self.assertEqual(num_top, self.tboard.board.state.num_top_pieces)
         self.assertEqual(num_bottom, self.tboard.board.state.num_bottom_pieces)
         self.assertEqual(num_top == 0 or num_bottom == 0, self.tboard.board.is_game_over())
