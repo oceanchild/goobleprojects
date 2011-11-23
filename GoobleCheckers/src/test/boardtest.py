@@ -7,6 +7,7 @@ from main.game import origin
 from main.game.board import Board
 from test.util.testboard import TestBoard
 import unittest
+from main.game.movements.movement import Movement
 
 class BoardTest(unittest.TestCase):
     
@@ -71,15 +72,17 @@ class BoardTest(unittest.TestCase):
         
         self._check_board_empty_except([(4, 3)])
         self.assertTrue(self.tboard.board.is_game_over())
+        self.assertEqual(1, self.tboard.board.state.num_top_pieces)
+        self.assertEqual(0, self.tboard.board.state.num_bottom_pieces)
         
     def _check_board_empty_except(self, list_of_exceptions):
         for row in range(0, Board.DEFAULT_HEIGHT):
             for col in range (0, Board.DEFAULT_WIDTH):
                 if (row, col) in list_of_exceptions: continue
-                self.assertIsNone(self.tboard.board.get_piece(row, col))
+                self.assertIsNone(self.tboard.board.get_piece(row, col), "There is a piece at " + str(row) + ", " + str(col))
                 
         for loc in list_of_exceptions:
-            self.assertIsNotNone(self.tboard.board.get_piece(loc[0], loc[1]))
+            self.assertIsNotNone(self.tboard.board.get_piece(loc[0], loc[1]), "There is NO piece at " + str(row) + ", " + str(col))
         
     def test_game_over_when_one_type_of_piece_runs_out_less_simple_board(self):
         # # # # # # # # # #
@@ -98,11 +101,24 @@ class BoardTest(unittest.TestCase):
         self.tboard.place_piece(4, 5, origin.BOTTOM)
         
         self.assertFalse(self.tboard.board.is_game_over())
+        
+        ## The counts work because when you move a piece, you're removing it from the board.
+        ## And when you put it back somewhere else, you're incrementing once more.
+        
         self.tboard.board.move_piece((2, 1), (4, 3))
-        self._check_board_empty_except([(4, 3), (4, 5)])
+        self._check_board_configuration(num_top=1, num_bottom=1, non_empty=[(4, 3), (4, 5)])
         
-        self.assertFalse(self.tboard.board.is_game_over())
+        self.tboard.board.move_piece((4, 5), (3, 4))
+        self._check_board_configuration(num_top=1, num_bottom=1, non_empty=[(4, 3), (3, 4)])
         
+        self.tboard.board.move_piece((4, 3), (2, 5))
+        self._check_board_configuration(num_top=1, num_bottom=0, non_empty=[(2, 5)])
+        
+    def _check_board_configuration(self, num_top, num_bottom, non_empty):
+        self._check_board_empty_except(non_empty)
+        self.assertEqual(num_top, self.tboard.board.state.num_top_pieces)
+        self.assertEqual(num_bottom, self.tboard.board.state.num_bottom_pieces)
+        self.assertEqual(num_top == 0 or num_bottom == 0, self.tboard.board.is_game_over())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
