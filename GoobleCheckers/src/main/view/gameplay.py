@@ -5,31 +5,12 @@ Created on 2011-11-20
 '''
 from main.game.board import Board
 from tkinter import Menu, Canvas, Tk
-from main.game import origin
+import tile
 
-
-class Tile(object):
+class BoardCanvas(Canvas):
     
-    BLANK_TILE_COLOURS = ['white', 'blue']
-    PIECE_COLOURS = {origin.TOP.desc:'red', origin.BOTTOM.desc:'black'}
-    
-    def __init__(self, row, col, board, canvas):
-        self.row = row
-        self.col = col
-        self.board = board
-        self.canvas = canvas
-        
-    def draw(self):
-        piece = self.board.get_piece(self.row, self.col)
-        width = GamePlay.DEFAULT_WIDTH/Board.DEFAULT_WIDTH
-        height = GamePlay.DEFAULT_HEIGHT/Board.DEFAULT_HEIGHT
-        if piece is None:
-            colour = Tile.BLANK_TILE_COLOURS[(self.row + self.col) % 2]
-            self.canvas.create_rectangle(self.col * width, self.row * height, self.col * width + width, self.row * height + height, fill=colour)
-        else:
-            colour = Tile.PIECE_COLOURS[piece.get_origin().desc]
-            self.canvas.create_oval(self.col * width, self.row * height, self.col * width + width, self.row * height + height, fill=colour)
-
+    def draw(self, board):
+        [[tile.Tile(row, col, board, self).draw() for col in range(0, Board.DEFAULT_WIDTH)] for row in range(0, Board.DEFAULT_HEIGHT)]
 
 class GamePlay(object):
 
@@ -48,13 +29,9 @@ class GamePlay(object):
         root.config(menu=menubar)
         
     def _init_canvas(self, root):
-        canvas = Canvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
+        canvas = BoardCanvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
         canvas.pack()
-        
-        for row in range(0, self.board.DEFAULT_HEIGHT):
-            for col in range(0, self.board.DEFAULT_WIDTH):
-                Tile(row, col, self.board, canvas).draw()
-        
+        canvas.draw(self.board)
 
     def start(self):
         root = Tk()
