@@ -30,8 +30,12 @@ class GamePlay(object):
         
     def _init_canvas(self, root):
         canvas = BoardCanvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
+        canvas.bind(sequence='<Button-1>', func=self.print_stuff)
         canvas.pack()
         canvas.draw(self.board)
+        
+    def print_stuff(self, event):
+        print(event.x, event.y)
 
     def start(self):
         root = Tk()
