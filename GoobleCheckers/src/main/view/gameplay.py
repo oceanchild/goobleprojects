@@ -3,14 +3,16 @@ Created on 2011-11-20
 
 @author: Gooble
 '''
-from main.game.board import Board
+import main.game.board as board
 from tkinter import Menu, Canvas, Tk
-import tile
+import main.view.tile
 
 class BoardCanvas(Canvas):
     
     def draw(self, board):
-        [[tile.Tile(row, col, board, self).draw() for col in range(0, Board.DEFAULT_WIDTH)] for row in range(0, Board.DEFAULT_HEIGHT)]
+        [[main.view.tile.Tile(row, col, board, self).draw() 
+          for col in range(0, board.Board.DEFAULT_WIDTH)] 
+         for row in range(0, board.Board.DEFAULT_HEIGHT)]
 
 class GamePlay(object):
 
@@ -18,7 +20,7 @@ class GamePlay(object):
     DEFAULT_WIDTH = 480
 
     def __init__(self):
-        self.board = Board()
+        self.board = board.Board()
 
     def _init_menu(self, root):
         menubar = Menu(root)
@@ -30,7 +32,8 @@ class GamePlay(object):
         
     def _init_canvas(self, root):
         canvas = BoardCanvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
-        canvas.bind(sequence='<Button-1>', func=self.print_stuff)
+        canvas.bind(sequence='<ButtonPress-1>', func=self.print_stuff)
+        canvas.bind(sequence='<ButtonRelease-1>', func=self.print_stuff)
         canvas.pack()
         canvas.draw(self.board)
         
@@ -44,7 +47,7 @@ class GamePlay(object):
         root.mainloop()
         
     def new_game(self):
-        self.board = Board()
+        self.board = board.Board()
         
 if __name__ == '__main__':
     GamePlay().start()

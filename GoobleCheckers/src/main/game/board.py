@@ -8,7 +8,6 @@ from main.game.piece import Piece
 from main.game.turn import Turn
 from main.game.state import State
 
-
 class Board(object):
     
     DEFAULT_WIDTH = 8
