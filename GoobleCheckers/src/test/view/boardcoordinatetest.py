@@ -4,7 +4,7 @@ Created on 2011-11-26
 @author: Gooble
 '''
 import unittest
-from main.view.boardcoordinate import BoardCoordinate
+import main.view.boardcoordinate as bc
 
 class BoardCoordinateTest(unittest.TestCase):
 
@@ -29,7 +29,7 @@ class BoardCoordinateTest(unittest.TestCase):
                 self.check_slot(x, y, expected_row, expected_col)
             
     def check_slot(self, canvasx, canvasy, row, col):
-        position = BoardCoordinate(canvas_size=(480, 480), board_size=(8, 8)).get_from(x=canvasx, y=canvasy)
+        position = bc.BoardCoordinate(canvas_size=(480, 480), board_size=(8, 8)).get_from(x=canvasx, y=canvasy)
         self.assertEqual((row, col), position, "failed for values: canvas=" + str((canvasx, canvasy)) + "row=" + str(row) + "col=" + str(col) + " got instead: " + str(position))
 
 

@@ -4,12 +4,12 @@ Created on 2011-11-26
 @author: Gooble
 '''
 import main.game.board as board
-from main.view import gameplay
+import main.view.gameplay
 
 class BoardCoordinate(object):
     
     def __init__(self, 
-                 canvas_size=(gameplay.GamePlay.DEFAULT_WIDTH, gameplay.GamePlay.DEFAULT_HEIGHT),
+                 canvas_size=(main.view.gameplay.GamePlay.DEFAULT_WIDTH, main.view.gameplay.GamePlay.DEFAULT_HEIGHT),
                  board_size=(board.Board.DEFAULT_WIDTH, board.Board.DEFAULT_HEIGHT)):
         self.canvas_width = canvas_size[0]
         self.canvas_height = canvas_size[1]

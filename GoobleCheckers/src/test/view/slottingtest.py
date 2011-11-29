@@ -3,11 +3,11 @@ Created on 2011-11-27
 
 @author: Gooble
 '''
-import unittest
-from main.game.board import Board
-from main.view.slotting import Slotting
 from main.game import origin
+from main.game.board import Board
 from test.util.testboard import TestBoard
+import main.view.slotting as slotting
+import unittest
 
 class MockEvent(object):
     
@@ -20,7 +20,7 @@ class SlottingTest(unittest.TestCase):
     def setUp(self):
         self.tboard = TestBoard()
         self.board = Board()
-        self.slotting = Slotting(self.board)
+        self.slotting = slotting.Slotting(self.board)
 
     def test_piece_gets_selected_and_slotted_when_slot_is_valid_move_and_when_move_is_complete_turn_is_ended(self):
         self.assertIsNone(self.board.current_turn.piece)
@@ -57,7 +57,7 @@ class SlottingTest(unittest.TestCase):
         self.tboard.place_piece(2, 1, origin.TOP)
         self.tboard.place_piece(3, 2, origin.BOTTOM)
         self.tboard.place_piece(5, 4, origin.BOTTOM)
-        self.slotting = Slotting(self.tboard.board)
+        self.slotting = slotting.Slotting(self.tboard.board)
         self.board = self.tboard.board
         
         self.slotting.select_piece(MockEvent(100, 140))
