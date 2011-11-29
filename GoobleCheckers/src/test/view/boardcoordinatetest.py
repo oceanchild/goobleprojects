@@ -15,7 +15,10 @@ class BoardCoordinateTest(unittest.TestCase):
         self.check_slot_in_entire_cell_range(60, 0, 0, 1)
         
     def test_slotting_case_random_spot_in_first_row_first_cell(self):
-        self.check_slot(1, 40, 0, 0)    
+        self.check_slot(1, 40, 0, 0)
+        
+    def test_slotting_case_all_coordinates_in_third_row_second_cell(self):
+        self.check_slot_in_entire_cell_range(60, 120, 2, 1)
         
     def test_slotting_case_final_cell_very_corner_gives_invalid_coordinate(self):
         self.check_slot(480, 480, 8, 8)

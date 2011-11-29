@@ -12,7 +12,7 @@ class Slotting(object):
         
     def select_piece(self, event):
         self.start_row, self.start_col = BoardCoordinate().get_from(event.x, event.y)
-        self.board.current_turn.piece = self.board.get_piece(self.start_row, self.start_col)
 
     def release_piece(self, event):
-        self.board.move_piece((2, 2), (3, 1))
+        to_row, to_col = BoardCoordinate().get_from(event.x, event.y)
+        self.board.move_piece((self.start_row, self.start_col), (to_row, to_col))
