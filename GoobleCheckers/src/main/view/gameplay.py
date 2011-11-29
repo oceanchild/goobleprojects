@@ -27,11 +27,19 @@ class GamePlay(object):
         
     def _init_canvas(self, root):
         canvas = main.view.boardcanvas.BoardCanvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
-        canvas.bind(sequence='<ButtonPress-1>', func=self.slotting.select_piece)
-        canvas.bind(sequence='<ButtonRelease-1>', func=self.slotting.release_piece)
+        canvas.bind(sequence='<ButtonPress-1>', func=self.draw_slotting)
+        canvas.bind(sequence='<ButtonRelease-1>', func=self.draw_release)
         canvas.pack()
-        
         canvas.draw(self.board)
+        self.canvas = canvas
+        
+    def draw_slotting(self, event):
+        self.slotting.select_piece(event)
+        self.canvas.draw(self.board)
+        
+    def draw_release(self, event):
+        self.slotting.release_piece(event)
+        self.canvas.draw(self.board)
         
     def print_stuff(self, event):
         print(event.x, event.y)
