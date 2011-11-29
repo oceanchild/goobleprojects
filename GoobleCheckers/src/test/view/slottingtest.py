@@ -32,7 +32,7 @@ class SlottingTest(unittest.TestCase):
         self.assertIsNotNone(self.board.get_piece(3, 1))
         self.assertIsNone(self.board.current_turn.piece)
         
-    def test_piece_does_not_get_placed_in_new_slot_when_invalid_move(self):
+    def test_piece_does_not_get_placed_in_new_slot_when_invalid_move_and_start_row_and_col_reset(self):
         self.slotting.select_piece(MockEvent(100, 100))
         self.assertEqual(1, self.slotting.start_row)
         self.assertEqual(1, self.slotting.start_col)
@@ -41,6 +41,8 @@ class SlottingTest(unittest.TestCase):
         self.assertIsNotNone(self.board.get_piece(2, 2))
         self.assertIsNone(self.board.get_piece(3, 1))
         self.assertIsNone(self.board.get_piece(4, 4))
+        self.assertIsNone(self.slotting.start_row)
+        self.assertIsNone(self.slotting.start_col)
         
     def test_when_doing_consecutive_moves_starting_row_and_col_changes(self):
         # # # # # # # # # #

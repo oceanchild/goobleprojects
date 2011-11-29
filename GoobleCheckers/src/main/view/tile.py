@@ -7,21 +7,19 @@ import main.game.origin as origin
 
 class Tile(object):
     
-    BLANK_TILE_COLOURS = ['white', 'blue']
     PIECE_COLOURS = {origin.TOP.desc:'red', origin.BOTTOM.desc:'black'}
     
-    def __init__(self, row, col, board, canvas):
-        self.row = row
-        self.col = col
+    def __init__(self, piece, board, canvas):
+        self.piece = piece
         self.board = board
         self.canvas = canvas
         
-    def draw_background(self, width, height):
-        colour = Tile.BLANK_TILE_COLOURS[(self.row + self.col) % 2]
-        self.canvas.create_rectangle(self.col * width, self.row * height, self.col * width + width, self.row * height + height, fill=colour)
+    def draw_background(self, startx, starty, width, height, colour):
+        self.canvas.create_rectangle(startx, starty, startx + width, starty + height, fill=colour)
             
-    def draw_piece(self, width, height):
-        piece = self.board.get_piece(self.row, self.col)
-        if piece is not None:
-            colour = Tile.PIECE_COLOURS[piece.get_origin().desc]
-            self.canvas.create_oval(self.col * width, self.row * height, self.col * width + width, self.row * height + height, fill=colour)
+    def draw_piece(self, width, height, x, y):
+        if self.piece is not None:
+            colour = Tile.PIECE_COLOURS[self.piece.get_origin().desc]
+            self.canvas.create_oval(x, y, x + width, y + height, fill=colour)
+            if self.piece.is_king():
+                self.canvas.create_line(x, y, x + width, y + height, fill='white')

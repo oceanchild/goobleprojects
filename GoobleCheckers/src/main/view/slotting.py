@@ -19,5 +19,9 @@ class Slotting(object):
         to_row, to_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event.x, event.y)
         self.board.move_piece((self.start_row, self.start_col), (to_row, to_col))
         
+        if self.board.get_piece(self.start_row, self.start_col) is not None:
+            self.start_row = None
+            self.start_col = None
+        
     def is_holding_piece(self):
         return self.start_row is not None and self.start_col is not None

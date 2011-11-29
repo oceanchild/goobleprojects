@@ -36,7 +36,7 @@ class GamePlay(object):
     def _init_canvas(self, root):
         canvas = self.make_canvas(root)
         canvas.bind(sequence='<ButtonPress-1>', func=self.draw_slotting)
-        canvas.bind(sequence='<Button1-Motion>', func=self.draw)
+        canvas.bind(sequence='<Button1-Motion>', func=canvas.draw)
         canvas.bind(sequence='<ButtonRelease-1>', func=self.draw_release)
         canvas.pack()
         canvas.draw()
@@ -44,16 +44,11 @@ class GamePlay(object):
         
     def draw_slotting(self, event):
         self.slotting.select_piece(event)
-        self.canvas.draw()
+        self.canvas.draw(event)
         
     def draw_release(self, event):
         self.slotting.release_piece(event)
-        self.canvas.draw()
-        
-    def draw(self, event):
-        self.canvas.draw()
-        if self.slotting.is_holding_piece():
-            self.canvas.draw_held_piece(event)
+        self.canvas.draw(event)
         
     def print_stuff(self, event):
         print(event.x, event.y)

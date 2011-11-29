@@ -8,6 +8,8 @@ import main.view.tile as tile
 
 class BoardCanvas(Canvas):
     
+    BACKGROUND_COLOURS = ['white', 'blue']
+    
     def set_board(self, board):
         self.board = board
         
@@ -18,17 +20,21 @@ class BoardCanvas(Canvas):
         self.tile_width = int(self.cget("width"))/self.board.DEFAULT_WIDTH
         self.tile_height = int(self.cget("height"))/self.board.DEFAULT_HEIGHT
     
-    def draw(self):
+    def draw(self, event=None):
         for row in range(0, self.board.DEFAULT_HEIGHT):
-            for col in range(0, self.board.DEFAULT_WIDTH):              
-                t = tile.Tile(row, col, self.board, self)
-                t.draw_background(self.tile_width, self.tile_height)
+            for col in range(0, self.board.DEFAULT_WIDTH):
+                piece = self.board.get_piece(row, col)
+                colour = BoardCanvas.BACKGROUND_COLOURS[(row + col) % 2]
+                t = tile.Tile(piece, self.board, self)
+                t.draw_background(col * self.tile_width, row * self.tile_height, self.tile_width, self.tile_height, colour)
                 if not self.slotting.is_holding_piece()\
                 or row != self.slotting.start_row or col != self.slotting.start_col:
-                    t.draw_piece(self.tile_width, self.tile_height)
+                    t.draw_piece(self.tile_width, self.tile_height, col * self.tile_width, row * self.tile_height)
+                    
+        self.draw_held_piece(event)
                     
     def draw_held_piece(self, event):
-        radius = self.tile_width / 2
-        start_x = event.x - radius
-        start_y = event.y - radius
-        self.create_oval(start_x, start_y, start_x + radius * 2, start_y + radius * 2, fill='orange')
+        if event is not None and self.slotting.is_holding_piece():
+            piece = self.board.get_piece(self.slotting.start_row, self.slotting.start_col)
+            tile.Tile(piece, self.board, self).\
+                draw_piece(self.tile_width, self.tile_height, event.x - self.tile_width/2, event.y - self.tile_height/2)
