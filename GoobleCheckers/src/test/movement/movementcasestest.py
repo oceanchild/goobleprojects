@@ -236,6 +236,32 @@ class MovementCasesTest(unittest.TestCase):
         ### this a bug that has been fixed using this test.-->actually, was the bug even there?
         self.assertEqual(as_move_list([(1, 3), (2, 4)]), moves[1])
         
+    def test_once_you_move_if_piece_is_adjacent_for_jumping_over_do_not_allow_jump(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ T _ _ _ _ _ _#
+        #3 x _ x _ _ _ _ _#
+        #4 _ _ _ B _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ _ _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(2, 1, origin.TOP)
+        self.tboard.place_piece(4, 3, origin.BOTTOM)
+        calc = Movement(self.tboard.board, 2, 1)
+        moves = calc.get_available_moves()
+        self.assertEqual(as_move_list([(2, 1), (3, 0)]), moves[0])
+        self.assertEqual(as_move_list([(2, 1), (3, 2)]), moves[1])
+        
+        self.tboard.board.move_piece((2, 1), (3, 2))
+        self.assertIsNone(self.tboard.board.current_turn.piece)
+        self.tboard.board.move_piece((3, 2), (5, 4))
+        self.assertIsNone(self.tboard.board.get_piece(5, 4))
+        self.assertIsNotNone(self.tboard.board.get_piece(4, 3))
+        self.assertIsNotNone(self.tboard.board.get_piece(3, 2))
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'MovementCasesTest.testName']
