@@ -9,6 +9,8 @@ class Slotting(object):
     
     def __init__(self, board):
         self.board = board
+        self.start_row = None
+        self.start_col = None
         
     def select_piece(self, event):
         self.start_row, self.start_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event.x, event.y)
@@ -16,3 +18,6 @@ class Slotting(object):
     def release_piece(self, event):
         to_row, to_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event.x, event.y)
         self.board.move_piece((self.start_row, self.start_col), (to_row, to_col))
+        
+    def is_holding_piece(self):
+        return self.start_row is not None and self.start_col is not None

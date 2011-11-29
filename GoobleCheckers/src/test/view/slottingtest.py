@@ -80,6 +80,11 @@ class SlottingTest(unittest.TestCase):
         self.assertIsNone(self.board.get_piece(5, 4))
         self.assertIsNotNone(self.board.get_piece(6, 5))
         
+    def test_slotting_is_holding_piece(self):
+        self.assertFalse(self.slotting.is_holding_piece())
+        self.slotting.start_row = 5
+        self.slotting.start_col = 5
+        self.assertTrue(self.slotting.is_holding_piece())
 
 
 if __name__ == "__main__":
