@@ -182,7 +182,7 @@ class TurnTest(unittest.TestCase):
         self.assertIsNone(self.tboard.board.get_piece(6, 0))
         self.assertIsNotNone(self.tboard.board.get_piece(5, 1))
         
-    def test_move_backwards_within_turn(self):
+    def test_move_backwards_within_turn_and_then_keep_going(self):
         # # # # # # # # # #
         #  0 1 2 3 4 5 6 7#
         #0 _ _ _ _ _ _ _ _#
@@ -208,6 +208,10 @@ class TurnTest(unittest.TestCase):
         self.tboard.board.move_piece((5, 1), (3, 3))
         self.assertIsNone(self.tboard.board.get_piece(5, 1))
         self.assertIsNotNone(self.tboard.board.get_piece(3, 3))
+        
+        self.tboard.board.move_piece((3, 3), (5, 1))
+        self.assertIsNone(self.tboard.board.get_piece(3, 3))
+        self.assertIsNotNone(self.tboard.board.get_piece(5, 1))
         
 
 if __name__ == "__main__":
