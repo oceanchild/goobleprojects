@@ -13,9 +13,10 @@ class GamePlay(object):
     DEFAULT_HEIGHT = 480
     DEFAULT_WIDTH = 480
 
-    def __init__(self):
+    def __init__(self, ai=None):
         self.board = board.Board()
         self.slotting = main.view.slotting.Slotting(self.board)
+        self.ai = ai
 
     def _init_menu(self, root):
         menubar = Menu(root)
@@ -49,6 +50,8 @@ class GamePlay(object):
     def draw_release(self, event):
         self.slotting.release_piece(event)
         self.canvas.draw(event)
+        if self.ai is not None and self.board.current_turn.is_computers_turn(self.ai):
+            self.ai.make_move(board)
         
     def print_stuff(self, event):
         print(event.x, event.y)

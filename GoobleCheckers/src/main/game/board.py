@@ -23,7 +23,6 @@ class Board(object):
         for row in range (0, self.DEFAULT_HEIGHT):
             self.pieces.append([self.create_piece(row, col) for col in range(0, self.DEFAULT_WIDTH)])
             
-            
     def create_piece(self, row, col):
         if row < (self.DEFAULT_HEIGHT / 2 - 1) and (row+col) % 2 == 0:
             return Piece(origin.TOP)

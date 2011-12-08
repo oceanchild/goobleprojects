@@ -90,3 +90,6 @@ class Turn(object):
     
     def is_over(self):
         return self.over
+    
+    def is_computers_turn(self, computer):
+        return self.origin == computer.origin

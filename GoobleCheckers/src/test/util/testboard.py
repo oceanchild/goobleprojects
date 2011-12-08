@@ -9,8 +9,12 @@ from main.game.piece import Piece
 
 class TestBoard(object):
 
-    def __init__(self):
-        self.board = Board()
+    def __init__(self, board=None):
+        if board is None:
+            self.board = Board()
+        else:
+            self.board = board
+            
         self.clear_board()
         
     def clear_board(self):

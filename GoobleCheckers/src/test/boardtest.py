@@ -7,7 +7,6 @@ from main.game import origin
 from main.game.board import Board
 from test.util.testboard import TestBoard
 import unittest
-from main.game.movements.movement import Movement
 
 class BoardTest(unittest.TestCase):
     

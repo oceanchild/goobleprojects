@@ -23,6 +23,9 @@ class BoardCoordinateTest(unittest.TestCase):
     def test_slotting_case_final_cell_very_corner_gives_invalid_coordinate(self):
         self.check_slot(480, 480, 8, 8)
         
+    def test_slotting_case_1(self):
+        self.check_slot(3 * (480/8), 2 * (480/8), 2, 3)
+        
     def check_slot_in_entire_cell_range(self, xrangestart, yrangestart, expected_row, expected_col):
         for x in range(xrangestart, xrangestart+60):
             for y in range(yrangestart, yrangestart+60):

@@ -24,7 +24,7 @@ class SlottingTest(unittest.TestCase):
 
     def test_piece_gets_selected_and_slotted_when_slot_is_valid_move_and_when_move_is_complete_turn_is_ended(self):
         self.assertIsNone(self.board.current_turn.piece)
-        self.slotting.select_piece(MockEvent(140, 140))
+        self.slotting.select_piece(MockEvent(120, 120))
         self.assertEqual(2, self.slotting.start_row)
         self.assertEqual(2, self.slotting.start_col)
         self.slotting.release_piece(MockEvent(100, 200))
