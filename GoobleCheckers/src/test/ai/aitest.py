@@ -9,15 +9,12 @@ import main.game.origin as origin
 import main.view
 import main.game
 from test.view.slottingtest import MockEvent
-
-class EasyAI(object):
-    pass
-
+import main.ai.easyai as easyai
 
 class AITest(unittest.TestCase):
 
     def test_if_it_is_bottoms_turn_then_ai_auto_moves_piece_on_board(self):
-        self.game = main.view.gameplay.GamePlay(EasyAI())
+        self.game = main.view.gameplay.GamePlay(easyai.EasyAI())
         self.tboard = TestBoard(self.game.board)
         # # # # # # # # # #
         #  0 1 2 3 4 5 6 7#
@@ -43,6 +40,7 @@ class AITest(unittest.TestCase):
         self.assertIsNone(self.tboard.board.get_piece(4, 3))
         self.assertIsNone(self.tboard.board.get_piece(6, 5))
         
+        self.game.check_and_use_ai()
         # AI moved piece
         self.assertIsNone(self.tboard.board.get_piece(4, 0))
         self.assertIsNotNone(self.tboard.board.get_piece(3, 1))

@@ -3,45 +3,32 @@ Created on 2011-11-20
 
 @author: Gooble
 '''
-from tkinter import Menu, Tk
+from tkinter import Tk
 import main.game.board as board
-import main.view.boardcanvas
 import main.view.slotting
+import main.view.menufactory as menufactory
+import main.view.boardcanvasfactory as boardcanvasfactory
 
 class GamePlay(object):
 
     DEFAULT_HEIGHT = 480
     DEFAULT_WIDTH = 480
 
-    def __init__(self, ai=None):
+    def __init__(self, canvas_factory, menu_factory, ai=None):
         self.board = board.Board()
+        
+        self.root = Tk()
+        menu_factory.make_menu(self)
+        
         self.slotting = main.view.slotting.Slotting(self.board)
+        self.canvas = canvas_factory.make_canvas(self.root, self.board, self.slotting)
+        self._add_bindings_for_canvas()
         self.ai = ai
 
-    def _init_menu(self, root):
-        menubar = Menu(root)
-        filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New Game", command=self.new_game)
-        filemenu.add_command(label="Quit", command=root.quit)
-        menubar.add_cascade(label="File", menu=filemenu)
-        root.config(menu=menubar)
-        
-
-    def make_canvas(self, root):
-        canvas = main.view.boardcanvas.BoardCanvas(root, width=self.DEFAULT_WIDTH, height=self.DEFAULT_HEIGHT)
-        canvas.set_board(self.board)
-        canvas.set_slotting(self.slotting)
-        canvas.calculate_dimensions()
-        return canvas
-
-    def _init_canvas(self, root):
-        canvas = self.make_canvas(root)
-        canvas.bind(sequence='<ButtonPress-1>', func=self.draw_slotting)
-        canvas.bind(sequence='<Button1-Motion>', func=canvas.draw)
-        canvas.bind(sequence='<ButtonRelease-1>', func=self.draw_release)
-        canvas.pack()
-        canvas.draw()
-        self.canvas = canvas
+    def _add_bindings_for_canvas(self):
+        self.canvas.bind(sequence='<ButtonPress-1>', func=self.draw_slotting)
+        self.canvas.bind(sequence='<Button1-Motion>', func=self.canvas.draw)
+        self.canvas.bind(sequence='<ButtonRelease-1>', func=self.draw_release)
         
     def draw_slotting(self, event):
         self.slotting.select_piece(event)
@@ -50,20 +37,18 @@ class GamePlay(object):
     def draw_release(self, event):
         self.slotting.release_piece(event)
         self.canvas.draw(event)
+        self.check_and_use_ai()
+            
+    def check_and_use_ai(self):
         if self.ai is not None and self.board.current_turn.is_computers_turn(self.ai):
-            self.ai.make_move(board)
+            self.ai.make_move(self.board)
+            self.canvas.draw()
         
-    def print_stuff(self, event):
-        print(event.x, event.y)
-
     def start(self):
-        root = Tk()
-        self._init_menu(root)
-        self._init_canvas(root)
-        root.mainloop()
+        self.root.mainloop()
         
     def new_game(self):
         self.board = board.Board()
         
 if __name__ == '__main__':
-    GamePlay().start()
+    GamePlay(boardcanvasfactory.BoardCanvasFactory(), menufactory.MenuFactory()).start()
