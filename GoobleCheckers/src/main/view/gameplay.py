@@ -47,6 +47,7 @@ class GamePlay(object):
         
     def start(self):
         self.root.mainloop()
+        self.check_and_use_ai()
         
     def new_game(self):
         self.board = board.Board()
