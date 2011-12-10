@@ -14,7 +14,7 @@ import main.ai.easyai as easyai
 class AITest(unittest.TestCase):
 
     def test_if_it_is_bottoms_turn_then_ai_auto_moves_piece_on_board(self):
-        self.game = main.view.gameplay.GamePlay(easyai.EasyAI())
+        self.game = main.view.gameplay.GamePlay(ai=easyai.EasyAI())
         self.tboard = TestBoard(self.game.board)
         # # # # # # # # # #
         #  0 1 2 3 4 5 6 7#

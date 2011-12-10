@@ -14,7 +14,7 @@ class GamePlay(object):
     DEFAULT_HEIGHT = 480
     DEFAULT_WIDTH = 480
 
-    def __init__(self, canvas_factory, menu_factory, ai=None):
+    def __init__(self, canvas_factory=boardcanvasfactory.BoardCanvasFactory(), menu_factory=menufactory.MenuFactory(), ai=None):
         self.board = board.Board()
         
         self.root = Tk()
@@ -51,4 +51,4 @@ class GamePlay(object):
         self.board = board.Board()
         
 if __name__ == '__main__':
-    GamePlay(boardcanvasfactory.BoardCanvasFactory(), menufactory.MenuFactory()).start()
+    GamePlay().start()
