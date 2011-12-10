@@ -8,8 +8,8 @@ from main.ai.originmoves import OriginMoves
 
 class EasyAI(object):
     
-    def __init__(self):
-        self.origin = origin.BOTTOM
+    def __init__(self, origin=origin.BOTTOM):
+        self.origin = origin
     
     def make_move(self, board):
         all_moves = OriginMoves(board, self.origin).get_moves()

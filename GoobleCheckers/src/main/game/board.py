@@ -7,6 +7,7 @@ from main.game import origin
 from main.game.piece import Piece
 from main.game.turn import Turn
 from main.game.state import State
+from main.ai.originmoves import OriginMoves
 
 class Board(object):
     
@@ -56,6 +57,8 @@ class Board(object):
             self.current_turn.handle_jumps()
             self.king_piece_if_necessary(to_loc)
             self.current_turn = Turn(self, self.current_turn.origin)
+            if len(OriginMoves(self, self.current_turn.origin).get_moves()) == 0:
+                self.current_turn = Turn(self, self.current_turn.origin)
             
     def king_piece_if_necessary(self, king_loc):
         piece = self.get_piece(king_loc[0], king_loc[1])

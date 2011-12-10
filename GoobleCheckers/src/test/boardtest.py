@@ -113,6 +113,30 @@ class BoardTest(unittest.TestCase):
         self.tboard.board.move_piece((4, 3), (2, 5))
         self._check_board_configuration(num_top=1, num_bottom=0, non_empty_cells=[(2, 5)])
         
+        
+    def test_board_has_current_origin_pass_if_no_moves_for_that_origin(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ T _ T _ T _ _#
+        #1 T _ T _ _ _ _ _#
+        #2 _ B _ _ _ _ _ _#
+        #3 _ _ _ _ _ _ _ _#
+        #4 _ _ _ _ _ _ _ _#
+        #5 _ _ _ _ _ _ _ _#
+        #6 _ _ _ _ _ _ _ _#
+        #7 _ _ _ _ _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(0, 1, origin.TOP)
+        self.tboard.place_piece(0, 3, origin.TOP)
+        self.tboard.place_piece(0, 5, origin.TOP)
+        self.tboard.place_piece(1, 0, origin.TOP)
+        self.tboard.place_piece(1, 2, origin.TOP)
+        self.tboard.place_piece(2, 1, origin.BOTTOM)
+        
+        self.tboard.board.move_piece((0, 5), (1, 4))
+        self.assertEqual(origin.TOP, self.tboard.board.current_turn.origin)
+        
+        
     def _check_board_configuration(self, num_top, num_bottom, non_empty_cells):
         self._check_board_empty_except(non_empty_cells)
         self.assertEqual(num_top, self.tboard.board.state.num_top_pieces)
