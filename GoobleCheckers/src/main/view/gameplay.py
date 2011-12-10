@@ -8,6 +8,7 @@ import main.game.board as board
 import main.view.slotting
 import main.view.menufactory as menufactory
 import main.view.boardcanvasfactory as boardcanvasfactory
+import main.ai.easyai as easyai
 
 class GamePlay(object):
 
@@ -51,4 +52,4 @@ class GamePlay(object):
         self.board = board.Board()
         
 if __name__ == '__main__':
-    GamePlay().start()
+    GamePlay(ai=easyai.EasyAI()).start()
