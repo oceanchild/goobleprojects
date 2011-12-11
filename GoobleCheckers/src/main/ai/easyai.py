@@ -3,17 +3,11 @@ Created on 2011-12-08
 
 @author: Gooble
 '''
-from main.game import origin
-from main.ai.originmoves import OriginMoves
+from main.ai.abstractai import AbstractAI
 
-class EasyAI(object):
-    
-    def __init__(self, origin=origin.BOTTOM):
-        self.origin = origin
-    
-    def make_move(self, board):
-        all_moves = OriginMoves(board, self.origin).get_moves()
-        
+class EasyAI(AbstractAI):
+
+    def choose_move(self, all_moves):
         max_pieces_eaten = 0
         best_move = None
         for move_list in all_moves:
@@ -22,5 +16,4 @@ class EasyAI(object):
                     best_move = move
                     max_pieces_eaten = len(move)
                     
-        for move in best_move:
-            board.move_piece(move.from_loc, move.to_loc)
+        return best_move

@@ -3,18 +3,10 @@ Created on 2011-12-11
 
 @author: Gooble
 '''
-from main.game import origin
-from main.ai.originmoves import OriginMoves
+from main.ai.abstractai import AbstractAI
 
-
-class DumbAI(object):
-    def __init__(self, origin=origin.BOTTOM):
-        self.origin = origin
+class DumbAI(AbstractAI):
     
-    def make_move(self, board):
-        all_moves = OriginMoves(board, self.origin).get_moves()
-        
+    def choose_move(self, all_moves):
         if len(all_moves) > 0:
-            move_list = all_moves[0][0]
-            for move in move_list:
-                board.move_piece(move.from_loc, move.to_loc)
+            return all_moves[0][0]
