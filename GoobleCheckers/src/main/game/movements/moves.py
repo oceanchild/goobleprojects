@@ -20,6 +20,12 @@ class Moves(list):
                 return taken_move
         return None
     
+    def get_pieces_eaten(self):
+        if not self.contains_jump():
+            return 0
+        else:
+            return len(self)
+    
     def contains_jump(self):
         for move in self:
             if move.is_jump():

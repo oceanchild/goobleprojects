@@ -27,7 +27,6 @@ class Match(object):
 
 class AIMatchTest(unittest.TestCase):
 
-    @unittest.skip
     def test_two_ais_face_off_eventually_it_is_gameover(self):
         self.board = main.game.board.Board()
         Match(board=self.board, ai_top=EasyAI(origin.TOP), ai_bottom=EasyAI(origin.BOTTOM)).go()

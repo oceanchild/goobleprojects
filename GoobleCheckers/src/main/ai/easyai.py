@@ -14,7 +14,13 @@ class EasyAI(object):
     def make_move(self, board):
         all_moves = OriginMoves(board, self.origin).get_moves()
         
-        if len(all_moves) > 0:
-            move_list = all_moves[0][0]
+        max_pieces_eaten = 0
+        best_move = None
+        for move_list in all_moves:
             for move in move_list:
-                board.move_piece(move.from_loc, move.to_loc)
+                if move.get_pieces_eaten() >= max_pieces_eaten:
+                    best_move = move
+                    max_pieces_eaten = len(move)
+                    
+        for move in best_move:
+            board.move_piece(move.from_loc, move.to_loc)
