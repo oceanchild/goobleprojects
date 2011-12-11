@@ -136,6 +136,39 @@ class BoardTest(unittest.TestCase):
         self.tboard.board.move_piece((0, 5), (1, 4))
         self.assertEqual(origin.TOP, self.tboard.board.current_turn.origin)
         
+    def test_game_over_if_two_passes_occur_in_a_row(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ _ T _ _ _ _ _#
+        #3 _ _ _ _ _ _ _ _#
+        #4 T _ T _ T _ T _#
+        #5 _ T _ T _ T _ T#
+        #6 B _ B _ B _ B _#
+        #7 _ B _ B _ B _ B#
+        # # # # # # # # # #
+        self.tboard.place_piece(2, 2, origin.TOP)
+        self.tboard.place_piece(4, 0, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.TOP)
+        self.tboard.place_piece(4, 4, origin.TOP)
+        self.tboard.place_piece(4, 6, origin.TOP)
+        self.tboard.place_piece(5, 1, origin.TOP)
+        self.tboard.place_piece(5, 3, origin.TOP)
+        self.tboard.place_piece(5, 5, origin.TOP)
+        self.tboard.place_piece(5, 7, origin.TOP)
+        self.tboard.place_piece(6, 0, origin.BOTTOM)
+        self.tboard.place_piece(6, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 4, origin.BOTTOM)
+        self.tboard.place_piece(6, 6, origin.BOTTOM)
+        self.tboard.place_piece(7, 1, origin.BOTTOM)
+        self.tboard.place_piece(7, 3, origin.BOTTOM)
+        self.tboard.place_piece(7, 5, origin.BOTTOM)
+        self.tboard.place_piece(7, 7, origin.BOTTOM)
+        
+        self.tboard.board.move_piece((2, 2), (3, 1))
+        self.assertTrue(self.tboard.board.is_game_over())
+        
         
     def _check_board_configuration(self, num_top, num_bottom, non_empty_cells):
         self._check_board_empty_except(non_empty_cells)

@@ -57,8 +57,13 @@ class Board(object):
             self.current_turn.handle_jumps()
             self.king_piece_if_necessary(to_loc)
             self.current_turn = Turn(self, self.current_turn.origin)
+            self.pass_if_needed()
+                
+    def pass_if_needed(self):
+        if len(OriginMoves(self, self.current_turn.origin).get_moves()) == 0:
+            self.current_turn = Turn(self, self.current_turn.origin)
             if len(OriginMoves(self, self.current_turn.origin).get_moves()) == 0:
-                self.current_turn = Turn(self, self.current_turn.origin)
+                self.state.set_draw()
             
     def king_piece_if_necessary(self, king_loc):
         piece = self.get_piece(king_loc[0], king_loc[1])
