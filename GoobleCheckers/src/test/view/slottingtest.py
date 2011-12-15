@@ -4,10 +4,10 @@ Created on 2011-11-27
 @author: Gooble
 '''
 from main.game import origin
-from main.game.board import Board
 from test.util.testboard import TestBoard
 import main.view.slotting as slotting
 import unittest
+from main.game.gameplay import GamePlay
 
 class MockEvent(object):
     
@@ -19,28 +19,28 @@ class SlottingTest(unittest.TestCase):
 
     def setUp(self):
         self.tboard = TestBoard()
-        self.board = Board()
-        self.slotting = slotting.Slotting(self.board)
+        self.game = GamePlay()
+        self.slotting = slotting.Slotting(self.game)
 
     def test_piece_gets_selected_and_slotted_when_slot_is_valid_move_and_when_move_is_complete_turn_is_ended(self):
-        self.assertIsNone(self.board.current_turn.piece)
+        self.assertIsNone(self.game.current_turn.piece)
         self.slotting.select_piece(MockEvent(120, 120))
         self.assertEqual(2, self.slotting.start_row)
         self.assertEqual(2, self.slotting.start_col)
         self.slotting.release_piece(MockEvent(100, 200))
-        self.assertIsNone(self.board.get_piece(2, 2))
-        self.assertIsNotNone(self.board.get_piece(3, 1))
-        self.assertIsNone(self.board.current_turn.piece)
+        self.assertIsNone(self.game.get_piece(2, 2))
+        self.assertIsNotNone(self.game.get_piece(3, 1))
+        self.assertIsNone(self.game.current_turn.piece)
         
     def test_piece_does_not_get_placed_in_new_slot_when_invalid_move_and_start_row_and_col_reset(self):
         self.slotting.select_piece(MockEvent(100, 100))
         self.assertEqual(1, self.slotting.start_row)
         self.assertEqual(1, self.slotting.start_col)
         self.slotting.release_piece(MockEvent(300, 300))
-        self.assertIsNotNone(self.board.get_piece(1, 1))
-        self.assertIsNotNone(self.board.get_piece(2, 2))
-        self.assertIsNone(self.board.get_piece(3, 1))
-        self.assertIsNone(self.board.get_piece(4, 4))
+        self.assertIsNotNone(self.game.get_piece(1, 1))
+        self.assertIsNotNone(self.game.get_piece(2, 2))
+        self.assertIsNone(self.game.get_piece(3, 1))
+        self.assertIsNone(self.game.get_piece(4, 4))
         self.assertIsNone(self.slotting.start_row)
         self.assertIsNone(self.slotting.start_col)
         
@@ -59,8 +59,8 @@ class SlottingTest(unittest.TestCase):
         self.tboard.place_piece(2, 1, origin.TOP)
         self.tboard.place_piece(3, 2, origin.BOTTOM)
         self.tboard.place_piece(5, 4, origin.BOTTOM)
-        self.slotting = slotting.Slotting(self.tboard.board)
-        self.board = self.tboard.board
+        self.slotting = slotting.Slotting(self.tboard.game)
+        self.board = self.tboard.game
         
         self.slotting.select_piece(MockEvent(100, 140))
         self.assertEqual(2, self.slotting.start_row)

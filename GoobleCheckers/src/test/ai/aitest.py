@@ -14,8 +14,8 @@ import main.ai.easyai as easyai
 class AITest(unittest.TestCase):
 
     def test_if_it_is_bottoms_turn_then_ai_auto_moves_piece_on_board(self):
-        self.game = main.view.gameplay.GamePlay(ai=easyai.EasyAI())
-        self.tboard = TestBoard(self.game.board)
+        self.gamepanel = main.view.gamepanel.GamePanel(ai=easyai.EasyAI())
+        self.tboard = TestBoard(self.gamepanel.game)
         # # # # # # # # # #
         #  0 1 2 3 4 5 6 7#
         #0 _ _ _ _ _ _ _ _#
@@ -35,21 +35,21 @@ class AITest(unittest.TestCase):
         self.move_piece(3, 2, 5, 4)
         self.move_piece(5, 4, 7, 6)
         
-        self.assertTrue(self.tboard.board.get_piece(7, 6).is_king())
-        self.assertTrue(self.tboard.board.get_piece(7, 6).is_king())
-        self.assertIsNone(self.tboard.board.get_piece(4, 3))
-        self.assertIsNone(self.tboard.board.get_piece(6, 5))
+        self.assertTrue(self.tboard.game.get_piece(7, 6).is_king())
+        self.assertTrue(self.tboard.game.get_piece(7, 6).is_king())
+        self.assertIsNone(self.tboard.game.get_piece(4, 3))
+        self.assertIsNone(self.tboard.game.get_piece(6, 5))
         
-        self.game.check_and_use_ai()
+        self.gamepanel.check_and_use_ai()
         # AI moved piece
-        self.assertIsNone(self.tboard.board.get_piece(4, 0))
-        self.assertIsNotNone(self.tboard.board.get_piece(3, 1))
+        self.assertIsNone(self.tboard.game.get_piece(4, 0))
+        self.assertIsNotNone(self.tboard.game.get_piece(3, 1))
 
     def move_piece(self, from_row, from_col, to_row, to_col):
-        self.game.slotting.select_piece(MockEvent(from_col * (main.view.gameplay.GamePlay.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
-                                                  from_row * (main.view.gameplay.GamePlay.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
-        self.game.slotting.release_piece(MockEvent(to_col * (main.view.gameplay.GamePlay.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
-                                                   to_row * (main.view.gameplay.GamePlay.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
+        self.gamepanel.slotting.select_piece(MockEvent(from_col * (main.view.gamepanel.GamePanel.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
+                                                  from_row * (main.view.gamepanel.GamePanel.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
+        self.gamepanel.slotting.release_piece(MockEvent(to_col * (main.view.gamepanel.GamePanel.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
+                                                   to_row * (main.view.gamepanel.GamePanel.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
 
 if __name__ == "__main__":
     unittest.main()

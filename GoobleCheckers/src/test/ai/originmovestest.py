@@ -29,7 +29,7 @@ class OriginMovesTest(unittest.TestCase):
         self.tboard.place_piece(4, 0, origin.BOTTOM)
         self.tboard.place_piece(4, 3, origin.BOTTOM)
         self.tboard.place_piece(6, 5, origin.BOTTOM)
-        allmoves = OriginMoves(self.tboard.board, origin.BOTTOM).get_moves()
+        allmoves = OriginMoves(self.tboard.game.board, origin.BOTTOM).get_moves()
         
         self.assertEqual(3, len(allmoves))
         self.assertEqual(1, len(allmoves[0]))
@@ -59,7 +59,7 @@ class OriginMovesTest(unittest.TestCase):
         self.tboard.place_piece(6, 5, origin.BOTTOM)
         self.tboard.place_piece(7, 4, origin.BOTTOM)
         
-        allmoves = OriginMoves(self.tboard.board,origin.BOTTOM).get_moves()
+        allmoves = OriginMoves(self.tboard.game.board,origin.BOTTOM).get_moves()
         self.assertEqual(2, len(allmoves))
 
         self.assertEqual(2, len(allmoves[0]))

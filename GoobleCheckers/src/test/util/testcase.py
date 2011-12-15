@@ -50,7 +50,7 @@ class TestCase(object):
             for j in range(len(pieces)):
                 move_row, move_col = self.print_piece_code(indent, i, pieces, j)
         
-        print (indent + 'calc = Movement(self.tboard.board, '+str(move_row)+', '+str(move_col)+')')
+        print (indent + 'calc = Movement(self.tboard.game.board, '+str(move_row)+', '+str(move_col)+')')
         print (indent + 'moves = calc.get_available_moves()')
         
         

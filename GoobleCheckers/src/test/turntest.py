@@ -31,19 +31,19 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(3, 2, origin.BOTTOM)
         self.tboard.place_piece(3, 4, origin.BOTTOM)
         self.tboard.place_piece(5, 2, origin.BOTTOM)
-        calc = Movement(self.tboard.board, 2, 3)
+        calc = Movement(self.tboard.game.board, 2, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(2, 3), (4, 1), (6, 3)]), moves[0])
         self.assertEqual(as_move_list([(2, 3), (4, 5)]), moves[1])
         
-        self.tboard.board.move_piece((2, 3), (4, 1))
-        self.assertIsNone(self.tboard.board.get_piece(2, 3))
-        self.assertIsNotNone(self.tboard.board.get_piece(4, 1))
+        self.tboard.game.move_piece((2, 3), (4, 1))
+        self.assertIsNone(self.tboard.game.get_piece(2, 3))
+        self.assertIsNotNone(self.tboard.game.get_piece(4, 1))
         
-        self.tboard.board.move_piece((3, 2), (2, 1))
-        self.assertIsNotNone(self.tboard.board.get_piece(3, 2))
-        self.assertIsNone(self.tboard.board.get_piece(2, 1))
+        self.tboard.game.move_piece((3, 2), (2, 1))
+        self.assertIsNotNone(self.tboard.game.get_piece(3, 2))
+        self.assertIsNone(self.tboard.game.get_piece(2, 1))
         
     def test_cannot_move_a_new_piece_while_move_in_progress_even_if_on_same_side(self):
         # # # # # # # # # #
@@ -61,26 +61,26 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(3, 3, origin.TOP)
         self.tboard.place_piece(4, 2, origin.BOTTOM)
         self.tboard.place_piece(6, 4, origin.BOTTOM)
-        calc = Movement(self.tboard.board, 4, 2)
+        calc = Movement(self.tboard.game.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(4, 2), (3, 1)]), moves[0])
         self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
+        self.tboard.game.current_turn = Turn(self.tboard.game, origin.TOP)
         # start move
-        self.tboard.board.move_piece((4, 2), (2, 4))
-        self.assertIsNone(self.tboard.board.get_piece(4, 2))
-        self.assertIsNotNone(self.tboard.board.get_piece(2, 4))
+        self.tboard.game.move_piece((4, 2), (2, 4))
+        self.assertIsNone(self.tboard.game.get_piece(4, 2))
+        self.assertIsNotNone(self.tboard.game.get_piece(2, 4))
         
         # make sure can't move another piece of same type
-        calc = Movement(self.tboard.board, 6, 4)
+        calc = Movement(self.tboard.game.board, 6, 4)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves)) 
         self.assertEqual(as_move_list([(6, 4), (5, 3)]), moves[0])
         self.assertEqual(as_move_list([(6, 4), (5, 5)]), moves[1])
-        self.tboard.board.move_piece((6, 4), (5, 5))
-        self.assertIsNone(self.tboard.board.get_piece(5, 5))
-        self.assertIsNotNone(self.tboard.board.get_piece(6, 4))
+        self.tboard.game.move_piece((6, 4), (5, 5))
+        self.assertIsNone(self.tboard.game.get_piece(5, 5))
+        self.assertIsNotNone(self.tboard.game.get_piece(6, 4))
         
     def test_once_move_completed_jumped_pieces_eaten(self):
         # # # # # # # # # #
@@ -99,20 +99,20 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(3, 3, origin.TOP)
         self.tboard.place_piece(4, 2, origin.BOTTOM)
         self.tboard.place_piece(6, 4, origin.BOTTOM)
-        calc = Movement(self.tboard.board, 4, 2)
+        calc = Movement(self.tboard.game.board, 4, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(4, 2), (2, 0)]), moves[0])
         self.assertEqual(as_move_list([(4, 2), (2, 4), (0, 6)]), moves[1])
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
-        self.tboard.board.move_piece((4, 2), (2, 4))
-        self.tboard.board.move_piece((2, 4), (0, 6))
+        self.tboard.game.current_turn = Turn(self.tboard.game, origin.TOP)
+        self.tboard.game.move_piece((4, 2), (2, 4))
+        self.tboard.game.move_piece((2, 4), (0, 6))
         
-        self.assertIsNone(self.tboard.board.get_piece(4, 2))
-        self.assertIsNone(self.tboard.board.get_piece(3, 3))
-        self.assertIsNone(self.tboard.board.get_piece(2, 4))
-        self.assertIsNone(self.tboard.board.get_piece(1, 5))
-        self.assertIsNotNone(self.tboard.board.get_piece(0, 6))
+        self.assertIsNone(self.tboard.game.get_piece(4, 2))
+        self.assertIsNone(self.tboard.game.get_piece(3, 3))
+        self.assertIsNone(self.tboard.game.get_piece(2, 4))
+        self.assertIsNone(self.tboard.game.get_piece(1, 5))
+        self.assertIsNotNone(self.tboard.game.get_piece(0, 6))
         
     def test_can_move_opponent_piece_only_once_move_complete(self):
         # # # # # # # # # #
@@ -131,18 +131,18 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(3, 3, origin.TOP)
         self.tboard.place_piece(4, 2, origin.BOTTOM)
         self.tboard.place_piece(4, 4, origin.BOTTOM)
-        self.tboard.board.current_turn = Turn(self.tboard.board, origin.TOP)
-        self.tboard.board.move_piece((4, 2), (2, 4))
-        self.assertIsNone(self.tboard.board.get_piece(4, 2))
-        self.tboard.board.move_piece((2, 4), (0, 6))
+        self.tboard.game.current_turn = Turn(self.tboard.game, origin.TOP)
+        self.tboard.game.move_piece((4, 2), (2, 4))
+        self.assertIsNone(self.tboard.game.get_piece(4, 2))
+        self.tboard.game.move_piece((2, 4), (0, 6))
         
-        self.tboard.board.move_piece((4, 4), (3, 5))
-        self.assertIsNotNone(self.tboard.board.get_piece(4, 4))
-        self.assertIsNone(self.tboard.board.get_piece(3, 5))
+        self.tboard.game.move_piece((4, 4), (3, 5))
+        self.assertIsNotNone(self.tboard.game.get_piece(4, 4))
+        self.assertIsNone(self.tboard.game.get_piece(3, 5))
         
-        self.tboard.board.move_piece((3, 1), (4, 2))
-        self.assertIsNone(self.tboard.board.get_piece(3, 1))
-        self.assertIsNotNone(self.tboard.board.get_piece(4, 2))
+        self.tboard.game.move_piece((3, 1), (4, 2))
+        self.assertIsNone(self.tboard.game.get_piece(3, 1))
+        self.assertIsNotNone(self.tboard.game.get_piece(4, 2))
         
     def test_move_list_mid_jump_contains_only_further_jumps_or_backwards_movement(self):
         # # # # # # # # # #
@@ -171,16 +171,16 @@ class TurnTest(unittest.TestCase):
         #Similarly with backward movement. It won't show up, but you CAN do it because
         #The filtering will occur IN THE TURN.
         
-        self.tboard.board.move_piece((3, 3), (5, 1))
-        moves = Movement(self.tboard.board, 5, 1).get_available_moves()
+        self.tboard.game.move_piece((3, 3), (5, 1))
+        moves = Movement(self.tboard.game.board, 5, 1).get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(5, 1), (6, 0)]), moves[0])
         self.assertEqual(as_move_list([(5, 1), (7, 3)]), moves[1])
         
         #Now try moving to 6, 0 - it won't work.
-        self.tboard.board.move_piece((5, 1), (6, 0))
-        self.assertIsNone(self.tboard.board.get_piece(6, 0))
-        self.assertIsNotNone(self.tboard.board.get_piece(5, 1))
+        self.tboard.game.move_piece((5, 1), (6, 0))
+        self.assertIsNone(self.tboard.game.get_piece(6, 0))
+        self.assertIsNotNone(self.tboard.game.get_piece(5, 1))
         
     def test_move_backwards_within_turn_and_then_keep_going(self):
         # # # # # # # # # #
@@ -199,19 +199,19 @@ class TurnTest(unittest.TestCase):
         self.tboard.place_piece(4, 2, origin.BOTTOM)
         self.tboard.place_piece(6, 2, origin.BOTTOM)
         
-        self.tboard.board.move_piece((3, 3), (5, 1))
-        moves = Movement(self.tboard.board, 5, 1).get_available_moves()
+        self.tboard.game.move_piece((3, 3), (5, 1))
+        moves = Movement(self.tboard.game.board, 5, 1).get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(5, 1), (6, 0)]), moves[0])
         self.assertEqual(as_move_list([(5, 1), (7, 3)]), moves[1])
         
-        self.tboard.board.move_piece((5, 1), (3, 3))
-        self.assertIsNone(self.tboard.board.get_piece(5, 1))
-        self.assertIsNotNone(self.tboard.board.get_piece(3, 3))
+        self.tboard.game.move_piece((5, 1), (3, 3))
+        self.assertIsNone(self.tboard.game.get_piece(5, 1))
+        self.assertIsNotNone(self.tboard.game.get_piece(3, 3))
         
-        self.tboard.board.move_piece((3, 3), (5, 1))
-        self.assertIsNone(self.tboard.board.get_piece(3, 3))
-        self.assertIsNotNone(self.tboard.board.get_piece(5, 1))
+        self.tboard.game.move_piece((3, 3), (5, 1))
+        self.assertIsNone(self.tboard.game.get_piece(3, 3))
+        self.assertIsNotNone(self.tboard.game.get_piece(5, 1))
         
 
 if __name__ == "__main__":

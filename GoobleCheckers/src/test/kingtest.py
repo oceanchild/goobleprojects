@@ -27,12 +27,12 @@ class KingTest(unittest.TestCase):
         self.tboard.place_piece(5, 3, origin.TOP)
         self.tboard.place_piece(6, 2, origin.BOTTOM)
 
-        self.tboard.board.move_piece((5, 3), (7, 1))
-        self.assertIsNone(self.tboard.board.get_piece(5, 3))
-        self.assertIsNone(self.tboard.board.get_piece(6, 2))
-        self.assertIsNotNone(self.tboard.board.get_piece(7, 1))
+        self.tboard.game.move_piece((5, 3), (7, 1))
+        self.assertIsNone(self.tboard.game.get_piece(5, 3))
+        self.assertIsNone(self.tboard.game.get_piece(6, 2))
+        self.assertIsNotNone(self.tboard.game.get_piece(7, 1))
         
-        self.assertTrue(self.tboard.board.get_piece(7, 1).is_king())
+        self.assertTrue(self.tboard.game.get_piece(7, 1).is_king())
 
 
 if __name__ == "__main__":

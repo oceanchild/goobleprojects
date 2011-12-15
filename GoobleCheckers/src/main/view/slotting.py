@@ -7,8 +7,8 @@ import main.view.boardcoordinate
 
 class Slotting(object):
     
-    def __init__(self, board):
-        self.board = board
+    def __init__(self, game):
+        self.game = game
         self.start_row = None
         self.start_col = None
         
@@ -17,9 +17,9 @@ class Slotting(object):
 
     def release_piece(self, event):
         to_row, to_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event.x, event.y)
-        self.board.move_piece((self.start_row, self.start_col), (to_row, to_col))
+        self.game.move_piece((self.start_row, self.start_col), (to_row, to_col))
         
-        if self.board.get_piece(self.start_row, self.start_col) is not None:
+        if self.game.get_piece(self.start_row, self.start_col) is not None:
             self.start_row = None
             self.start_col = None
         

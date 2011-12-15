@@ -28,7 +28,7 @@ class KingMovementTest(unittest.TestCase):
         # # # # # # # # # #
         self.tboard.place_king(3, 2, origin.BOTTOM)
         self.tboard.place_piece(4, 3, origin.TOP)
-        calc = Movement(self.tboard.board, 3, 2)
+        calc = Movement(self.tboard.game.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
         self.assertEqual(as_move_list([(3, 2), (4, 1)]), moves[0])
@@ -53,7 +53,7 @@ class KingMovementTest(unittest.TestCase):
         self.tboard.place_king(3, 2, origin.BOTTOM)
         self.tboard.place_piece(4, 5, origin.TOP)
         self.tboard.place_king(6, 5, origin.TOP)
-        calc = Movement(self.tboard.board, 3, 2)
+        calc = Movement(self.tboard.game.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
         self.assertEqual(as_move_list([(3, 2), (4, 1)]), moves[0])
@@ -78,7 +78,7 @@ class KingMovementTest(unittest.TestCase):
         self.tboard.place_king(3, 2, origin.TOP)
         self.tboard.place_piece(4, 1, origin.TOP)
         self.tboard.place_king(4, 3, origin.TOP)
-        calc = Movement(self.tboard.board, 3, 2)
+        calc = Movement(self.tboard.game.board, 3, 2)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(3, 2), (2, 1)]), moves[0])
@@ -97,7 +97,7 @@ class KingMovementTest(unittest.TestCase):
         #7 _ _ _ t _ _ _ _#
         # # # # # # # # # #
         self.tboard.place_king(7, 3, origin.TOP)
-        calc = Movement(self.tboard.board, 7, 3)
+        calc = Movement(self.tboard.game.board, 7, 3)
         moves = calc.get_available_moves()
         self.assertEqual(2, len(moves))
         self.assertEqual(as_move_list([(7, 3), (6, 2)]), moves[0])
@@ -118,7 +118,7 @@ class KingMovementTest(unittest.TestCase):
         self.tboard.place_king(2, 1, origin.TOP)
         self.tboard.place_piece(3, 2, origin.BOTTOM)
         self.tboard.place_piece(3, 4, origin.BOTTOM)
-        calc = Movement(self.tboard.board, 2, 1)
+        calc = Movement(self.tboard.game.board, 2, 1)
         moves = calc.get_available_moves()
         self.assertEqual(4, len(moves))
         self.assertEqual(as_move_list([(2, 1), (1, 0)]), moves[0])
@@ -126,17 +126,17 @@ class KingMovementTest(unittest.TestCase):
         self.assertEqual(as_move_list([(2, 1), (3, 0)]), moves[2])
         self.assertEqual(as_move_list([(2, 1), (4, 3), (2, 5)]), moves[3])
         
-        self.tboard.board.move_piece((2, 1), (4, 3))
-        self.assertIsNone(self.tboard.board.get_piece(2, 1))
-        self.assertIsNotNone(self.tboard.board.get_piece(3, 2))
-        self.assertIsNotNone(self.tboard.board.get_piece(4, 3))
+        self.tboard.game.move_piece((2, 1), (4, 3))
+        self.assertIsNone(self.tboard.game.get_piece(2, 1))
+        self.assertIsNotNone(self.tboard.game.get_piece(3, 2))
+        self.assertIsNotNone(self.tboard.game.get_piece(4, 3))
         
-        self.assertTrue(self.tboard.board.get_piece(4, 3).is_king())
+        self.assertTrue(self.tboard.game.get_piece(4, 3).is_king())
         
-        self.tboard.board.move_piece((4, 3), (2, 5))
-        self.assertIsNone(self.tboard.board.get_piece(3, 2))
-        self.assertIsNone(self.tboard.board.get_piece(3, 4))
-        self.assertIsNotNone(self.tboard.board.get_piece(2, 5))
+        self.tboard.game.move_piece((4, 3), (2, 5))
+        self.assertIsNone(self.tboard.game.get_piece(3, 2))
+        self.assertIsNone(self.tboard.game.get_piece(3, 4))
+        self.assertIsNotNone(self.tboard.game.get_piece(2, 5))
 
 
 if __name__ == "__main__":

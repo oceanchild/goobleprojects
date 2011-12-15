@@ -4,25 +4,25 @@ Created on 2011-11-20
 @author: Gooble
 '''
 from tkinter import Tk
-import main.game.board as board
+import main.game.gameplay as gameplay
 import main.view.slotting
 import main.view.menufactory as menufactory
 import main.view.boardcanvasfactory as boardcanvasfactory
 import main.ai.easyai as easyai
 
-class GamePlay(object):
+class GamePanel(object):
 
     DEFAULT_HEIGHT = 480
     DEFAULT_WIDTH = 480
 
     def __init__(self, canvas_factory=boardcanvasfactory.BoardCanvasFactory(), menu_factory=menufactory.MenuFactory(), ai=None):
-        self.board = board.Board()
+        self.game = gameplay.GamePlay()
         
         self.root = Tk()
         menu_factory.make_menu(self)
         
-        self.slotting = main.view.slotting.Slotting(self.board)
-        self.canvas = canvas_factory.make_canvas(self.root, self.board, self.slotting)
+        self.slotting = main.view.slotting.Slotting(self.game)
+        self.canvas = canvas_factory.make_canvas(self.root, self.game.board, self.slotting)
         self._add_bindings_for_canvas()
         self.ai = ai
 
@@ -41,8 +41,8 @@ class GamePlay(object):
         self.check_and_use_ai()
             
     def check_and_use_ai(self):
-        if self.ai is not None and self.board.current_turn.is_computers_turn(self.ai):
-            self.ai.make_move(self.board)
+        if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai):
+            self.ai.make_move(self.game)
             self.canvas.draw()
         
     def start(self):
@@ -50,7 +50,7 @@ class GamePlay(object):
         self.check_and_use_ai()
         
     def new_game(self):
-        self.board = board.Board()
+        self.game = gameplay.GamePlay()
         
 if __name__ == '__main__':
-    GamePlay(ai=easyai.EasyAI()).start()
+    GamePanel(ai=easyai.EasyAI()).start()

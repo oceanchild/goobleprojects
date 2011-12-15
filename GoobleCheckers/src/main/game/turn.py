@@ -28,8 +28,8 @@ def other_origin(prev_origin):
 
 class Turn(object):
 
-    def __init__(self, board, origin=origin.BOTTOM):
-        self.board = board
+    def __init__(self, game, origin=origin.BOTTOM):
+        self.game = game
         self.piece = None
         self.origin = other_origin(origin)
         self.moves = Moves()
@@ -39,15 +39,15 @@ class Turn(object):
         if self._illegal_move(from_loc, to_loc):
             return
         
-        self.board.set_piece(to_loc[0], to_loc[1], self.board.get_piece(from_loc[0], from_loc[1]))
-        self.board.set_piece(from_loc[0], from_loc[1], None)
+        self.game.set_piece(to_loc[0], to_loc[1], self.game.get_piece(from_loc[0], from_loc[1]))
+        self.game.set_piece(from_loc[0], from_loc[1], None)
         
         self.moves.add(from_loc, to_loc)
         
         self._check_if_turn_complete(to_loc)
         
     def _check_if_turn_complete(self, to_loc):
-        new_moves = Movement(self.board, to_loc[0], to_loc[1]).get_available_moves()
+        new_moves = Movement(self.game.board, to_loc[0], to_loc[1]).get_available_moves()
         for move_list in new_moves:
             if move_list.contains_jump() and move_list.jumps_are_not_backward_from(self.moves) \
             and (self.moves.contains_jump() or len(self.moves) == 0):
@@ -56,8 +56,8 @@ class Turn(object):
         
         
     def _illegal_move(self, from_loc, to_loc):
-        moves = Movement(self.board, from_loc[0], from_loc[1]).get_available_moves()
-        piece = self.board.get_piece(from_loc[0], from_loc[1])
+        moves = Movement(self.game.board, from_loc[0], from_loc[1]).get_available_moves()
+        piece = self.game.get_piece(from_loc[0], from_loc[1])
         if piece is not None and piece.get_origin() != self.origin:
             return True
         
@@ -86,7 +86,7 @@ class Turn(object):
         for move in self.moves:
             if move.is_jump():
                 row, col = move.get_jumped_piece()
-                self.board.set_piece(row, col, None)
+                self.game.set_piece(row, col, None)
     
     def is_over(self):
         return self.over
