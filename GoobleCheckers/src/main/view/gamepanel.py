@@ -39,6 +39,8 @@ class GamePanel(object):
         self.slotting.release_piece(event)
         self.canvas.draw(event)
         self.check_and_use_ai()
+        if (self.game.is_game_over()):
+            self.new_game()
             
     def check_and_use_ai(self):
         if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai):
@@ -51,6 +53,10 @@ class GamePanel(object):
         
     def new_game(self):
         self.game = gameplay.GamePlay()
+        self.slotting = main.view.slotting.Slotting(self.game)
+        self.canvas.board = self.game.board
+        self.canvas.slotting = self.slotting
+        self.canvas.draw()
         
 if __name__ == '__main__':
     GamePanel(ai=easyai.EasyAI()).start()
