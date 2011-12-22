@@ -23,7 +23,9 @@ class Movement(object):
         if self.piece.is_king():
             king_moves = self._add_moves_for_col(-self.origin.value, -1)\
                        + self._add_moves_for_col(-self.origin.value, +1)
-        return king_moves + self._add_moves_for_col(self.origin.value, -1) + self._add_moves_for_col(self.origin.value, +1)
+        return king_moves \
+            + self._add_moves_for_col(self.origin.value, -1) \
+            + self._add_moves_for_col(self.origin.value, +1)
     
     def _add_moves_for_col(self, row_dir, col_dir):
         new_row = self.row + row_dir
@@ -37,6 +39,19 @@ class Movement(object):
             
         return []
         
+
+    def _continue_adding_jumps_in_same_dir(self, row_dir, new_row, new_col, move, moves):
+        new_new_row = new_row + row_dir
+        self._add_jumped_moves(new_new_row, new_col, row_dir, -1, move, moves)
+        self._add_jumped_moves(new_new_row, new_col, row_dir, +1, move, moves)
+        return new_new_row
+
+
+    def _account_for_king_movements(self, row_dir, col_dir, new_row, new_col, move, moves, new_new_row):
+        if self.piece.is_king():
+            new_new_row = new_row - row_dir
+            self._add_jumped_moves(new_new_row, new_col, -row_dir, col_dir, move, moves)
+
     def _calculate_jumped_moves(self, row, col, row_dir, col_dir):
         #We have the row & column on which there is a piece. we have to keep going
         #along the diagonal -> if the next piece is occupied, return empty list - this isn't a valid move
@@ -52,15 +67,9 @@ class Movement(object):
         moves = [move]
         
         #Keep going along the same direction
-        new_new_row = new_row + row_dir
-        self._add_jumped_moves(new_new_row, new_col, row_dir, -1, move, moves)
-        self._add_jumped_moves(new_new_row, new_col, row_dir, +1, move, moves)
+        new_new_row = self._continue_adding_jumps_in_same_dir(row_dir, new_row, new_col, move, moves)
         
-        #but if it's a king, it can change direction along the vertical...
-        #making sure not to go back the way it came, it only continues in the given col_dir...
-        if self.piece.is_king():
-            new_new_row = new_row - row_dir
-            self._add_jumped_moves(new_new_row, new_col, -row_dir, col_dir, move, moves)
+        self._account_for_king_movements(row_dir, col_dir, new_row, new_col, move, moves, new_new_row)
         
         return moves
     
