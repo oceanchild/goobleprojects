@@ -59,9 +59,4 @@ class Move(list):
         return concatenated
     
     def __repr__(self):
-        representation = ""
-        
-        for move in self:
-            representation += move.__repr__() + " "
-        
-        return representation
+        return ' '.join([move.__repr__() for move in self])
