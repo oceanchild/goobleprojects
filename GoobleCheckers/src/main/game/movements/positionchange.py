@@ -4,7 +4,7 @@ Created on 2011-11-19
 @author: Gooble
 '''
 
-class Move(object):
+class PositionChange(object):
     
     def __init__(self, from_loc, to_loc):
         self.from_loc = from_loc
@@ -20,17 +20,17 @@ class Move(object):
         return row_between, col_between
     
     def is_backwards_version_of(self, from_loc, to_loc):
-        return self.get_backwards_move() == Move(from_loc, to_loc)
+        return self.get_backwards_move() == PositionChange(from_loc, to_loc)
     
     def get_backwards_move(self):
-        return Move(self.to_loc, self.from_loc)
+        return PositionChange(self.to_loc, self.from_loc)
     
     def __str__(self):
-        return "Move from " + self.from_loc[0] + ", " + self.from_loc[1] + " to " \
+        return "PositionChange from " + self.from_loc[0] + ", " + self.from_loc[1] + " to " \
             + str(self.to_loc[0]) + ", " + str(self.to_loc[1])
             
     def __eq__(self, other):
-        if other is None or type(other) is not Move: return False
+        if other is None or type(other) is not PositionChange: return False
         
         return self.from_loc == other.from_loc and self.to_loc == other.to_loc
     

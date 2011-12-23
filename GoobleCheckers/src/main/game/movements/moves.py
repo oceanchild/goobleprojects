@@ -3,12 +3,12 @@ Created on 2011-11-19
 
 @author: Gooble
 '''
-from main.game.movements.move import Move
+from main.game.movements.positionchange import PositionChange
 
 class Moves(list):
     
     def add(self, from_loc, to_loc):
-        move = Move(from_loc, to_loc)
+        move = PositionChange(from_loc, to_loc)
         if self._get_backwards_move(move):
             self.remove(self._get_backwards_move(move))
             return
