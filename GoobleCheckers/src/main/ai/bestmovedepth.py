@@ -46,6 +46,8 @@ class BestMovementWithDepth(object):
     def _get_enemy_score(self, game_copy):
         enemy_moves = OriginMoves(game_copy.board, turn.other_origin(self.origin)).get_moves()
         max_enemy_move = MaxMove().get_max_move(enemy_moves)
+        if max_enemy_move is None:
+            return -1
         game_copy.make_move(max_enemy_move)
         return max_enemy_move.get_pieces_eaten()
 

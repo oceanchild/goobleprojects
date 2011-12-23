@@ -12,7 +12,8 @@ class AbstractAI(object):
         self.origin = origin
         
     def make_move(self, game):
-        move = self.choose_move(game, OriginMoves(game.board, self.origin).get_moves())
+        all_moves = OriginMoves(game.board, self.origin).get_moves()
+        move = self.choose_move(game, all_moves)
         game.make_move(move)
             
     def choose_move(self, game, all_moves):

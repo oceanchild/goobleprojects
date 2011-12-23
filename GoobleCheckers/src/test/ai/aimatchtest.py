@@ -10,13 +10,14 @@ from main.view.display import BoardDisplay
 from main.ai.randomai import RandomAI
 from main.ai.match import Match
 import main.game.gameplay
+from main.ai.contemplativeai import ContemplativeAI
 
 class AIMatchTest(unittest.TestCase):
 
-    @unittest.skip
+    #@unittest.skip
     def test_two_ais_face_off_eventually_it_is_gameover(self):
         self.game = main.game.gameplay.GamePlay()
-        Match(game=self.game, ai_top=RandomAI(origin.TOP), ai_bottom=EasyAI(origin.BOTTOM)).go()
+        Match(game=self.game, ai_top=ContemplativeAI(1, origin.TOP), ai_bottom=ContemplativeAI(2)).go()
         self.assertTrue(self.game.is_game_over())
         BoardDisplay(self.game.board).print_board()
 
