@@ -16,12 +16,12 @@ class BestMovementWithDepth(object):
         self.origin = origin
         
     def calculate_for(self, game):
-        best_move, best_score = self.recursively_call(game, self.depth, None)
+        best_move, best_score = self._get_best_move(game, self.depth, None)
         if best_move is None:
             raise NameError('must provide a minimum depth of 1')
         return best_move
 
-    def recursively_call(self, game, cur_depth, last_move):
+    def _get_best_move(self, game, cur_depth, last_move):
         if cur_depth == 0:
             return last_move, 0
         
@@ -30,11 +30,10 @@ class BestMovementWithDepth(object):
         best_move = None
         best_score = 0
         for move in all_moves:
-            score = self.get_own_score(game_copy, move)
+            score = self._get_own_score(game_copy, move)
+            score -= self._get_enemy_score(game_copy)
             
-            score -= self.get_enemy_score(game_copy)
-            
-            best_sub_move, best_sub_score = self.recursively_call(game_copy, cur_depth - 1, move)
+            best_sub_move, best_sub_score = self._get_best_move(game_copy, cur_depth - 1, move)
             score += best_sub_score
             
             if score > best_score or best_move is None:
@@ -44,14 +43,14 @@ class BestMovementWithDepth(object):
         return best_move, best_score
     
     
-    def get_enemy_score(self, game_copy):
+    def _get_enemy_score(self, game_copy):
         enemy_moves = OriginMoves(game_copy.board, turn.other_origin(self.origin)).get_moves()
         max_enemy_move = MaxMove().get_max_move(enemy_moves)
         game_copy.make_move(max_enemy_move)
         return max_enemy_move.get_pieces_eaten()
 
 
-    def get_own_score(self, game_copy, move):
+    def _get_own_score(self, game_copy, move):
         game_copy.make_move(move)
         score = move.get_pieces_eaten()
         return score

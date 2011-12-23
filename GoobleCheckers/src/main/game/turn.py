@@ -48,8 +48,8 @@ class Turn(object):
         
     def _check_if_turn_complete(self, to_loc):
         new_moves = Movement(self.game.board, to_loc[0], to_loc[1]).get_available_moves()
-        for move_list in new_moves:
-            if move_list.contains_jump() and move_list.jumps_are_not_backward_from(self.moves) \
+        for move in new_moves:
+            if move.contains_jump() and move.jumps_are_not_backward_from(self.moves) \
             and (self.moves.contains_jump() or len(self.moves) == 0):
                 return
         self.over = True

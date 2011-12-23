@@ -10,7 +10,7 @@ from test.util.testcase import as_move_list
 from main.game import origin
 from main.ai.bestmovedepth import BestMovementWithDepth
 
-class SmartAITest(unittest.TestCase):
+class BestMovementWithDepthTest(unittest.TestCase):
 
     def setUp(self):
         self.tboard = TestBoard()
