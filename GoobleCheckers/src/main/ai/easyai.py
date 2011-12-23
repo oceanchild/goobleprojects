@@ -8,5 +8,5 @@ import main.ai.maxmove as maxmove
 
 class EasyAI(AbstractAI):
 
-    def choose_move(self, all_moves):
+    def choose_move(self, game, all_moves):
         return maxmove.MaxMove().get_max_move(all_moves)

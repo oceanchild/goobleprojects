@@ -7,6 +7,6 @@ from main.ai.abstractai import AbstractAI
 
 class DumbAI(AbstractAI):
     
-    def choose_move(self, all_moves):
+    def choose_move(self, game, all_moves):
         if len(all_moves) > 0:
             return all_moves[0][0]

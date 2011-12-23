@@ -8,7 +8,7 @@ import main.game.gameplay as gameplay
 import main.view.slotting
 import main.view.menufactory as menufactory
 import main.view.boardcanvasfactory as boardcanvasfactory
-import main.ai.easyai as easyai
+from main.ai import contemplativeai
 
 class GamePanel(object):
 
@@ -59,4 +59,4 @@ class GamePanel(object):
         self.canvas.draw()
         
 if __name__ == '__main__':
-    GamePanel(ai=easyai.EasyAI()).start()
+    GamePanel(ai=contemplativeai.ContemplativeAI(4)).start()
