@@ -36,3 +36,6 @@ class Move(object):
     
     def __neq__(self, other):
         return not self==other
+    
+    def __repr__(self):
+        return str(self.from_loc) + "->" + str(self.to_loc)

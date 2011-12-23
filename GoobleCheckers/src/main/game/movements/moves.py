@@ -57,3 +57,11 @@ class Moves(list):
         for move in other:
             concatenated.append(move)
         return concatenated
+    
+    def __repr__(self):
+        representation = ""
+        
+        for move in self:
+            representation += move.__repr__() + " "
+        
+        return representation

@@ -4,26 +4,11 @@ Created on 2011-12-20
 @author: Gooble
 '''
 import unittest
-from main.game import origin
+
 from test.util.testboard import TestBoard
 from test.util.testcase import as_move_list
-import copy
-from main.ai.originmoves import OriginMoves
-
-
-class BestMovementWithDepth(object):
-    
-    def __init__(self, depth, origin):
-        self.depth = depth
-        self.origin = origin
-        
-    def calculate_for(self, game):
-        best_score = 0
-        best_move = None
-        all_moves = OriginMoves(game.board, self.origin).get_moves()
-        
-        
-
+from main.game import origin
+from main.ai.bestmovedepth import BestMovementWithDepth
 
 class SmartAITest(unittest.TestCase):
 
@@ -45,7 +30,12 @@ class SmartAITest(unittest.TestCase):
         self.tboard.place_piece(2, 2, origin.TOP)
         self.tboard.place_piece(4, 0, origin.BOTTOM)
         best_move = BestMovementWithDepth(1, origin.TOP).calculate_for(self.tboard.game)
-        self.assertEquals(as_move_list([(2, 2), (3, 1)]), best_move)
+        self.assertEquals(as_move_list([(2, 2), (3, 3)]), best_move)
+        self.assertIsNone(self.tboard.game.get_piece(3, 3))
+        self.assertIsNotNone(self.tboard.game.get_piece(2, 2))
+        
+    def test_error_raised_if_depth_of_0_given(self):
+        self.assertRaises(NameError, BestMovementWithDepth(0, origin.BOTTOM).calculate_for, self.tboard.game)
 
 
 if __name__ == "__main__":

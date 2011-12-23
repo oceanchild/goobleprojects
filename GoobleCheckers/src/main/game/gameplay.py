@@ -15,6 +15,10 @@ class GamePlay(object):
         self.current_turn = Turn(self)
         self.state = State(self.board)
         
+    def make_move(self, move):
+        for position_change in move:
+            self.move_piece(position_change.from_loc, position_change.to_loc)
+        
     def move_piece(self, from_loc, to_loc):
         self.current_turn.handle_movement(from_loc, to_loc)
         

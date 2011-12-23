@@ -13,8 +13,7 @@ class AbstractAI(object):
         
     def make_move(self, game):
         move = self.choose_move(OriginMoves(game.board, self.origin).get_moves())
-        for position_change in move:
-            game.move_piece(position_change.from_loc, position_change.to_loc)
+        game.make_move(move)
             
     def choose_move(self, all_moves):
         pass
