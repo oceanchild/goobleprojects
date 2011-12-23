@@ -16,8 +16,7 @@ class MaxMove(object):
     def get_max_move(self, all_moves):
         max_pieces_eaten = 0
         best_move = None
-        for move_list in all_moves:
-            for move in move_list:
-                best_move = self._compare_and_get_higher_move(max_pieces_eaten, move)
+        for move in all_moves:
+            best_move = self._compare_and_get_higher_move(max_pieces_eaten, move)
         
         return best_move

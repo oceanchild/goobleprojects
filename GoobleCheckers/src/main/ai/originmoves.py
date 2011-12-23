@@ -22,5 +22,4 @@ class OriginMoves(object):
     def _get_moves_for_position(self, row, col, all_moves):
         if self.board.get_piece(row, col) is not None and self.board.get_piece(row, col).get_origin() == self.origin:
             moves = movement.Movement(self.board, row, col).get_available_moves()
-            if len(moves) > 0:
-                all_moves.append(moves)
+            all_moves.extend(moves)

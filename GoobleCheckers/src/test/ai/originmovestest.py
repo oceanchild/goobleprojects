@@ -31,17 +31,12 @@ class OriginMovesTest(unittest.TestCase):
         self.tboard.place_piece(6, 5, origin.BOTTOM)
         allmoves = OriginMoves(self.tboard.game.board, origin.BOTTOM).get_moves()
         
-        self.assertEqual(3, len(allmoves))
-        self.assertEqual(1, len(allmoves[0]))
-        self.assertEqual(as_move_list([(4, 0), (3, 1)]), allmoves[0][0])
-        
-        self.assertEqual(2, len(allmoves[1]))
-        self.assertEqual(as_move_list([(4, 3), (3, 2)]), allmoves[1][0])
-        self.assertEqual(as_move_list([(4, 3), (3, 4)]), allmoves[1][1])
-        
-        self.assertEqual(2, len(allmoves[2]))
-        self.assertEqual(as_move_list([(6, 5), (5, 4)]), allmoves[2][0])
-        self.assertEqual(as_move_list([(6, 5), (5, 6)]), allmoves[2][1])
+        self.assertEqual(5, len(allmoves))
+        self.assertEqual(as_move_list([(4, 0), (3, 1)]), allmoves[0])
+        self.assertEqual(as_move_list([(4, 3), (3, 2)]), allmoves[1])
+        self.assertEqual(as_move_list([(4, 3), (3, 4)]), allmoves[2])
+        self.assertEqual(as_move_list([(6, 5), (5, 4)]), allmoves[3])
+        self.assertEqual(as_move_list([(6, 5), (5, 6)]), allmoves[4])
         
     def test_origin_moves_list_contains_only_non_empty_move_lists(self):
         # # # # # # # # # #
@@ -60,15 +55,11 @@ class OriginMovesTest(unittest.TestCase):
         self.tboard.place_piece(7, 4, origin.BOTTOM)
         
         allmoves = OriginMoves(self.tboard.game.board,origin.BOTTOM).get_moves()
-        self.assertEqual(2, len(allmoves))
-
-        self.assertEqual(2, len(allmoves[0]))
-        self.assertEqual(as_move_list([(6, 3), (5, 2)]), allmoves[0][0])
-        self.assertEqual(as_move_list([(6, 3), (5, 4)]), allmoves[0][1])
-        
-        self.assertEqual(2, len(allmoves[1]))
-        self.assertEqual(as_move_list([(6, 5), (5, 4)]), allmoves[1][0])
-        self.assertEqual(as_move_list([(6, 5), (5, 6)]), allmoves[1][1])
+        self.assertEqual(4, len(allmoves))
+        self.assertEqual(as_move_list([(6, 3), (5, 2)]), allmoves[0])
+        self.assertEqual(as_move_list([(6, 3), (5, 4)]), allmoves[1])
+        self.assertEqual(as_move_list([(6, 5), (5, 4)]), allmoves[2])
+        self.assertEqual(as_move_list([(6, 5), (5, 6)]), allmoves[3])
 
 if __name__ == "__main__":
     unittest.main()
