@@ -52,10 +52,8 @@ class Move(list):
     
     def __add__(self, other):
         concatenated = Move()
-        for move in self:
-            concatenated.append(move)
-        for move in other:
-            concatenated.append(move)
+        concatenated.extend(self)
+        concatenated.extend(other)
         return concatenated
     
     def __repr__(self):
