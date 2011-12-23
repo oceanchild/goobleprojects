@@ -5,7 +5,7 @@ Created on 2011-11-19
 '''
 from main.game.movements.positionchange import PositionChange
 
-class Moves(list):
+class Move(list):
     
     def add(self, from_loc, to_loc):
         move = PositionChange(from_loc, to_loc)
@@ -51,7 +51,7 @@ class Moves(list):
         return False
     
     def __add__(self, other):
-        concatenated = Moves()
+        concatenated = Move()
         for move in self:
             concatenated.append(move)
         for move in other:

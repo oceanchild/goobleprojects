@@ -3,7 +3,7 @@ Created on 2011-10-03
 
 @author: Gooble
 '''
-from main.game.movements.moves import Moves
+from main.game.movements.move import Move
 
 class Movement(object):
 
@@ -31,7 +31,7 @@ class Movement(object):
         new_row = self.row + row_dir
         new_col = self.col + col_dir
         if self.board.valid_position(new_row, new_col) and self.board.get_piece(new_row, new_col) is None:
-            move_list = Moves()
+            move_list = Move()
             move_list.add((self.row, self.col), (new_row, new_col))
             return [move_list]
         elif self.board.get_piece(new_row, new_col) is not None and self.board.get_piece(new_row, new_col).get_origin() != self.origin:
@@ -62,7 +62,7 @@ class Movement(object):
         if self.board.get_piece(new_row, new_col) is not None or self.board.invalid_position(new_row, new_col):
             return []
         
-        move = Moves()
+        move = Move()
         move.add((row-row_dir, col-col_dir), (new_row, new_col))
         moves = [move]
         

@@ -5,7 +5,7 @@ Created on 2011-10-23
 '''
 from main.game import origin
 from main.game.movements.movement import Movement
-from main.game.movements.moves import Moves
+from main.game.movements.move import Move
 
 '''
 a turn will become the list of currently taken moves.
@@ -32,7 +32,7 @@ class Turn(object):
         self.game = game
         self.piece = None
         self.origin = other_origin(origin)
-        self.moves = Moves()
+        self.moves = Move()
         self.over = False
     
     def handle_movement(self, from_loc, to_loc):
