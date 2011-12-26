@@ -8,7 +8,7 @@ import unittest
 from test.util.testboard import TestBoard
 from test.util.testcase import as_move_list
 from main.game import origin
-from main.ai.bestmovedepth import BestMovementWithDepth
+from main.ai.bestmovedepth import BestMoveWithDepth
 
 class BestMovementWithDepthTest(unittest.TestCase):
 
@@ -29,13 +29,13 @@ class BestMovementWithDepthTest(unittest.TestCase):
         # # # # # # # # # #
         self.tboard.place_piece(2, 2, origin.TOP)
         self.tboard.place_piece(4, 0, origin.BOTTOM)
-        best_move = BestMovementWithDepth(1, origin.TOP).calculate_for(self.tboard.game)
+        best_move = BestMoveWithDepth(1, origin.TOP).calculate_for(self.tboard.game)
         self.assertEquals(as_move_list([(2, 2), (3, 3)]), best_move)
         self.assertIsNone(self.tboard.game.get_piece(3, 3))
         self.assertIsNotNone(self.tboard.game.get_piece(2, 2))
         
     def test_error_raised_if_depth_of_0_given(self):
-        self.assertRaises(NameError, BestMovementWithDepth(0, origin.BOTTOM).calculate_for, self.tboard.game)
+        self.assertRaises(NameError, BestMoveWithDepth(0, origin.BOTTOM).calculate_for, self.tboard.game)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ import main.game.gameplay as gameplay
 import main.view.slotting
 import main.view.menufactory as menufactory
 import main.view.boardcanvasfactory as boardcanvasfactory
-from main.ai import contemplativeai
+from main.ai import contemplativeai, minimaxai
 
 class GamePanel(object):
 
@@ -59,4 +59,4 @@ class GamePanel(object):
         self.canvas.draw()
         
 if __name__ == '__main__':
-    GamePanel(ai=contemplativeai.ContemplativeAI(4)).start()
+    GamePanel(ai=minimaxai.MinimaxAI(4)).start()

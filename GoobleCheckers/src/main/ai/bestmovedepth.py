@@ -9,7 +9,7 @@ from main.ai.originmoves import OriginMoves
 from main.game import turn
 import copy
 
-class BestMovementWithDepth(object):
+class BestMoveWithDepth(object):
     
     def __init__(self, depth, origin):
         self.depth = depth

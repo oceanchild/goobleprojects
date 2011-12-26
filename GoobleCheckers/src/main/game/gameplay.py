@@ -15,6 +15,9 @@ class GamePlay(object):
         self.current_turn = Turn(self)
         self.state = State(self.board)
         
+    def is_current_turn(self, origin):
+        return self.current_turn.origin == origin
+        
     def make_move(self, move):
         for position_change in move:
             self.move_piece(position_change.from_loc, position_change.to_loc)
@@ -58,3 +61,6 @@ class GamePlay(object):
     
     def is_game_over(self):
         return self.state.is_game_over()
+    
+    def get_score(self, origin):
+        return self.state.get_score(origin)

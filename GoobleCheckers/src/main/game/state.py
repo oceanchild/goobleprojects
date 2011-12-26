@@ -3,6 +3,7 @@ Created on 2011-11-22
 
 @author: Gooble
 '''
+from main.game import origin
 
 class State(object):
     
@@ -35,4 +36,10 @@ class State(object):
             self.num_top_pieces += modifier
         elif (piece.is_from_bottom()):
             self.num_bottom_pieces += modifier
+            
+    def get_score(self, given_origin):
+        if given_origin == origin.TOP:
+            return self.num_top_pieces
+        else:
+            return self.num_bottom_pieces
             
