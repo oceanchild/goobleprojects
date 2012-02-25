@@ -69,6 +69,8 @@ class GamePanel(object):
     def check_and_use_ai(self):
         if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai) and (self.aithread is None or self.aithread.finished):
             self.canvas.draw()
+            if self.aithread is not None:
+                self.aithread.join(10)
             self.aithread = AIThread(self.ai, self.game)
             self.aithread.start()
             self.canvas.draw()

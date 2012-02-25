@@ -9,9 +9,11 @@ import main.view.slotting as slotting
 import unittest
 from main.game.gameplay import GamePlay
 
-class MockEvent(object):
+class MockEvent(list):
     
     def __init__(self, x, y):
+        self.append(x)
+        self.append(y)
         self.x = x
         self.y = y
 
@@ -81,6 +83,38 @@ class SlottingTest(unittest.TestCase):
         self.assertIsNone(self.board.get_piece(3, 2))
         self.assertIsNone(self.board.get_piece(5, 4))
         self.assertIsNotNone(self.board.get_piece(6, 5))
+        
+    def test_slotting_releases_piece_fully_and_does_not_grab_new_piece_in_same_loc(self):
+        # # # # # # # # # #
+        #  0 1 2 3 4 5 6 7#
+        #0 _ _ _ _ _ _ _ _#
+        #1 _ _ _ _ _ _ _ _#
+        #2 _ _ _ _ _ _ _ _#
+        #3 _ _ _ T _ _ _ _#
+        #4 _ _ B _ _ _ _ _#
+        #5 _ x _ _ _ _ _ _#
+        #6 _ _ T _ _ _ _ _#
+        #7 _ _ _ B _ _ _ _#
+        # # # # # # # # # #
+        self.tboard.place_piece(3, 3, origin.TOP)
+        self.tboard.place_piece(4, 2, origin.BOTTOM)
+        self.tboard.place_piece(6, 2, origin.TOP)
+        self.tboard.place_piece(7, 3, origin.BOTTOM)
+        
+        self.slotting = slotting.Slotting(self.tboard.game)
+        self.board = self.tboard.game
+        
+        self.slotting.select_piece(MockEvent(200, 200))
+        self.assertEqual(3, self.slotting.start_row)
+        self.assertEqual(3, self.slotting.start_col)
+        self.slotting.release_piece(MockEvent(80, 330))
+        self.assertIsNone(self.board.get_piece(3, 3))
+        self.assertIsNone(self.board.get_piece(4, 2))
+        self.assertIsNotNone(self.board.get_piece(5, 1))
+        
+        self.assertFalse(self.slotting.is_holding_piece())
+        
+
         
     def test_slotting_is_holding_piece(self):
         self.assertFalse(self.slotting.is_holding_piece())
