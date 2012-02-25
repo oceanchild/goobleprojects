@@ -4,11 +4,9 @@ Created on 2011-11-28
 @author: Gooble
 '''
 import main.view.tile as tile
-import pygame
 
 class BoardCanvas:
     
-    #BACKGROUND_COLOURS = ['white', 'blue']
     BACKGROUND_COLOURS = [[255,255,255], [0,0,255]]
     
     def __init__(self, screen=None):

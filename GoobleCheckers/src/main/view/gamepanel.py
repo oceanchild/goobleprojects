@@ -40,32 +40,28 @@ class GamePanel(object):
         self.aithread = None
         
     def handle_events(self, game):
-        self.canvas.draw()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return True
+                self.quit_game()
+                return
+            try:
+                pos = event.pos
+            except AttributeError:
+                pos = None
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.draw_slotting(event.pos)
             if event.type == pygame.MOUSEBUTTONUP:
                 self.draw_release(event.pos)
-            if event.type == pygame.MOUSEMOTION:
-                self.canvas.draw(event.pos)
-                
-        return False
-        
-    def draw_slotting(self, event):
-        if not self.game.current_turn.is_computers_turn(self.ai):
-            self.slotting.select_piece(event)
-            self.canvas.draw(event)
-        
-    def draw_release(self, event):
-        if not self.game.current_turn.is_computers_turn(self.ai):
-            self.slotting.release_piece(event)
-            self.canvas.draw(event)
-            self.check_and_use_ai()
-            if (self.game.is_game_over()):
-                self.new_game()
+            self.canvas.draw(pos)
             
+    def draw_slotting(self, position):
+        if not self.game.current_turn.is_computers_turn(self.ai):
+            self.slotting.select_piece(position)
+                    
+    def draw_release(self, position):
+        if not self.game.current_turn.is_computers_turn(self.ai):
+            self.slotting.release_piece(position)
     def check_and_use_ai(self):
         if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai) and (self.aithread is None or self.aithread.finished):
             self.canvas.draw()
@@ -77,13 +73,15 @@ class GamePanel(object):
         
     def start(self):
         pygame.init()
+        
         self.clock = pygame.time.Clock()
         font = pygame.font.Font(None, 25)
-        done = False
-        while not done:
+        self.done = False
+        while not self.done:
             self.clock.tick(30)
             self.screen.fill([0,0,0])
-            done = self.handle_events(self.game)
+            self.canvas.draw()
+            self.handle_events(self.game)
             self.check_and_use_ai()
             
             if self.game.current_turn.is_computers_turn(self.ai):
@@ -91,6 +89,8 @@ class GamePanel(object):
                 self.screen.blit(text, [self.DEFAULT_WIDTH/4, self.DEFAULT_HEIGHT/2 - 25])
             pygame.display.flip()
 
+    def quit_game(self):
+        self.done = True
         
     def new_game(self):
         self.game = gameplay.GamePlay()

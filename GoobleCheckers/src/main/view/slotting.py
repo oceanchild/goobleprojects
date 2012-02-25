@@ -3,7 +3,7 @@ Created on 2011-11-27
 
 @author: Gooble
 '''
-import main.view.boardcoordinate
+from main.view.boardcoordinate import BoardCoordinate
 
 class Slotting(object):
     
@@ -13,10 +13,10 @@ class Slotting(object):
         self.start_col = None
         
     def select_piece(self, event):
-        self.start_row, self.start_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event[0], event[1])
+        self.start_row, self.start_col = BoardCoordinate().get_from(event[0], event[1])
 
     def release_piece(self, event):
-        to_row, to_col =  main.view.boardcoordinate.BoardCoordinate().get_from(event[0], event[1])
+        to_row, to_col = BoardCoordinate().get_from(event[0], event[1])
         self.game.move_piece((self.start_row, self.start_col), (to_row, to_col))
         self.start_row = None
         self.start_col = None
