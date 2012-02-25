@@ -16,10 +16,11 @@ class AIThread(threading.Thread):
         threading.Thread.__init__(self)
         self.ai=ai
         self.game=game
+        self.finished=False
     
     def run(self):
-        print("Cow")
         self.ai.make_move(self.game)
+        self.finished=True
 
 class GamePanel(object):
 
@@ -53,32 +54,39 @@ class GamePanel(object):
         return False
         
     def draw_slotting(self, event):
-        self.slotting.select_piece(event)
-        self.canvas.draw(event)
+        if not self.game.current_turn.is_computers_turn(self.ai):
+            self.slotting.select_piece(event)
+            self.canvas.draw(event)
         
     def draw_release(self, event):
-        self.slotting.release_piece(event)
-        self.canvas.draw(event)
-        self.check_and_use_ai()
-        if (self.game.is_game_over()):
-            self.new_game()
+        if not self.game.current_turn.is_computers_turn(self.ai):
+            self.slotting.release_piece(event)
+            self.canvas.draw(event)
+            self.check_and_use_ai()
+            if (self.game.is_game_over()):
+                self.new_game()
             
     def check_and_use_ai(self):
-        if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai):
+        if self.ai is not None and self.game.current_turn.is_computers_turn(self.ai) and (self.aithread is None or self.aithread.finished):
             self.canvas.draw()
-            self.ai.make_move(self.game)
-#            self.aithread = AIThread(self.ai, self.game)
-#            self.aithread.start()
+            self.aithread = AIThread(self.ai, self.game)
+            self.aithread.start()
             self.canvas.draw()
         
     def start(self):
+        pygame.init()
         self.clock = pygame.time.Clock()
+        font = pygame.font.Font(None, 25)
         done = False
         while not done:
             self.clock.tick(30)
             self.screen.fill([0,0,0])
             done = self.handle_events(self.game)
             self.check_and_use_ai()
+            
+            if self.game.current_turn.is_computers_turn(self.ai):
+                text = font.render("The computer is thinking...", False, [150,150,150], [255,255,255])
+                self.screen.blit(text, [self.DEFAULT_WIDTH/4, self.DEFAULT_HEIGHT/2 - 25])
             pygame.display.flip()
 
         
@@ -90,4 +98,4 @@ class GamePanel(object):
         self.canvas.draw()
         
 if __name__ == '__main__':
-    GamePanel(ai=minimaxai.MinimaxAI(4)).start()
+    GamePanel(ai=minimaxai.MinimaxAI(3)).start()
