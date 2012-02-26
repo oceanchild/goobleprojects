@@ -41,7 +41,7 @@ class GamePanel(object):
                 self.draw_slotting(event.pos)
             if event.type == pygame.MOUSEBUTTONUP:
                 self.draw_release(event.pos)
-            main.view.canvas.Canvas(self.screen).draw(self.create_drawables(self.game, pos))
+            self.draw(pos)
             
     def draw_slotting(self, position):
         if not self.game.current_turn.is_computers_turn(self.ai):
@@ -58,8 +58,11 @@ class GamePanel(object):
             self.aithread.start()
         
     def create_drawables(self, game, position):
-        return main.view.drawables.Drawables().create(game, position, self.slotting)
+        return main.view.drawables.Drawables(self, self.slotting).create(position)
         
+    def draw(self, position=None):
+        main.view.canvas.Canvas(self.screen).draw(self.create_drawables(self.game, position))
+    
     def start(self):
         pygame.init()
         
@@ -70,7 +73,7 @@ class GamePanel(object):
             self.clock.tick(30)
             self.screen.fill([0,0,0])
             
-            main.view.canvas.Canvas(self.screen).draw(self.create_drawables(self.game, None))
+            self.draw()
             self.handle_events(self.game)
             self.check_and_use_ai()
             
@@ -86,6 +89,21 @@ class GamePanel(object):
     def new_game(self):
         self.game = gameplay.GamePlay()
         self.slotting = main.view.slotting.Slotting(self.game)
+        
+    def get_num_rows(self):
+        return self.game.board.DEFAULT_HEIGHT
+    
+    def get_num_cols(self):
+        return self.game.board.DEFAULT_WIDTH
+    
+    def get_tile_width(self):
+        return self.DEFAULT_WIDTH / self.game.board.DEFAULT_WIDTH
+    
+    def get_tile_height(self):
+        return self.DEFAULT_HEIGHT / self.game.board.DEFAULT_HEIGHT
+    
+    def get_piece(self, row, col):
+        return self.game.get_piece(row, col)
         
 if __name__ == '__main__':
     GamePanel(ai=minimaxai.MinimaxAI(3)).start()

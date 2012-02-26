@@ -15,12 +15,4 @@ class Canvas(object):
     def draw(self, drawables):
         for drawable in drawables:
             drawable.draw(self.graphics, self.screen)
-#            x = drawable.get_x()
-#            y = drawable.get_y()
-#            width = drawable.get_width()
-#            height = drawable.get_height()
-#            bgcolor = drawable.get_background_colour()
-#            colour = drawable.get_colour()
-#            self.graphics.draw.rect(self.screen, bgcolor, [x, y, width, height])
-#            self.graphics.draw.ellipse(self.screen, colour, [x, y, width, height])
             

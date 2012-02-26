@@ -64,3 +64,4 @@ class GamePlay(object):
     
     def get_score(self, origin):
         return self.state.get_score(origin)
+    
