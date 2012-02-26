@@ -21,5 +21,7 @@ class Slotting(object):
         self.start_row = None
         self.start_col = None
         
-    def is_holding_piece(self):
+    def is_holding_piece(self, row=None, col=None):
+        if row is not None and col is not None:
+            return self.start_row == row and self.start_col == col
         return self.start_row is not None and self.start_col is not None
