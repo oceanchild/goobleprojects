@@ -17,6 +17,13 @@ class Drawable(object):
         self.width = width
         self.height = height
         self.colour = colour
+        
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    def __repr__(self):
+        return "("+str(self.x)+", "+str(self.y)+")"
 
 class DrawablePiece(Drawable):
     def draw(self, graphics, screen):
@@ -36,45 +43,60 @@ class Drawables(object):
     def __init__(self, game, slotting):
         self.game = game
         self.slotting = slotting
-    
-    def create(self, current_position):
-        position = current_position
+        self.tile_width = game.get_tile_width()
+        self.tile_height = game.get_tile_height()
+
+    def create(self, position):
         drawables = []
         held_drawable = None
-        
-        tile_width = self.game.get_tile_width()
-        tile_height = self.game.get_tile_height()
         
         for row in range(0, self.game.get_num_rows()):
             for col in range(0, self.game.get_num_cols()):
                 piece = self.game.get_piece(row, col)
-                if piece is not None and piece.get_origin() == origin.BOTTOM:
-                    colour = RED
-                elif piece is not None:
-                    colour = BLACK
+                colour = self.get_colour_for(piece)
+                x = col * self.tile_width
+                y = row * self.tile_height
+                drawables.append(self.get_background(x, y, row, col))
                 
-                if (row + col) % 2 == 0:
-                    bgcolour = WHITE
-                else:
-                    bgcolour = BLUE
-                
-                x = col * tile_width
-                y = row * tile_height
-                drawables.append(DrawableBackground(x, y, tile_width, tile_height, bgcolour))
-                
-                if self.slotting.is_holding_piece(row, col) and position is not None:
-                    x = position[0] - tile_width/2
-                    y = position[1] - tile_height/2
-                    if piece is not None and piece.is_king():
-                        held_drawable = DrawableKing(x, y, tile_width, tile_height, colour)
-                    elif piece is not None:
-                        held_drawable = DrawablePiece(x, y, tile_width, tile_height, colour)
-                elif not self.slotting.is_holding_piece(row, col):
-                    if piece is not None and piece.is_king():
-                        drawables.append(DrawableKing(x, y, tile_width, tile_height, colour))
-                    elif piece is not None:
-                        drawables.append(DrawablePiece(x, y, tile_width, tile_height, colour))
+                if self.currently_holding_this_piece(position, row, col):
+                    held_drawable = self.get_held_drawable(position, piece, colour)
+                elif self.there_is_a_piece_here(row, col, piece):
+                    drawables.append(self.get_current_drawable_piece(x, y, colour, piece))
                         
         if held_drawable is not None:
             drawables.append(held_drawable)
+            
         return drawables
+        
+    def get_colour_for(self, piece):
+        if piece is not None and piece.get_origin() == origin.BOTTOM:
+            return RED
+        elif piece is not None:
+            return BLACK
+
+    def get_bg_colour_for(self, row, col):
+        if (row + col) % 2 == 0:
+            return WHITE
+        else:
+            return BLUE
+        
+    def get_held_drawable(self, position, piece, colour):
+        x = int(position[0] - self.tile_width / 2)
+        y = int(position[1] - self.tile_height / 2)
+        return self.get_current_drawable_piece(x, y, colour, piece)
+
+    def get_current_drawable_piece(self, x, y, colour, piece):
+        if piece is not None and piece.is_king():
+            return DrawableKing(x, y, self.tile_width, self.tile_height, colour)
+        else:
+            return DrawablePiece(x, y, self.tile_width, self.tile_height, colour)
+
+    def there_is_a_piece_here(self, row, col, piece):
+        return not self.slotting.is_holding_piece(row, col) and piece is not None
+
+    def currently_holding_this_piece(self, position, row, col):
+        return self.slotting.is_holding_piece(row, col) and position is not None
+
+    def get_background(self, x, y, row, col):
+        bgcolour = self.get_bg_colour_for(row, col)
+        return DrawableBackground(x, y, self.tile_width, self.tile_height, bgcolour)
