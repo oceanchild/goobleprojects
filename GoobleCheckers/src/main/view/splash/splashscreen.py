@@ -3,19 +3,19 @@ Created on 2012-02-26
 
 @author: Gooble
 '''
-from main.view.splash.choosedifficulty import ChooseDifficultyCommand
-from main.view.splash.howtoplay import HowToPlayCommand
-from main.view.splash.newgame import NewGameCommand
-from main.view.splash.quitting import QuitCommand
+import main.view.splash.newgame
+import main.view.splash.choosedifficulty
+import main.view.splash.howtoplay
+import main.view.splash.quitting
 
 class SplashScreen(object):
     
     def __init__(self):
         self.text = ["New Game", "Choose Difficulty", "How to Play", "Quit"];
-        self.options = {"New Game"          : NewGameCommand(), 
-                        "Choose Difficulty" : ChooseDifficultyCommand(), 
-                        "How to Play"       : HowToPlayCommand(), 
-                        "Quit"              : QuitCommand()}
+        self.options = {"New Game"          : main.view.splash.newgame.NewGameCommand(), 
+                        "Choose Difficulty" : main.view.splash.choosedifficulty.ChooseDifficultyCommand(), 
+                        "How to Play"       : main.view.splash.howtoplay.HowToPlayCommand(), 
+                        "Quit"              : main.view.splash.quitting.QuitCommand()}
     
     def get_text(self):
         return self.text
