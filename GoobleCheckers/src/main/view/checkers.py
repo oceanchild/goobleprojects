@@ -8,7 +8,7 @@ import main.game.gameplay
 import main.view.slotting
 from main.view.dimensions import DEFAULT_HEIGHT, DEFAULT_ROWS, DEFAULT_COLS, DEFAULT_WIDTH
 
-class GamePanel(object):
+class Checkers(object):
 
     def __init__(self, ai=None):
         self.game = main.game.gameplay.GamePlay()

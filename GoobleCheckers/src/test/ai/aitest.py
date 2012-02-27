@@ -3,20 +3,18 @@ Created on 2011-12-05
 
 @author: Gooble
 '''
-import unittest
+from main.view.dimensions import DEFAULT_COLS, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_ROWS
 from test.util.testboard import TestBoard
-import main.game.origin as origin
-import main.game
 from test.view.slottingtest import MockEvent
 import main.ai.easyai as easyai
-import main.view.gamepanel
-from main.view.dimensions import DEFAULT_COLS, DEFAULT_WIDTH, DEFAULT_HEIGHT,\
-    DEFAULT_ROWS
+import main.game.origin as origin
+import main.view.checkers
+import unittest
 
 class AITest(unittest.TestCase):
 
     def test_if_it_is_bottoms_turn_then_ai_auto_moves_piece_on_board(self):
-        self.gamepanel = main.view.gamepanel.GamePanel(ai=easyai.EasyAI())
+        self.gamepanel = main.view.checkers.Checkers(ai=easyai.EasyAI())
         self.tboard = TestBoard(self.gamepanel.game)
         # # # # # # # # # #
         #  0 1 2 3 4 5 6 7#

@@ -4,15 +4,15 @@ Created on 2012-02-26
 @author: Gooble
 '''
 
-import pygame
 from main.ai import minimaxai, aithread
-import main.view.canvas
-import main.view.gamepanel
-import main.view.drawables
-from main.view.quitnow import QuitNow
-from main.view.eventhandler import EventHandler
 from main.view import colours
 from main.view.dimensions import DEFAULT_HEIGHT, DEFAULT_WIDTH
+from main.view.eventhandler import EventHandler
+from main.view.quitnow import QuitNow
+import main.view.canvas
+import main.view.drawables
+import pygame
+import main.view.checkers
 
 class GameStart(object):
     
@@ -73,4 +73,4 @@ class GameStart(object):
         
         
 if __name__=="__main__":
-    GameStart(main.view.gamepanel.GamePanel(ai=minimaxai.MinimaxAI(3))).start()
+    GameStart(main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(3))).start()

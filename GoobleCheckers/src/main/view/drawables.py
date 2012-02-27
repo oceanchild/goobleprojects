@@ -54,4 +54,4 @@ class Drawables(object):
         return not self.game.is_holding_piece(row, col) and piece is not None
 
     def currently_holding_this_piece(self, position, row, col):
-        return self.game.is_holding_piece(row, col) and position is not None
+        return self.game.is_holding_piece(row, col) and position is not None and self.game.get_piece(row, col) is not None
