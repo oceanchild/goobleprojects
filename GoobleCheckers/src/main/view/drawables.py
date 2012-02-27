@@ -5,6 +5,7 @@ Created on 2012-02-26
 '''
 from main.view.drawable import DrawableKing, DrawablePiece, DrawableBackground
 from main.view.colours import Colours
+from main.view.drawablethinking import DrawableThinkingText
 
 class Drawables(object):
     
@@ -18,6 +19,8 @@ class Drawables(object):
         held_drawable = self.create_all_and_get_held(position, drawables)
         if held_drawable is not None:
             drawables.append(held_drawable)
+        if self.game.is_computers_turn():
+            drawables.append(DrawableThinkingText())
         return drawables
     
     def create_all_and_get_held(self, position, drawables):

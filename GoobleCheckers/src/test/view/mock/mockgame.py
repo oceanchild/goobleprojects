@@ -32,3 +32,6 @@ class MockGame(object):
     
     def is_holding_piece(self, row, col):
         return self.slotting.is_holding_piece(row, col)
+    
+    def is_computers_turn(self):
+        return False
