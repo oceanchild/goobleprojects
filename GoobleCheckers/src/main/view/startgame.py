@@ -4,7 +4,7 @@ Created on 2012-02-26
 @author: Gooble
 '''
 
-from main.view import colours
+from main.view.drawing import colours
 from main.view.dimensions import DEFAULT_HEIGHT, DEFAULT_WIDTH
 from main.view.gamestate import GameState
 from main.view.quitnow import QuitNow
@@ -35,11 +35,17 @@ class GameStart(object):
     def handle_events(self, screen):
         try:
             for event in pygame.event.get():
-                self.state.process(event)
-                self.state.display(screen, event)
+                self.state = self.state.process(event)
+                self.state.display(screen, self.get_position(event))
             self.state.post_process()
         except QuitNow:
             self.quit_game()
+            
+    def get_position(self, event):
+        try:
+            return event.pos
+        except AttributeError:
+            return None
             
     def quit_game(self):
         self.done = True

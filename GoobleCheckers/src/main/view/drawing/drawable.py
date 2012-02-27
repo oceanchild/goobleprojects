@@ -3,7 +3,7 @@ Created on 2012-02-26
 
 @author: Gooble
 '''
-from main.view import colours
+from main.view.drawing import colours
 
 class Drawable(object):
     def __init__(self, x, y, width, height, colour):

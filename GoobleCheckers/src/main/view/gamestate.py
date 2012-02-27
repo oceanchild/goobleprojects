@@ -4,26 +4,25 @@ Created on 2012-02-26
 @author: Gooble
 '''
 from main.ai import minimaxai, aithread
-from main.view.eventhandler import EventHandler
+from main.view.gamestateprocess import ProcessGameState
 import main.view.checkers
-import main.view.canvas
-import main.view.drawables
+import main.view.drawing.canvas
+import main.view.drawing.drawables
+
+TIMEOUT = 10
 
 class GameState(object):
     
     def __init__(self):
-        self.game = main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(3))
+        self.game = main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(2))
         self.aithread = None 
 
-    def display(self, screen, event=None):
-        try:
-            pos = event.pos
-        except AttributeError:
-            pos = None
-        main.view.canvas.Canvas(screen).draw(self.create_drawables(pos))
+    def display(self, screen, pos=None):
+        main.view.drawing.canvas.Canvas(screen).draw(self.create_drawables(pos))
     
     def process(self, event):
-        EventHandler(self.game).handle(event)
+        ProcessGameState(self.game).handle(event)
+        return self
         
     def post_process(self):
         self.check_and_use_ai()
@@ -31,7 +30,7 @@ class GameState(object):
     def check_and_use_ai(self):
         if self.time_to_use_ai():
             if self.aithread is not None:
-                self.aithread.join(10)
+                self.aithread.join(TIMEOUT)
             self.aithread = aithread.AIThread(self.game)
             self.aithread.start()
                 
@@ -39,4 +38,4 @@ class GameState(object):
         return self.game.is_computers_turn() and (self.aithread is None or self.aithread.finished)
     
     def create_drawables(self, position):
-        return main.view.drawables.Drawables(self.game).create(position)
+        return main.view.drawing.drawables.Drawables(self.game).create(position)

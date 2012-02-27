@@ -35,3 +35,6 @@ class MockGame(object):
     
     def is_computers_turn(self):
         return False
+    
+    def is_game_over(self):
+        return False

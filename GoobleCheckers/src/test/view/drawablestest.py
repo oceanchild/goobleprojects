@@ -4,8 +4,8 @@ Created on 2012-02-26
 @author: Gooble
 '''
 import unittest
-from main.view.drawables import Drawables, DrawableBackground, DrawablePiece, DrawableKing
-from main.view.colours import WHITE,BLACK,RED,BLUE
+from main.view.drawing.drawables import Drawables, DrawableBackground, DrawablePiece, DrawableKing
+from main.view.drawing.colours import WHITE,BLACK,RED,BLUE
 from test.view.mock.mockgame import MockGame
 from test.view.mock.mockslotting import MockSlotting
 

@@ -51,3 +51,6 @@ class Checkers(object):
         
     def make_ai_move(self):
         self.ai.make_move(self.game)
+        
+    def is_game_over(self):
+        return self.game.is_game_over()
