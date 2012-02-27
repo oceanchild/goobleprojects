@@ -12,9 +12,9 @@ from test.view.mock.mockslotting import MockSlotting
 class Test(unittest.TestCase):
 
     def test_create_when_not_holding_piece(self):
-        game = MockGame()
         slotting = MockSlotting()
-        drawables = Drawables(game, slotting).create(None)
+        game = MockGame(slotting)
+        drawables = Drawables(game).create(None)
         
         # two drawables per occupied slot, and one drawable per unoccupied --> 4 * 2 + 2 = 10
         self.assertEqual(10, len(drawables))
@@ -36,9 +36,9 @@ class Test(unittest.TestCase):
         self.assertEqual(DrawableKing(20, 15, 10, 15, RED), drawables[9])
         
     def test_create_when_holding_piece(self):
-        game = MockGame()
         slotting = MockSlotting(0, 0)
-        drawables = Drawables(game, slotting).create((15, 15))
+        game = MockGame(slotting)
+        drawables = Drawables(game).create((15, 15))
         
         self.assertEqual(10, len(drawables))
         

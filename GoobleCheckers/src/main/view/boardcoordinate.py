@@ -3,14 +3,13 @@ Created on 2011-11-26
 
 @author: Gooble
 '''
-import main.game.board as board
-import main.view.gamepanel
+from main.view.dimensions import DEFAULT_COLS, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_ROWS
 
 class BoardCoordinate(object):
     
     def __init__(self, 
-                 canvas_size=(main.view.gamepanel.GamePanel.DEFAULT_WIDTH, main.view.gamepanel.GamePanel.DEFAULT_HEIGHT),
-                 board_size=(board.Board.DEFAULT_WIDTH, board.Board.DEFAULT_HEIGHT)):
+                 canvas_size=(DEFAULT_WIDTH, DEFAULT_HEIGHT),
+                 board_size=(DEFAULT_ROWS, DEFAULT_COLS)):
         self.canvas_width = canvas_size[0]
         self.canvas_height = canvas_size[1]
         self.board_width = board_size[0]

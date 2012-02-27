@@ -6,10 +6,12 @@ Created on 2011-12-05
 import unittest
 from test.util.testboard import TestBoard
 import main.game.origin as origin
-import main.view
 import main.game
 from test.view.slottingtest import MockEvent
 import main.ai.easyai as easyai
+import main.view.gamepanel
+from main.view.dimensions import DEFAULT_COLS, DEFAULT_WIDTH, DEFAULT_HEIGHT,\
+    DEFAULT_ROWS
 
 class AITest(unittest.TestCase):
 
@@ -40,16 +42,16 @@ class AITest(unittest.TestCase):
         self.assertIsNone(self.tboard.game.get_piece(4, 3))
         self.assertIsNone(self.tboard.game.get_piece(6, 5))
         
-        self.gamepanel.check_and_use_ai()
+        self.gamepanel.make_ai_move()
         # AI moved piece
         self.assertIsNone(self.tboard.game.get_piece(4, 0))
         self.assertIsNotNone(self.tboard.game.get_piece(3, 1))
 
     def move_piece(self, from_row, from_col, to_row, to_col):
-        self.gamepanel.slotting.select_piece(MockEvent(from_col * (main.view.gamepanel.GamePanel.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
-                                                  from_row * (main.view.gamepanel.GamePanel.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
-        self.gamepanel.slotting.release_piece(MockEvent(to_col * (main.view.gamepanel.GamePanel.DEFAULT_WIDTH / main.game.board.Board.DEFAULT_WIDTH),
-                                                   to_row * (main.view.gamepanel.GamePanel.DEFAULT_HEIGHT / main.game.board.Board.DEFAULT_HEIGHT)))
+        self.gamepanel.slotting.select_piece(MockEvent(from_col * (DEFAULT_WIDTH/DEFAULT_COLS),
+                                                  from_row * (DEFAULT_HEIGHT/DEFAULT_ROWS)))
+        self.gamepanel.slotting.release_piece(MockEvent(to_col * (DEFAULT_WIDTH/DEFAULT_COLS),
+                                                   to_row * (DEFAULT_HEIGHT/DEFAULT_ROWS)))
 
 if __name__ == "__main__":
     unittest.main()

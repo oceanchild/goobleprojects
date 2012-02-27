@@ -9,6 +9,7 @@ RED = [255,0,0]
 BLACK = [0,0,0]
 WHITE = [255,255,255]
 BLUE = [0,0,255]
+MEDIUMGRAY = [150,150,150]
 
 class Colours(object):
     
@@ -23,3 +24,4 @@ class Colours(object):
             return RED
         elif piece is not None:
             return BLACK
+

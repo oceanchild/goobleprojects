@@ -7,7 +7,8 @@ from main.game import origin
 from main.game.piece import Piece
 
 class MockGame(object):
-    def __init__(self):
+    def __init__(self, slotting):
+        self.slotting = slotting
         top_king = Piece(origin.TOP)
         top_king.set_king(True)
         bottom_king = Piece(origin.BOTTOM)
@@ -28,3 +29,6 @@ class MockGame(object):
     
     def get_piece(self, row, col):
         return self.pieces[row][col]
+    
+    def is_holding_piece(self, row, col):
+        return self.slotting.is_holding_piece(row, col)
