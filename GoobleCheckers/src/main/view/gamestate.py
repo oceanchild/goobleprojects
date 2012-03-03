@@ -11,10 +11,11 @@ import main.view.drawing.drawables
 
 TIMEOUT = 10
 
+AIS = {"Easy": minimaxai.MinimaxAI(1), "Medium" : minimaxai.MinimaxAI(2), "Hard" : minimaxai.MinimaxAI(3)}
 class GameState(object):
     
     def __init__(self, info={"mode":"Easy"}):
-        self.game = main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(2))
+        self.game = main.view.checkers.Checkers(ai=AIS[info["mode"]])
         self.aithread = None 
         self.info = info
         print(info)
