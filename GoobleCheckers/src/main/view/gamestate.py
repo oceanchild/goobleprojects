@@ -18,7 +18,6 @@ class GameState(object):
         self.game = main.view.checkers.Checkers(ai=AIS[info["mode"]])
         self.aithread = None 
         self.info = info
-        print(info)
 
     def display(self, screen, pos=None):
         main.view.drawing.canvas.Canvas(screen).draw(self.create_drawables(pos))
@@ -38,7 +37,7 @@ class GameState(object):
             self.aithread.start()
                 
     def time_to_use_ai(self):
-        return self.game.is_computers_turn() and (self.aithread is None or self.aithread.finished)
+        return not self.game.is_game_over() and (self.game.is_computers_turn() and (self.aithread is None or self.aithread.finished))
     
     def create_drawables(self, position):
         return main.view.drawing.drawables.Drawables(self.game).create(position)

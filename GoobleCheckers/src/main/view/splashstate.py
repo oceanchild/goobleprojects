@@ -11,7 +11,7 @@ import pygame
 
 class SplashState(object):
     
-    def __init__(self, info={}):
+    def __init__(self, info={"mode":"Easy"}):
         self.buttons = None
         self.info = info
     

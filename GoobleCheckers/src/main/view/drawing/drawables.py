@@ -6,6 +6,7 @@ Created on 2012-02-26
 from main.view.drawing.drawablethinking import DrawableThinkingText, DrawableText
 from main.view.drawing.colours import Colours
 from main.view.drawing.drawable import DrawableKing, DrawableBackground, DrawablePiece
+from main.view.dimensions import DEFAULT_HEIGHT, DEFAULT_WIDTH
 
 class Drawables(object):
     
@@ -20,7 +21,7 @@ class Drawables(object):
         if held_drawable is not None:
             drawables.append(held_drawable)
         if self.game.is_game_over():
-            drawables.append(DrawableText("Game Over"))
+            drawables.append(DrawableText("Game Over", 25, DEFAULT_WIDTH/4, DEFAULT_HEIGHT/2))
         elif self.game.is_computers_turn():
             drawables.append(DrawableThinkingText())
         return drawables
