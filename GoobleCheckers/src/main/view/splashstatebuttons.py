@@ -5,30 +5,8 @@ Created on 2012-02-27
 '''
 import os
 from main.view.dimensions import DEFAULT_WIDTH, DEFAULT_HEIGHT
-from main.view.gamestate import GameState
+from main.view.buttons import DifficultyButton, NewGameButton, QuitButton
 
-class Button(object):
-    def __init__(self, sprite=None):
-        self.sprite = sprite
-
-    def draw(self, graphics, screen):
-        graphics.sprite.RenderPlain(self.sprite).draw(screen)
-        
-    def was_clicked(self, pos):
-        return self.sprite.rect.collidepoint(pos)
-
-class NewGameButton(Button):
-    def get_state(self):
-        return GameState()
-
-class DifficultyButton(Button):
-    def get_state(self):
-        return None
-    
-class QuitButton(Button):
-    def get_state(self):
-        return None
-    
 PADDING = 50
 
 class SplashStateButtons(object):
