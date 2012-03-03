@@ -15,7 +15,7 @@ class ButtonPositions(object):
         y = 0
         total_button_height = 0
         for i in range (0, len(buttons)):
-            image = self.graphics.image.load_basic(os.path.join('..', '..', 'resources', imagefiles[i]))
+            image = self.graphics.image.load_basic(os.path.join('resources', imagefiles[i]))
             image = image.convert()
             sprite = self.graphics.sprite.Sprite()
             sprite.image = image

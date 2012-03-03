@@ -5,7 +5,6 @@ Created on 2012-02-26
 '''
 
 from main.view.dimensions import DEFAULT_HEIGHT, DEFAULT_WIDTH
-from main.view.quitnow import QuitNow
 from main.view.splashstate import SplashState
 import pygame
 
@@ -31,17 +30,14 @@ class GameStart(object):
         self.handle_events(screen)
     
     def handle_events(self, screen):
-        try:
-            next_state = self.state
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    raise SystemExit
-                next_state = self.state.process(event)
-                self.state.display(screen, self.get_position(event))
-            self.state.post_process()
-            self.state = next_state
-        except QuitNow:
-            self.quit_game()
+        next_state = self.state
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                raise SystemExit
+            next_state = self.state.process(event)
+            self.state.display(screen, self.get_position(event))
+        self.state.post_process()
+        self.state = next_state
             
     def get_position(self, event):
         try:
