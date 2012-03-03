@@ -32,3 +32,4 @@ class DrawableKing(DrawablePiece):
 class DrawableBackground(Drawable):
     def draw(self, graphics, screen):
         graphics.draw.rect(screen, self.colour, [self.x, self.y, self.width, self.height])
+        

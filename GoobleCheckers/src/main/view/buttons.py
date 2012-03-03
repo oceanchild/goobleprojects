@@ -4,6 +4,7 @@ Created on 2012-02-29
 @author: Gooble
 '''
 import main.view.gamestate 
+import main.view.howtoplaystate
 import main.view.difficultystate 
 import main.view.splashstate
 from main.view.drawing import colours
@@ -38,6 +39,10 @@ class NewGameButton(Button):
 class DifficultyButton(Button):
     def get_state(self, info, prev_state):
         return main.view.difficultystate.DifficultyState(info)
+    
+class HowToPlayButton(Button):
+    def get_state(self, info, prev_state):
+        return main.view.howtoplaystate.HowToPlayState(info)
     
 class QuitButton(Button):
     def get_state(self, info, prev_state):

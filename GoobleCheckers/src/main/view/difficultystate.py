@@ -41,12 +41,14 @@ class DifficultyState(object):
                     clicked_button = button
                     next_state = button.get_state(self.info, self)
                     
-        if clicked_button is not None:
-            for button in self.buttons:
-                button.unhighlight()
-            clicked_button.highlight()
-                    
+        self.highlight_clicked_button(clicked_button)
         return next_state
     
     def post_process(self):
         pass
+    
+    def highlight_clicked_button(self, clicked_button):
+        if clicked_button is not None:
+            for button in self.buttons:
+                button.unhighlight()
+            clicked_button.highlight()
