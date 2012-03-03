@@ -17,6 +17,7 @@ class GameState(object):
         self.game = main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(2))
         self.aithread = None 
         self.info = info
+        print(info)
 
     def display(self, screen, pos=None):
         main.view.drawing.canvas.Canvas(screen).draw(self.create_drawables(pos))

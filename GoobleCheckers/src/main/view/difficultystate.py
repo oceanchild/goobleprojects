@@ -33,11 +33,20 @@ class DifficultyState(object):
         main.view.drawing.canvas.Canvas(screen).draw(self.buttons)
     
     def process(self, event):
+        next_state = self
+        clicked_button = None
         if event.type == pygame.MOUSEBUTTONUP:
             for button in self.buttons:
                 if button.was_clicked(event.pos):
-                    return button.get_state(self.info)
-        return self
+                    clicked_button = button
+                    next_state = button.get_state(self.info, self)
+                    
+        if clicked_button is not None:
+            for button in self.buttons:
+                button.unhighlight()
+            clicked_button.highlight()
+                    
+        return next_state
     
     def post_process(self):
         pass
