@@ -34,6 +34,8 @@ class GameStart(object):
         try:
             next_state = self.state
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    raise SystemExit
                 next_state = self.state.process(event)
                 self.state.display(screen, self.get_position(event))
             self.state.post_process()

@@ -15,4 +15,3 @@ class Canvas(object):
     def draw(self, drawables):
         for drawable in drawables:
             drawable.draw(self.graphics, self.screen)
-            

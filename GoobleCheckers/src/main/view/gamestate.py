@@ -13,9 +13,10 @@ TIMEOUT = 10
 
 class GameState(object):
     
-    def __init__(self):
+    def __init__(self, info={"mode":"Easy"}):
         self.game = main.view.checkers.Checkers(ai=minimaxai.MinimaxAI(2))
         self.aithread = None 
+        self.info = info
 
     def display(self, screen, pos=None):
         main.view.drawing.canvas.Canvas(screen).draw(self.create_drawables(pos))

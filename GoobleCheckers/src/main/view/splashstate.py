@@ -11,8 +11,9 @@ import pygame
 
 class SplashState(object):
     
-    def __init__(self):
+    def __init__(self, info={}):
         self.buttons = None
+        self.info = info
     
     def display(self, screen, event=None):
         if self.buttons == None:
@@ -24,7 +25,7 @@ class SplashState(object):
         if event.type == pygame.MOUSEBUTTONUP:
             for button in self.buttons:
                 if button.was_clicked(event.pos):
-                    return button.get_state()
+                    return button.get_state(self.info)
         return self
     
     def post_process(self):
