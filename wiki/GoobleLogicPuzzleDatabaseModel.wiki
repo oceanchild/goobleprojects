@@ -52,16 +52,59 @@ or Bob's shoes are X
 = Tables =
 
 Puzzle
-*id 
-*name varchar 
-*mainvariableid varchar references variable(id)
+ * id 
+ * name 
+ * mainvariableid references variable(id)
 
 Variable
  * id
- * puzzleid varchar references puzzle(id)
- * name varchar
+ * puzzleid references puzzle(id)
+ * name 
 
 Variablevalue
  * id
- * variableid varchar references variable(id)
- * value varchar
+ * variableid references variable(id)
+ * value 
+
+Relation
+ * id
+ * puzzleid references puzzle(id)
+ * bidirectional *bool*
+ * unique *bool*
+ * name
+ * variableid references variable(id)
+
+Condition
+ * id
+ * relationid references relation(id)
+ * operator *const*
+
+Term
+ * id
+ * value
+ * variable *bool*
+ * variableid references variable(id)
+
+Hint
+ * id
+ * puzzleid references puzzle(id)
+
+Property
+ * id
+ * hintid references hint(id)
+
+Propertyterm
+ * id
+ * termid references term(id)
+ * propertyid references property(id)
+
+Conditionterm
+ * id
+ * termid references term(id)
+ * conditionid references condition(id)
+
+Relationterm 
+ * id
+ * relationid references relation(id)
+ * termid references term(id)
+ * relationorder *int*
