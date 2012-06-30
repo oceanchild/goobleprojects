@@ -57,11 +57,11 @@ Puzzle
 *mainvariableid varchar references variable(id)
 
 Variable
-*id
-*puzzleid varchar references puzzle(id)
-*name varchar
+ * id
+ * puzzleid varchar references puzzle(id)
+ * name varchar
 
 Variablevalue
-*id
-*variableid varchar references variable(id)
-*value varchar
+ * id
+ * variableid varchar references variable(id)
+ * value varchar
