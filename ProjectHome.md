@@ -1,0 +1,1 @@
+Contains online copies of several of Gooble's projects, such as the website, acceptance tests, random python scripts etc. so Gooble will have access to it anywhere.
